@@ -131,4 +131,31 @@ export class GameController {
 
     }
 
+    preview(
+        pieceIndex: number,
+        row: number,
+        col: number
+    ): void {
+
+        const piece =
+            this.pieceManager.getPiece(pieceIndex);
+
+        if (!piece) {
+            return;
+        }
+
+        this.boardEngine.previewPiece(
+            piece,
+            row,
+            col
+        );
+
+    }
+
+    clearPreview(): void {
+
+        this.boardEngine.clearPreview();
+
+    }
+
 }

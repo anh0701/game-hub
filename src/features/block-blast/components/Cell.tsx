@@ -13,11 +13,23 @@ export default function Cell({ cell }: Props) {
                 rounded-md
                 border
                 border-slate-700
-                ${cell.occupied
-                    ? "bg-cyan-500"
-                    : "bg-slate-800"
+
+                ${
+                cell.occupied
+                ?"bg-cyan-500"
+
+                :cell.preview
+
+                ?cell.previewValid
+
+                ?"bg-cyan-300"
+
+                :"bg-red-400"
+
+                :"bg-slate-800"
+
                 }
-            `}
+                `}
         />
     );
 }

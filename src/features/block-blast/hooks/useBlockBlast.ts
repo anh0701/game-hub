@@ -19,6 +19,7 @@ export function useBlockBlast() {
         row: number,
         col: number
     ) {
+
         const result =
             controller.current.play(
                 pieceIndex,
@@ -29,6 +30,31 @@ export function useBlockBlast() {
         refresh();
 
         return result;
+
+    }
+
+    function preview(
+        pieceIndex: number,
+        row: number,
+        col: number
+    ) {
+
+        controller.current.preview(
+            pieceIndex,
+            row,
+            col
+        );
+
+        refresh();
+
+    }
+
+    function clearPreview() {
+
+        controller.current.clearPreview();
+
+        refresh();
+
     }
 
     function restart() {
@@ -54,6 +80,10 @@ export function useBlockBlast() {
             controller.current.isGameOver(),
 
         play,
+
+        preview,
+
+        clearPreview,
 
         restart,
 

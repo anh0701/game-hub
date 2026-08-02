@@ -194,4 +194,70 @@ export class BoardEngine {
 
         return true;
     }
+
+    clearPreview(): void {
+
+        for (const row of this.board.cells) {
+
+            for (const cell of row) {
+
+                delete cell.preview;
+                delete cell.previewValid;
+
+            }
+
+        }
+
+    }
+
+    previewPiece(
+        piece: Piece,
+        startRow: number,
+        startCol: number
+    ) {
+
+        this.clearPreview();
+
+        const valid =
+            this.canPlace(
+                piece,
+                startRow,
+                startCol
+            );
+
+        for (
+            let row = 0;
+            row < piece.shape.length;
+            row++
+        ) {
+
+            for (
+                let col = 0;
+                col < piece.shape[row].length;
+                col++
+            ) {
+
+                if (
+                    piece.shape[row][col] === 0
+                ) {
+                    continue;
+                }
+
+                const r = startRow + row;
+                const c = startCol + col;
+
+                if (
+                    r < 0 ||
+                    c < 0 ||
+                    r >= this.board.rows ||
+                    c >= this.board.cols
+                ) {
+                    continue;
+                }
+                this.board.cells[r][c].preview = true;
+                this.board.cells[r][c].previewValid = valid;
+            }
+        }
+    }
+    
 }
