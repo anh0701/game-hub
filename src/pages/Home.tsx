@@ -1,6 +1,6 @@
-import Header from "../components/layout/Header";
-import Layout from "../components/layout/Layout";
-import GameCard from "../components/game/GameCard";
+import Header from "../components/Header";
+import Layout from "../components/Layout";
+import GameCard from "../components/GameCard";
 import { games } from "../data/games";
 
 export default function Home() {

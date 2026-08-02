@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 
 import App from "../App";
 import Home from "../pages/Home";
-import BlockBlast from "../pages/BlockBlast";
+import BlockBlast from "../features/block-blast/pages/BlockBlast";
 
 export const router = createBrowserRouter([
     {
