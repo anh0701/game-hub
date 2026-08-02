@@ -1,24 +1,14 @@
 import Header from "../../../components/Header";
 import Layout from "../../../components/Layout";
-
 import Board from "../components/Board";
 import FloatingPiece from "../components/FloatingPiece";
-import Piece from "../components/Piece";
 import PieceTray from "../components/PieceTray";
-
-import { BoardEngine } from "../engine/BoardEngine";
-import { PieceFactory } from "../engine/PieceFactory";
+import { useBlockBlast } from "../hooks/useBlockBlast";
 import { useDrag } from "../hooks/useDrag";
 
-const engine = new BoardEngine();
-
-engine.setCell(1, 1, "#06b6d4");
-engine.setCell(3, 2, "#06b6d4");
-engine.setCell(5, 6, "#06b6d4");
-
-const pieces = PieceFactory.generatePieces();
-
 export default function BlockBlast() {
+    const game = useBlockBlast();
+
     const drag = useDrag();
     return (
         <Layout>
@@ -38,11 +28,15 @@ export default function BlockBlast() {
                     );
                 }}
             >
+                <div className="mb-6 text-3xl font-bold text-white">
+                    Score: 
+                    {game.score}
+                </div>
 
-                <Board board={engine.board} />
+                <Board board={game.board} />
 
                 <PieceTray
-                    pieces={pieces}
+                    pieces={game.pieces}
                     onDragStart={(
                         piece,
                         index,

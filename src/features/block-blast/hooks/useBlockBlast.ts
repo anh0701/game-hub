@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+
 import { GameController } from "../engine/GameController";
 
 export function useBlockBlast() {
@@ -9,11 +10,34 @@ export function useBlockBlast() {
 
     const [, setVersion] = useState(0);
 
-    const refresh = () => {
+    function refresh() {
+        setVersion((v) => v + 1);
+    }
 
-        setVersion(v => v + 1);
+    function play(
+        pieceIndex: number,
+        row: number,
+        col: number
+    ) {
+        const result =
+            controller.current.play(
+                pieceIndex,
+                row,
+                col
+            );
 
-    };
+        refresh();
+
+        return result;
+    }
+
+    function restart() {
+
+        controller.current.restart();
+
+        refresh();
+
+    }
 
     return {
 
@@ -29,36 +53,9 @@ export function useBlockBlast() {
         gameOver:
             controller.current.isGameOver(),
 
-        play(
-            pieceIndex: number,
-            row: number,
-            col: number
-        ) {
+        play,
 
-            const result =
-                controller.current.play(
-                    pieceIndex,
-                    row,
-                    col
-                );
-
-            if (result.success) {
-
-                refresh();
-
-            }
-
-            return result;
-
-        },
-
-        restart() {
-
-            controller.current.restart();
-
-            refresh();
-
-        }
+        restart,
 
     };
 

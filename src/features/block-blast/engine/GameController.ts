@@ -1,26 +1,29 @@
 import { BoardEngine } from "./BoardEngine";
-import { PieceFactory } from "./PieceFactory";
+import { PieceManager } from "./PieceManager";
+import { ScoreManager } from "./ScoreManager";
 
 import type { Board } from "../models/Board";
-import type { GameState } from "../models/GameState";
 import type { Piece } from "../models/Piece";
 import type { PlayResult } from "../models/PlayResult";
+import { GameRule } from "./GameRule";
 
 export class GameController {
 
     private readonly boardEngine: BoardEngine;
 
-    private readonly state: GameState;
+    private readonly pieceManager: PieceManager;
+
+    private readonly scoreManager: ScoreManager;
+
+    private gameOver = false;
 
     constructor(rows = 8, cols = 8) {
 
         this.boardEngine = new BoardEngine(rows, cols);
 
-        this.state = {
-            score: 0,
-            pieces: PieceFactory.generatePieces(),
-            gameOver: false,
-        };
+        this.pieceManager = new PieceManager();
+
+        this.scoreManager = new ScoreManager();
 
     }
 
@@ -29,15 +32,15 @@ export class GameController {
     }
 
     getPieces(): Piece[] {
-        return this.state.pieces;
+        return this.pieceManager.getPieces();
     }
 
     getScore(): number {
-        return this.state.score;
+        return this.scoreManager.getScore();
     }
 
     isGameOver(): boolean {
-        return this.state.gameOver;
+        return this.gameOver;
     }
 
     play(
@@ -46,16 +49,19 @@ export class GameController {
         col: number
     ): PlayResult {
 
-        const piece = this.state.pieces[pieceIndex];
+        const piece =
+            this.pieceManager.getPiece(pieceIndex);
 
         if (!piece) {
+
             return {
                 success: false,
                 clearedRows: [],
                 clearedColumns: [],
                 scoreGained: 0,
-                gameOver: this.state.gameOver,
+                gameOver: this.gameOver,
             };
+
         }
 
         const success =
@@ -66,36 +72,36 @@ export class GameController {
             );
 
         if (!success) {
+
             return {
                 success: false,
                 clearedRows: [],
                 clearedColumns: [],
                 scoreGained: 0,
-                gameOver: this.state.gameOver,
+                gameOver: this.gameOver,
             };
+
         }
 
         const cleared =
             this.boardEngine.clearCompletedLines();
 
         const score =
-            this.calculateScore(
+            this.scoreManager.calculate(
                 piece,
                 cleared.rows.length,
                 cleared.cols.length
             );
 
-        this.state.score += score;
+        this.scoreManager.add(score);
 
-        this.state.pieces.splice(pieceIndex, 1);
+        this.pieceManager.removePiece(pieceIndex);
 
-        if (this.state.pieces.length === 0) {
-            this.state.pieces =
-                PieceFactory.generatePieces();
-        }
-
-        this.state.gameOver =
-            this.checkGameOver();
+        this.gameOver =
+            GameRule.isGameOver(
+                this.boardEngine,
+                this.pieceManager.getPieces()
+            );
 
         return {
 
@@ -107,86 +113,21 @@ export class GameController {
 
             scoreGained: score,
 
-            gameOver: this.state.gameOver,
+            gameOver: this.gameOver,
 
         };
 
     }
 
-    restart() {
+    restart(): void {
 
         this.boardEngine.reset();
 
-        this.state.score = 0;
+        this.pieceManager.reset();
 
-        this.state.gameOver = false;
+        this.scoreManager.reset();
 
-        this.state.pieces =
-            PieceFactory.generatePieces();
-
-    }
-
-    private calculateScore(
-        piece: Piece,
-        rows: number,
-        cols: number
-    ): number {
-
-        let blocks = 0;
-
-        for (const row of piece.shape) {
-
-            for (const cell of row) {
-
-                if (cell === 1) {
-                    blocks++;
-                }
-
-            }
-
-        }
-
-        const lines = rows + cols;
-
-        return blocks + lines * 10;
-
-    }
-
-    private checkGameOver(): boolean {
-
-        for (const piece of this.state.pieces) {
-
-            for (
-                let row = 0;
-                row < this.boardEngine.board.rows;
-                row++
-            ) {
-
-                for (
-                    let col = 0;
-                    col < this.boardEngine.board.cols;
-                    col++
-                ) {
-
-                    if (
-                        this.boardEngine.canPlace(
-                            piece,
-                            row,
-                            col
-                        )
-                    ) {
-
-                        return false;
-
-                    }
-
-                }
-
-            }
-
-        }
-
-        return true;
+        this.gameOver = false;
 
     }
 
