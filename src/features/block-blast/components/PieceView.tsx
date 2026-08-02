@@ -1,38 +1,12 @@
-import type { PointerEvent } from "react";
-
-import type { Piece as PieceModel } from "../models/Piece";
+import type { Piece } from "../models/Piece";
 
 interface Props {
-    piece: PieceModel;
-    index: number;
-    onDragStart: (
-        piece: PieceModel,
-        index: number,
-        event: PointerEvent<HTMLDivElement>
-    ) => void;
+    piece: Piece;
 }
 
-export default function Piece({
-    piece,
-    index,
-    onDragStart,
-}: Props) {
+export default function PieceView({ piece }: Props) {
     return (
-        <div
-            className="
-                inline-grid
-                gap-1
-                cursor-pointer
-                transition-transform
-                duration-150
-                hover:scale-110
-                active:scale-95
-                select-none
-            "
-            onPointerDown={(event) => {
-                onDragStart(piece, index, event);
-            }}
-        >
+        <div className="inline-grid gap-1">
             {piece.shape.map((row, rowIndex) => (
                 <div
                     key={rowIndex}
@@ -45,7 +19,6 @@ export default function Piece({
                                 h-8
                                 w-8
                                 rounded-md
-                                transition-colors
                                 ${
                                     cell
                                         ? "bg-cyan-400"

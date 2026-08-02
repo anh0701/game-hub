@@ -1,10 +1,14 @@
 import Header from "../../../components/Header";
 import Layout from "../../../components/Layout";
+
 import Board from "../components/Board";
+import FloatingPiece from "../components/FloatingPiece";
 import Piece from "../components/Piece";
+import PieceTray from "../components/PieceTray";
 
 import { BoardEngine } from "../engine/BoardEngine";
 import { PieceFactory } from "../engine/PieceFactory";
+import { useDrag } from "../hooks/useDrag";
 
 const engine = new BoardEngine();
 
@@ -15,32 +19,54 @@ engine.setCell(5, 6, "#06b6d4");
 const pieces = PieceFactory.generatePieces();
 
 export default function BlockBlast() {
+    const drag = useDrag();
     return (
         <Layout>
 
             <Header />
 
-            <main className="flex justify-center p-10">
+            <main
+                className="mx-auto flex max-w-4xl flex-col items-center py-10"
+                onPointerMove={(event) => {
+                    if (!drag.state.dragging) {
+                        return;
+                    }
+
+                    drag.move(
+                        event.clientX,
+                        event.clientY
+                    );
+                }}
+            >
 
                 <Board board={engine.board} />
 
-                <div className="mt-10 flex justify-center gap-8">
+                <PieceTray
+                    pieces={pieces}
+                    onDragStart={(
+                        piece,
+                        index,
+                        event
+                    ) => {
 
-                    {
-                        pieces.map((piece, index) =>
+                        drag.start(
+                            piece,
+                            index,
+                            event.clientX,
+                            event.clientY
+                        );
 
-                            <Piece
+                    }}
+                />
 
-                                key={index}
+                {drag.state.dragging && drag.state.piece && (
+                    <FloatingPiece
+                        piece={drag.state.piece}
+                        x={drag.state.x}
+                        y={drag.state.y}
+                    />
+                )}
 
-                                piece={piece}
-
-                            />
-
-                        )
-                    }
-
-                </div>
             </main>
 
         </Layout>
