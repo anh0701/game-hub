@@ -86,12 +86,16 @@ export class GameController {
         const cleared =
             this.boardEngine.clearCompletedLines();
 
+        console.log("Cleared:", cleared);
+
         const score =
             this.scoreManager.calculate(
                 piece,
                 cleared.rows.length,
                 cleared.cols.length
             );
+
+        console.log("Score gained:", score);
 
         this.scoreManager.add(score);
 

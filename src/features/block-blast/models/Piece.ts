@@ -1,5 +1,11 @@
 export interface Piece {
+
     id: string;
-    color: string;
+
+    name: string;
+
     shape: number[][];
+
+    color: string;
+
 }

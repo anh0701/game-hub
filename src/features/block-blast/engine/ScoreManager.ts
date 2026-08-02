@@ -18,24 +18,28 @@ export class ScoreManager {
         clearedColumns: number
     ): number {
 
-        let blocks = 0;
-
-        for (const row of piece.shape) {
-
-            for (const cell of row) {
-
-                if (cell === 1) {
-                    blocks++;
-                }
-
-            }
-
-        }
-
-        const clearedLines =
+        const lines =
             clearedRows + clearedColumns;
 
-        return blocks + clearedLines * 10;
+        if (lines === 0) {
+            return 0;
+        }
+
+        switch (lines) {
+
+            case 1:
+                return 10;
+
+            case 2:
+                return 25;
+
+            case 3:
+                return 45;
+
+            default:
+                return 70 + (lines - 4) * 30;
+
+        }
 
     }
 

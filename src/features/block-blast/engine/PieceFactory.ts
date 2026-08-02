@@ -1,59 +1,56 @@
 import type { Piece } from "../models/Piece";
+import { Random } from "./Random";
+import { SHAPES } from "./ShapeRepository";
 
-const PIECES: Piece[] = [
-
-    {
-        id: "1",
-        color: "#3b82f6",
-
-        shape: [
-            [1]
-        ]
-    },
-
-    {
-        id: "2",
-
-        color: "#22c55e",
-
-        shape: [
-            [1, 1]
-        ]
-    },
-
-    {
-        id: "3",
-
-        color: "#f59e0b",
-
-        shape: [
-            [1],
-            [1]
-        ]
-    }
-
+const COLORS = [
+    "#06b6d4",
+    "#22c55e",
+    "#a855f7",
+    "#f59e0b",
+    "#ef4444",
 ];
 
 export class PieceFactory {
 
-    static random(): Piece {
+    static createRandomPiece(): Piece {
 
-        const piece = PIECES[
-            Math.floor(Math.random() * PIECES.length)
-        ];
+        const definition =
+            SHAPES[
+            Random.int(
+                SHAPES.length
+            )
+            ];
 
-        return structuredClone(piece);
+        return {
+
+            id: crypto.randomUUID(),
+
+            name: definition.name,
+
+            shape: definition.shape.map(
+                row => [...row]
+            ),
+
+            color:
+                COLORS[
+                Random.int(
+                    COLORS.length
+                )
+                ]
+
+        };
 
     }
+
     static generatePieces(): Piece[] {
 
         return [
 
-            this.random(),
+            this.createRandomPiece(),
 
-            this.random(),
+            this.createRandomPiece(),
 
-            this.random()
+            this.createRandomPiece(),
 
         ];
 

@@ -1,23 +1,37 @@
+import { useRef } from "react";
+
 import Header from "../../../components/Header";
 import Layout from "../../../components/Layout";
+
 import Board from "../components/Board";
 import FloatingPiece from "../components/FloatingPiece";
 import PieceTray from "../components/PieceTray";
+
 import { useBlockBlast } from "../hooks/useBlockBlast";
 import { useDrag } from "../hooks/useDrag";
 
+import { getBoardPosition } from "../utils/BoardPosition";
+
 export default function BlockBlast() {
+
     const game = useBlockBlast();
 
     const drag = useDrag();
+
+    const boardRef =
+        useRef<HTMLDivElement>(null);
+
     return (
+
         <Layout>
 
             <Header />
 
             <main
                 className="mx-auto flex max-w-4xl flex-col items-center py-10"
+
                 onPointerMove={(event) => {
+
                     if (!drag.state.dragging) {
                         return;
                     }
@@ -26,43 +40,128 @@ export default function BlockBlast() {
                         event.clientX,
                         event.clientY
                     );
-                }}
-            >
-                <div className="mb-6 text-3xl font-bold text-white">
-                    Score: 
-                    {game.score}
-                </div>
 
-                <Board board={game.board} />
+                    if (
+                        !boardRef.current ||
+                        drag.state.pieceIndex === null
+                    ) {
 
-                <PieceTray
-                    pieces={game.pieces}
-                    onDragStart={(
-                        piece,
-                        index,
-                        event
-                    ) => {
+                        return;
 
-                        drag.start(
-                            piece,
-                            index,
+                    }
+
+                    const rect =
+                        boardRef.current.getBoundingClientRect();
+
+                    const position =
+                        getBoardPosition(
+                            rect,
                             event.clientX,
                             event.clientY
                         );
 
-                    }}
+                    game.preview(
+                        drag.state.pieceIndex,
+                        position.row,
+                        position.col
+                    );
+
+                }}
+
+                onPointerUp={(event) => {
+
+                    if (
+                        !drag.state.dragging ||
+                        !boardRef.current ||
+                        drag.state.pieceIndex === null
+                    ) {
+
+                        return;
+
+                    }
+
+                    const rect =
+                        boardRef.current.getBoundingClientRect();
+
+                    const position =
+                        getBoardPosition(
+                            rect,
+                            event.clientX,
+                            event.clientY
+                        );
+
+                    game.play(
+                        drag.state.pieceIndex,
+                        position.row,
+                        position.col
+                    );
+
+                    game.clearPreview();
+
+                    drag.end();
+
+                }}
+
+            >
+
+                <Board
+                    board={game.board}
+                    boardRef={boardRef}
                 />
 
-                {drag.state.dragging && drag.state.piece && (
-                    <FloatingPiece
-                        piece={drag.state.piece}
-                        x={drag.state.x}
-                        y={drag.state.y}
-                    />
-                )}
+                <div className="mt-8 text-2xl font-bold text-white">
+
+                    Score : {game.score}
+
+                </div>
+
+                <PieceTray
+
+                    pieces={game.pieces}
+
+                    onDragStart={(piece, index, event) => {
+
+                        drag.start(
+
+                            piece,
+
+                            index,
+
+                            event.clientX,
+
+                            event.clientY
+
+                        );
+
+                    }}
+
+                />
+
+                {
+
+                    drag.state.dragging &&
+                    drag.state.piece &&
+
+                    (
+
+                        <FloatingPiece
+
+                            piece={drag.state.piece}
+
+                            x={drag.state.x}
+
+                            y={drag.state.y}
+
+                        />
+
+                    )
+
+                }
 
             </main>
 
         </Layout>
+
     );
+
 }
