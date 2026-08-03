@@ -23,7 +23,8 @@ export default function PieceTray({
             className="
                 mt-10
                 flex
-                gap-6
+                items-end
+                gap-5
                 rounded-3xl
                 bg-slate-900/60
                 p-5

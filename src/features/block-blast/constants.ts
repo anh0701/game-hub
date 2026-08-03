@@ -1,6 +1,6 @@
 export const BOARD_CELL_SIZE = 48;
 
-export const TRAY_CELL_SIZE = 38;
+export const TRAY_CELL_SIZE = 30;
 
 export const CELL_GAP = 4;
 
