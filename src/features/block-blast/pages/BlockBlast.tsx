@@ -10,7 +10,7 @@ import PieceTray from "../components/PieceTray";
 import { useBlockBlast } from "../hooks/useBlockBlast";
 import { useDrag } from "../hooks/useDrag";
 
-import { getBoardPosition } from "../utils/BoardPosition";
+import { BoardPositionCalculator } from "../utils/BoardPositionCalculator";
 
 export default function BlockBlast() {
 
@@ -53,11 +53,16 @@ export default function BlockBlast() {
                     const rect =
                         boardRef.current.getBoundingClientRect();
 
+                    if (!drag.state.piece) {
+                        return;
+                    }
+
                     const position =
-                        getBoardPosition(
+                        BoardPositionCalculator.calculate(
                             rect,
                             event.clientX,
-                            event.clientY
+                            event.clientY,
+                            drag.state.piece
                         );
 
                     game.preview(
@@ -83,11 +88,16 @@ export default function BlockBlast() {
                     const rect =
                         boardRef.current.getBoundingClientRect();
 
+                    if (!drag.state.piece) {
+                        return;
+                    }
+
                     const position =
-                        getBoardPosition(
+                        BoardPositionCalculator.calculate(
                             rect,
                             event.clientX,
-                            event.clientY
+                            event.clientY,
+                            drag.state.piece
                         );
 
                     game.play(
