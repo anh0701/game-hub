@@ -1,8 +1,8 @@
-export interface Piece {
+export interface ShapeDefinition {
 
-    id: string;
+    name: string;
 
-    color: string;
+    weight: number;
 
     shape: number[][];
 
