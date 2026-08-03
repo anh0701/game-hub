@@ -1,8 +1,6 @@
-import type { ShapeDefinition } from "./ShapeDefinition";
-
 export class ShapeRepository {
 
-    static readonly shapes: ShapeDefinition[] = [
+    static readonly shapes = [
 
         {
             name: "Single",
@@ -14,14 +12,6 @@ export class ShapeRepository {
                 [1]
 
             ],
-
-            anchor: {
-
-                row: 0,
-
-                col: 0,
-
-            },
 
         },
 
@@ -36,14 +26,6 @@ export class ShapeRepository {
                 [1, 1]
 
             ],
-
-            anchor: {
-
-                row: 0,
-
-                col: 0,
-
-            },
 
         },
 
@@ -61,14 +43,6 @@ export class ShapeRepository {
 
             ],
 
-            anchor: {
-
-                row: 0,
-
-                col: 0,
-
-            },
-
         },
 
         {
@@ -84,15 +58,6 @@ export class ShapeRepository {
                 [1,1]
 
             ],
-
-            anchor: {
-
-                row: 0,
-
-                col: 0,
-
-            },
-
         },
 
         {
@@ -110,15 +75,6 @@ export class ShapeRepository {
                 [1,1]
 
             ],
-
-            anchor: {
-
-                row: 2,
-
-                col: 0,
-
-            },
-
         },
 
         {
@@ -134,15 +90,6 @@ export class ShapeRepository {
                 [0,1,0]
 
             ],
-
-            anchor: {
-
-                row: 0,
-
-                col: 1,
-
-            },
-
         },
 
         {
@@ -160,15 +107,6 @@ export class ShapeRepository {
                 [0,1,0]
 
             ],
-
-            anchor: {
-
-                row: 1,
-
-                col: 1,
-
-            },
-
         },
 
         {
@@ -182,15 +120,6 @@ export class ShapeRepository {
                 [1,1,1,1,1]
 
             ],
-
-            anchor: {
-
-                row: 0,
-
-                col: 2,
-
-            },
-
         }
 
     ];

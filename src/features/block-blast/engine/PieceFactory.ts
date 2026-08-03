@@ -1,4 +1,5 @@
 import type { Piece } from "../models/Piece";
+import { PieceAnchor } from "./PieceAnchor";
 
 import { ShapeRepository } from "./ShapeRepository";
 
@@ -61,10 +62,10 @@ export class PieceFactory {
                     row => [...row]
                 ),
 
-            anchor: {
-                row: definition.anchor.row,
-                col: definition.anchor.col,
-            },
+            anchor:
+                PieceAnchor.calculate(
+                    definition.shape
+                ),
 
         };
 
