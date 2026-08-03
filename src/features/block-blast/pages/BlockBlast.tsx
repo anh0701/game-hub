@@ -50,16 +50,13 @@ export default function BlockBlast() {
 
                     }
 
-                    const rect =
-                        boardRef.current.getBoundingClientRect();
-
-                    if (!drag.state.piece) {
+                    if (!drag.state.piece || !boardRef.current) {
                         return;
                     }
 
                     const position =
                         BoardPositionCalculator.calculate(
-                            rect,
+                            boardRef.current,
                             event.clientX,
                             event.clientY,
                             drag.state.piece
@@ -85,16 +82,13 @@ export default function BlockBlast() {
 
                     }
 
-                    const rect =
-                        boardRef.current.getBoundingClientRect();
-
-                    if (!drag.state.piece) {
+                    if (!drag.state.piece || !boardRef.current) {
                         return;
                     }
 
                     const position =
                         BoardPositionCalculator.calculate(
-                            rect,
+                            boardRef.current,
                             event.clientX,
                             event.clientY,
                             drag.state.piece

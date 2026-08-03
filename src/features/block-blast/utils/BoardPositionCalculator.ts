@@ -1,4 +1,3 @@
-import { CELL_SIZE } from "../constants";
 import type { Piece } from "../models/Piece";
 
 export interface BoardPosition {
@@ -9,27 +8,49 @@ export interface BoardPosition {
 export class BoardPositionCalculator {
 
     static calculate(
-        boardRect: DOMRect,
+        boardElement: HTMLDivElement,
         mouseX: number,
         mouseY: number,
         piece: Piece
     ): BoardPosition {
 
+        const rect = boardElement.getBoundingClientRect();
+
+        const style = getComputedStyle(boardElement);
+
+        const paddingLeft =
+            parseFloat(style.paddingLeft);
+
+        const paddingTop =
+            parseFloat(style.paddingTop);
+
+        const gap =
+            parseFloat(style.gap);
+
+        const firstCell =
+            boardElement.firstElementChild as HTMLElement;
+
+        const cellSize =
+            firstCell.getBoundingClientRect().width;
+
+        const step =
+            cellSize + gap;
+
         const localX =
-            mouseX - boardRect.left;
+            mouseX -
+            rect.left -
+            paddingLeft;
 
         const localY =
-            mouseY - boardRect.top;
-
-        const anchorRow =
-            Math.floor(
-                localY / CELL_SIZE
-            );
+            mouseY -
+            rect.top -
+            paddingTop;
 
         const anchorCol =
-            Math.floor(
-                localX / CELL_SIZE
-            );
+            Math.floor(localX / step);
+
+        const anchorRow =
+            Math.floor(localY / step);
 
         return {
 

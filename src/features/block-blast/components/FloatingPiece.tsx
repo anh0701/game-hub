@@ -1,3 +1,4 @@
+import { CELL_SIZE } from "../constants";
 import type { Piece } from "../models/Piece";
 import PieceView from "./PieceView";
 
@@ -18,14 +19,16 @@ export default function FloatingPiece({
         <div
             className="fixed pointer-events-none z-50"
             style={{
-                left: x,
-                top: y,
-                transform: "translate(-50%, -50%)",
+                left:
+                    x -
+                    piece.anchor.col * CELL_SIZE,
+
+                top:
+                    y -
+                    piece.anchor.row * CELL_SIZE,
             }}
         >
-
             <PieceView piece={piece} />
-
         </div>
 
     );
