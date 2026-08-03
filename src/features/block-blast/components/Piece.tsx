@@ -1,10 +1,15 @@
 import type { PointerEvent } from "react";
 
+import PieceView from "./PieceView";
+
+import { TRAY_CELL_SIZE } from "../constants";
+
 import type { Piece as PieceModel } from "../models/Piece";
 
 interface Props {
     piece: PieceModel;
     index: number;
+
     onDragStart: (
         piece: PieceModel,
         index: number,
@@ -20,8 +25,6 @@ export default function Piece({
     return (
         <div
             className="
-                inline-grid
-                gap-1
                 cursor-pointer
                 transition-transform
                 duration-150
@@ -29,33 +32,14 @@ export default function Piece({
                 active:scale-95
                 select-none
             "
-            onPointerDown={(event) => {
-                onDragStart(piece, index, event);
-            }}
+            onPointerDown={(event) =>
+                onDragStart(piece, index, event)
+            }
         >
-            {piece.shape.map((row, rowIndex) => (
-                <div
-                    key={rowIndex}
-                    className="flex gap-1"
-                >
-                    {row.map((cell, colIndex) => (
-                        <div
-                            key={colIndex}
-                            className={`
-                                h-8
-                                w-8
-                                rounded-md
-                                transition-colors
-                                ${
-                                    cell
-                                        ? "bg-cyan-400"
-                                        : "opacity-0"
-                                }
-                            `}
-                        />
-                    ))}
-                </div>
-            ))}
+            <PieceView
+                piece={piece}
+                cellSize={TRAY_CELL_SIZE}
+            />
         </div>
     );
 }

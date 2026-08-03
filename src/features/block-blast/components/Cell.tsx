@@ -1,5 +1,5 @@
 import {
-    CELL_SIZE,
+    BOARD_CELL_SIZE,
 } from "../constants";
 
 import type { Cell as CellModel } from "../models/Cell";
@@ -10,29 +10,28 @@ interface Props {
 
 export default function Cell({ cell }: Props) {
 
-    let background = "bg-slate-800";
+    let backgroundColor = "#1e293b"; // slate-800
 
     if (cell.occupied) {
-        background = "bg-cyan-500";
+        backgroundColor = cell.color ?? "#06b6d4";
     } else if (cell.preview) {
-        background = cell.previewValid
-            ? "bg-cyan-300"
-            : "bg-red-400";
+        backgroundColor = cell.previewValid
+            ? "#67e8f9"
+            : "#f87171";
     }
 
     return (
         <div
-            className={`
+            className="
                 rounded-md
                 border
                 border-slate-700
-                ${background}
-            `}
+            "
             style={{
-                width: CELL_SIZE,
-                height: CELL_SIZE,
+                width: BOARD_CELL_SIZE,
+                height: BOARD_CELL_SIZE,
+                backgroundColor,
             }}
         />
     );
-
 }

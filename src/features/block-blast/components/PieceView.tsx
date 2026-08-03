@@ -1,34 +1,58 @@
 import type { Piece } from "../models/Piece";
 
+import { CELL_GAP } from "../constants";
+
 interface Props {
     piece: Piece;
+    cellSize: number;
 }
 
-export default function PieceView({ piece }: Props) {
+export default function PieceView({
+    piece,
+    cellSize,
+}: Props) {
+
     return (
-        <div className="inline-grid gap-1">
+
+        <div
+            className="inline-grid"
+            style={{
+                gap: CELL_GAP,
+            }}
+        >
+
             {piece.shape.map((row, rowIndex) => (
+
                 <div
                     key={rowIndex}
-                    className="flex gap-1"
+                    style={{
+                        display: "flex",
+                        gap: CELL_GAP,
+                    }}
                 >
+
                     {row.map((cell, colIndex) => (
+
                         <div
                             key={colIndex}
-                            className={`
-                                h-8
-                                w-8
-                                rounded-md
-                                ${
-                                    cell
-                                        ? "bg-cyan-400"
-                                        : "opacity-0"
-                                }
-                            `}
+                            style={{
+                                width: cellSize,
+                                height: cellSize,
+                                borderRadius: 8,
+                                background: cell
+                                    ? piece.color
+                                    : "transparent",
+                                opacity: cell ? 1 : 0,
+                            }}
                         />
+
                     ))}
+
                 </div>
+
             ))}
+
         </div>
+
     );
 }
