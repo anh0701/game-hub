@@ -7,7 +7,7 @@ export class PieceManager {
     private pieces: Piece[];
 
     constructor() {
-        this.pieces = PieceFactory.generatePieces();
+        this.pieces = PieceFactory.createPieces();
     }
 
     getPieces(): Piece[] {
@@ -22,12 +22,12 @@ export class PieceManager {
         this.pieces.splice(index, 1);
 
         if (this.pieces.length === 0) {
-            this.pieces = PieceFactory.generatePieces();
+            this.pieces = PieceFactory.createPieces();
         }
     }
 
     reset(): void {
-        this.pieces = PieceFactory.generatePieces();
+        this.pieces = PieceFactory.createPieces();
     }
 
 }
