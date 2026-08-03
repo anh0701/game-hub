@@ -90,7 +90,7 @@ export class GameController {
 
         const score =
             this.scoreManager.calculate(
-                piece,
+                // piece,
                 cleared.rows.length,
                 cleared.cols.length
             );

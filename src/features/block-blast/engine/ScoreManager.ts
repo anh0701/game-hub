@@ -1,4 +1,4 @@
-import type { Piece } from "../models/Piece";
+// import type { Piece } from "../models/Piece";
 
 export class ScoreManager {
 
@@ -13,7 +13,7 @@ export class ScoreManager {
     }
 
     calculate(
-        piece: Piece,
+        // piece: Piece,
         clearedRows: number,
         clearedColumns: number
     ): number {
