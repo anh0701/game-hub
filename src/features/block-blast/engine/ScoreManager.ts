@@ -1,7 +1,6 @@
 // import type { Piece } from "../models/Piece";
 
 export class ScoreManager {
-
     private score = 0;
 
     getScore(): number {
@@ -17,16 +16,13 @@ export class ScoreManager {
         clearedRows: number,
         clearedColumns: number
     ): number {
-
-        const lines =
-            clearedRows + clearedColumns;
+        const lines = clearedRows + clearedColumns;
 
         if (lines === 0) {
             return 0;
         }
 
         switch (lines) {
-
             case 1:
                 return 10;
 
@@ -38,13 +34,10 @@ export class ScoreManager {
 
             default:
                 return 70 + (lines - 4) * 30;
-
         }
-
     }
 
     reset(): void {
         this.score = 0;
     }
-
 }

@@ -1,5 +1,4 @@
 export interface PlayResult {
-
     success: boolean;
 
     clearedRows: number[];
@@ -9,5 +8,4 @@ export interface PlayResult {
     scoreGained: number;
 
     gameOver: boolean;
-
 }

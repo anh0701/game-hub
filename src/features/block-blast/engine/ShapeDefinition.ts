@@ -1,5 +1,4 @@
 export interface ShapeDefinition {
-
     name: string;
 
     weight: number;
@@ -7,11 +6,8 @@ export interface ShapeDefinition {
     shape: number[][];
 
     anchor: {
-
         row: number;
 
         col: number;
-
     };
-
 }

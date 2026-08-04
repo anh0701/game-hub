@@ -1,5 +1,4 @@
 export interface Cell {
-
     occupied: boolean;
 
     color?: string;
@@ -7,5 +6,4 @@ export interface Cell {
     preview?: boolean;
 
     previewValid?: boolean;
-
 }

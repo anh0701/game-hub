@@ -7,19 +7,12 @@ interface GameCardProps {
     available?: boolean;
 }
 
-export default function GameCard({
-    title,
-    description,
-    path,
-    available = true,
-}: GameCardProps) {
+export default function GameCard({ title, description, path, available = true }: GameCardProps) {
     return (
         <div className="rounded-2xl border border-slate-700 bg-slate-800 p-6 shadow-lg transition hover:-translate-y-1 hover:border-cyan-400">
             <h2 className="text-2xl font-bold">{title}</h2>
 
-            <p className="mt-2 text-slate-400">
-                {description}
-            </p>
+            <p className="mt-2 text-slate-400">{description}</p>
 
             <div className="mt-6">
                 {available ? (
@@ -30,10 +23,7 @@ export default function GameCard({
                         Play
                     </Link>
                 ) : (
-                    <button
-                        disabled
-                        className="cursor-not-allowed rounded-lg bg-slate-700 px-4 py-2 text-slate-400"
-                    >
+                    <button disabled className="cursor-not-allowed rounded-lg bg-slate-700 px-4 py-2 text-slate-400">
                         Coming Soon
                     </button>
                 )}

@@ -45,11 +45,11 @@ export class BoardEngine {
         }
     }
 
-    canPlace(
-        piece: Piece,
-        startRow: number,
-        startCol: number
-    ): boolean {
+    canPlace(piece: Piece, startRow: number, startCol: number): boolean {
+        if (startRow < 0 || startCol < 0) {
+            return false;
+        }
+
         const pieceHeight = piece.shape.length;
         const pieceWidth = piece.shape[0].length;
 
@@ -63,19 +63,20 @@ export class BoardEngine {
         }
 
         // Collision check
-        for (let row = 0; row < pieceHeight; row++) {
-            for (let col = 0; col < pieceWidth; col++) {
-
-                if (piece.shape[row][col] === 0) {
+        for (let r = 0; r < piece.shape.length; r++) {
+            for (let c = 0; c < piece.shape[r].length; c++) {
+                if (piece.shape[r][c] !== 1) {
                     continue;
                 }
 
-                if (
-                    this.isOccupied(
-                        startRow + row,
-                        startCol + col
-                    )
-                ) {
+                const boardRow = startRow + r;
+                const boardCol = startCol + c;
+
+                if (boardRow < 0 || boardRow >= this.board.rows || boardCol < 0 || boardCol >= this.board.cols) {
+                    return false;
+                }
+
+                if (this.board.cells[boardRow][boardCol].occupied) {
                     return false;
                 }
             }
@@ -84,12 +85,7 @@ export class BoardEngine {
         return true;
     }
 
-    placePiece(
-        piece: Piece,
-        startRow: number,
-        startCol: number
-    ): boolean {
-
+    placePiece(piece: Piece, startRow: number, startCol: number): boolean {
         if (!this.canPlace(piece, startRow, startCol)) {
             return false;
         }
@@ -99,16 +95,11 @@ export class BoardEngine {
 
         for (let row = 0; row < pieceHeight; row++) {
             for (let col = 0; col < pieceWidth; col++) {
-
                 if (piece.shape[row][col] === 0) {
                     continue;
                 }
 
-                this.setCell(
-                    startRow + row,
-                    startCol + col,
-                    piece.color
-                );
+                this.setCell(startRow + row, startCol + col, piece.color);
             }
         }
 
@@ -119,11 +110,7 @@ export class BoardEngine {
         const rows: number[] = [];
 
         for (let row = 0; row < this.board.rows; row++) {
-
-            const completed =
-                this.board.cells[row].every(
-                    cell => cell.occupied
-                );
+            const completed = this.board.cells[row].every((cell) => cell.occupied);
 
             if (completed) {
                 rows.push(row);
@@ -134,15 +121,12 @@ export class BoardEngine {
     }
 
     getCompletedColumns(): number[] {
-
         const cols: number[] = [];
 
         for (let col = 0; col < this.board.cols; col++) {
-
             let completed = true;
 
             for (let row = 0; row < this.board.rows; row++) {
-
                 if (!this.isOccupied(row, col)) {
                     completed = false;
                     break;
@@ -158,7 +142,6 @@ export class BoardEngine {
     }
 
     clearCompletedLines() {
-
         const rows = this.getCompletedRows();
         const cols = this.getCompletedColumns();
 
@@ -180,12 +163,7 @@ export class BoardEngine {
         };
     }
 
-    public tryPlacePiece(
-        piece: Piece,
-        row: number,
-        col: number
-    ): boolean {
-
+    public tryPlacePiece(piece: Piece, row: number, col: number): boolean {
         if (!this.canPlace(piece, row, col)) {
             return false;
         }
@@ -196,62 +174,29 @@ export class BoardEngine {
     }
 
     clearPreview(): void {
-
         for (const row of this.board.cells) {
-
             for (const cell of row) {
-
                 delete cell.preview;
                 delete cell.previewValid;
-
             }
-
         }
-
     }
 
-    previewPiece(
-        piece: Piece,
-        startRow: number,
-        startCol: number
-    ) {
-
+    previewPiece(piece: Piece, startRow: number, startCol: number) {
         this.clearPreview();
 
-        const valid =
-            this.canPlace(
-                piece,
-                startRow,
-                startCol
-            );
+        const valid = this.canPlace(piece, startRow, startCol);
 
-        for (
-            let row = 0;
-            row < piece.shape.length;
-            row++
-        ) {
-
-            for (
-                let col = 0;
-                col < piece.shape[row].length;
-                col++
-            ) {
-
-                if (
-                    piece.shape[row][col] === 0
-                ) {
+        for (let row = 0; row < piece.shape.length; row++) {
+            for (let col = 0; col < piece.shape[row].length; col++) {
+                if (piece.shape[row][col] === 0) {
                     continue;
                 }
 
                 const r = startRow + row;
                 const c = startCol + col;
 
-                if (
-                    r < 0 ||
-                    c < 0 ||
-                    r >= this.board.rows ||
-                    c >= this.board.cols
-                ) {
+                if (r < 0 || c < 0 || r >= this.board.rows || c >= this.board.cols) {
                     continue;
                 }
                 this.board.cells[r][c].preview = true;
@@ -259,5 +204,21 @@ export class BoardEngine {
             }
         }
     }
-    
+
+    public isGameOver(pieces: Array<Piece | null>): boolean {
+        for (const piece of pieces) {
+            if (!piece) {
+                continue;
+            }
+
+            for (let row = 0; row < this.board.rows; row++) {
+                for (let col = 0; col < this.board.cols; col++) {
+                    if (this.canPlace(piece, row, col)) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
 }

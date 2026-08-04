@@ -1,5 +1,4 @@
 export interface Piece {
-
     id: string;
 
     color: string;
@@ -7,11 +6,8 @@ export interface Piece {
     shape: number[][];
 
     anchor: {
-
         row: number;
 
         col: number;
-
     };
-
 }

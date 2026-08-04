@@ -3,7 +3,6 @@ import { PieceFactory } from "./PieceFactory";
 import type { Piece } from "../models/Piece";
 
 export class PieceManager {
-
     private pieces: Piece[];
 
     constructor() {
@@ -11,7 +10,7 @@ export class PieceManager {
     }
 
     getPieces(): Piece[] {
-        return this.pieces;
+        return [...this.pieces];
     }
 
     getPiece(index: number): Piece | undefined {
@@ -19,7 +18,7 @@ export class PieceManager {
     }
 
     removePiece(index: number): void {
-        this.pieces.splice(index, 1);
+        this.pieces = this.pieces.filter((_, i) => i !== index);
 
         if (this.pieces.length === 0) {
             this.pieces = PieceFactory.createPieces();
@@ -29,5 +28,4 @@ export class PieceManager {
     reset(): void {
         this.pieces = PieceFactory.createPieces();
     }
-
 }

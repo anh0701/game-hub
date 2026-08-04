@@ -7,22 +7,15 @@ interface Props {
     cellSize: number;
 }
 
-export default function PieceView({
-    piece,
-    cellSize,
-}: Props) {
-
+export default function PieceView({ piece, cellSize }: Props) {
     return (
-
         <div
             className="inline-grid"
             style={{
                 gap: CELL_GAP,
             }}
         >
-
             {piece.shape.map((row, rowIndex) => (
-
                 <div
                     key={rowIndex}
                     style={{
@@ -30,29 +23,20 @@ export default function PieceView({
                         gap: CELL_GAP,
                     }}
                 >
-
                     {row.map((cell, colIndex) => (
-
                         <div
                             key={colIndex}
                             style={{
                                 width: cellSize,
                                 height: cellSize,
                                 borderRadius: 8,
-                                background: cell
-                                    ? piece.color
-                                    : "transparent",
+                                background: cell ? piece.color : "transparent",
                                 opacity: cell ? 1 : 0,
                             }}
                         />
-
                     ))}
-
                 </div>
-
             ))}
-
         </div>
-
     );
 }

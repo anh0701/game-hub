@@ -7,17 +7,10 @@ import type { Piece } from "../models/Piece";
 interface Props {
     pieces: Piece[];
 
-    onDragStart: (
-        piece: Piece,
-        index: number,
-        event: PointerEvent
-    ) => void;
+    onDragStart: (piece: Piece, index: number, event: PointerEvent) => void;
 }
 
-export default function PieceTray({
-    pieces,
-    onDragStart,
-}: Props) {
+export default function PieceTray({ pieces, onDragStart }: Props) {
     return (
         <div
             className="
@@ -31,12 +24,7 @@ export default function PieceTray({
             "
         >
             {pieces.map((piece, index) => (
-                <PieceSlot
-                    key={index}
-                    piece={piece}
-                    index={index}
-                    onDragStart={onDragStart}
-                />
+                <PieceSlot key={piece.id} piece={piece} index={index} onDragStart={onDragStart} />
             ))}
         </div>
     );

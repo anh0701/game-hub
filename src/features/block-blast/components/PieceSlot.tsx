@@ -2,10 +2,7 @@ import type { PointerEvent } from "react";
 
 import Piece from "./Piece";
 
-import {
-    TRAY_CELL_SIZE,
-    CELL_GAP,
-} from "../constants";
+import { TRAY_CELL_SIZE, CELL_GAP } from "../constants";
 
 import type { Piece as PieceModel } from "../models/Piece";
 
@@ -14,37 +11,19 @@ interface Props {
 
     index: number;
 
-    onDragStart: (
-        piece: PieceModel,
-        index: number,
-        event: PointerEvent
-    ) => void;
+    onDragStart: (piece: PieceModel, index: number, event: PointerEvent) => void;
 }
 
-export default function PieceSlot({
-    piece,
-    index,
-    onDragStart,
-}: Props) {
+export default function PieceSlot({ piece, index, onDragStart }: Props) {
+    const cols = Math.max(...piece.shape.map((row) => row.length));
 
-    const cols =
-        Math.max(...piece.shape.map(row => row.length));
+    const rows = piece.shape.length;
 
-    const rows =
-        piece.shape.length;
+    const width = cols * TRAY_CELL_SIZE + (cols - 1) * CELL_GAP + 32; // padding trái + phải
 
-    const width =
-        cols * TRAY_CELL_SIZE +
-        (cols - 1) * CELL_GAP +
-        32; // padding trái + phải
-
-    const height =
-        rows * TRAY_CELL_SIZE +
-        (rows - 1) * CELL_GAP +
-        32;
+    const height = rows * TRAY_CELL_SIZE + (rows - 1) * CELL_GAP + 32;
 
     return (
-
         <div
             className="
                 flex
@@ -61,13 +40,7 @@ export default function PieceSlot({
                 height: Math.max(120, height),
             }}
         >
-            <Piece
-                piece={piece}
-                index={index}
-                onDragStart={onDragStart}
-            />
+            <Piece piece={piece} index={index} onDragStart={onDragStart} />
         </div>
-
     );
-
 }

@@ -21,12 +21,7 @@ export function useDrag() {
         y: 0,
     });
 
-    function start(
-        piece: Piece,
-        pieceIndex: number,
-        x: number,
-        y: number
-    ) {
+    function start(piece: Piece, pieceIndex: number, x: number, y: number) {
         setState({
             dragging: true,
             piece,
@@ -36,10 +31,7 @@ export function useDrag() {
         });
     }
 
-    function move(
-        x: number,
-        y: number
-    ) {
+    function move(x: number, y: number) {
         setState((prev) => ({
             ...prev,
             x,

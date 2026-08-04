@@ -10,18 +10,10 @@ interface Props {
     piece: PieceModel;
     index: number;
 
-    onDragStart: (
-        piece: PieceModel,
-        index: number,
-        event: PointerEvent<HTMLDivElement>
-    ) => void;
+    onDragStart: (piece: PieceModel, index: number, event: PointerEvent<HTMLDivElement>) => void;
 }
 
-export default function Piece({
-    piece,
-    index,
-    onDragStart,
-}: Props) {
+export default function Piece({ piece, index, onDragStart }: Props) {
     return (
         <div
             className="
@@ -32,14 +24,9 @@ export default function Piece({
                 active:scale-95
                 select-none
             "
-            onPointerDown={(event) =>
-                onDragStart(piece, index, event)
-            }
+            onPointerDown={(event) => onDragStart(piece, index, event)}
         >
-            <PieceView
-                piece={piece}
-                cellSize={TRAY_CELL_SIZE}
-            />
+            <PieceView piece={piece} cellSize={TRAY_CELL_SIZE} />
         </div>
     );
 }

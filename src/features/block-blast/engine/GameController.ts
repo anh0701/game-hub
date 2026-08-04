@@ -8,7 +8,6 @@ import type { PlayResult } from "../models/PlayResult";
 import { GameRule } from "./GameRule";
 
 export class GameController {
-
     private readonly boardEngine: BoardEngine;
 
     private readonly pieceManager: PieceManager;
@@ -18,13 +17,11 @@ export class GameController {
     private gameOver = false;
 
     constructor(rows = 8, cols = 8) {
-
         this.boardEngine = new BoardEngine(rows, cols);
 
         this.pieceManager = new PieceManager();
 
         this.scoreManager = new ScoreManager();
-
     }
 
     getBoard(): Board {
@@ -43,17 +40,10 @@ export class GameController {
         return this.gameOver;
     }
 
-    play(
-        pieceIndex: number,
-        row: number,
-        col: number
-    ): PlayResult {
-
-        const piece =
-            this.pieceManager.getPiece(pieceIndex);
+    play(pieceIndex: number, row: number, col: number): PlayResult {
+        const piece = this.pieceManager.getPiece(pieceIndex);
 
         if (!piece) {
-
             return {
                 success: false,
                 clearedRows: [],
@@ -61,18 +51,11 @@ export class GameController {
                 scoreGained: 0,
                 gameOver: this.gameOver,
             };
-
         }
 
-        const success =
-            this.boardEngine.tryPlacePiece(
-                piece,
-                row,
-                col
-            );
+        const success = this.boardEngine.tryPlacePiece(piece, row, col);
 
         if (!success) {
-
             return {
                 success: false,
                 clearedRows: [],
@@ -80,35 +63,23 @@ export class GameController {
                 scoreGained: 0,
                 gameOver: this.gameOver,
             };
-
         }
 
-        const cleared =
-            this.boardEngine.clearCompletedLines();
+        const cleared = this.boardEngine.clearCompletedLines();
 
-        console.log("Cleared:", cleared);
-
-        const score =
-            this.scoreManager.calculate(
-                // piece,
-                cleared.rows.length,
-                cleared.cols.length
-            );
-
-        console.log("Score gained:", score);
+        const score = this.scoreManager.calculate(
+            // piece,
+            cleared.rows.length,
+            cleared.cols.length
+        );
 
         this.scoreManager.add(score);
 
         this.pieceManager.removePiece(pieceIndex);
 
-        this.gameOver =
-            GameRule.isGameOver(
-                this.boardEngine,
-                this.pieceManager.getPieces()
-            );
+        this.gameOver = !GameRule.hasMove(this.boardEngine, this.pieceManager.getPieces());
 
         return {
-
             success: true,
 
             clearedRows: cleared.rows,
@@ -118,13 +89,10 @@ export class GameController {
             scoreGained: score,
 
             gameOver: this.gameOver,
-
         };
-
     }
 
     restart(): void {
-
         this.boardEngine.reset();
 
         this.pieceManager.reset();
@@ -132,34 +100,19 @@ export class GameController {
         this.scoreManager.reset();
 
         this.gameOver = false;
-
     }
 
-    preview(
-        pieceIndex: number,
-        row: number,
-        col: number
-    ): void {
-
-        const piece =
-            this.pieceManager.getPiece(pieceIndex);
+    preview(pieceIndex: number, row: number, col: number): void {
+        const piece = this.pieceManager.getPiece(pieceIndex);
 
         if (!piece) {
             return;
         }
 
-        this.boardEngine.previewPiece(
-            piece,
-            row,
-            col
-        );
-
+        this.boardEngine.previewPiece(piece, row, col);
     }
 
     clearPreview(): void {
-
         this.boardEngine.clearPreview();
-
     }
-
 }
