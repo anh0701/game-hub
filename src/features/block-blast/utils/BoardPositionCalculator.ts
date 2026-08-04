@@ -1,5 +1,5 @@
-import { getDragOffset } from "../constants";
 import type { Piece } from "../models/Piece";
+import { DragPositionCalculator } from "./DragPositionCalculator";
 
 export interface BoardPosition {
     row: number;
@@ -33,18 +33,19 @@ export class BoardPositionCalculator {
 
         const step = cellSize + gap;
 
-        const { x: offsetX, y: offsetY } = getDragOffset();
-
-        const adjustedX = pointerX + offsetX;
-        const adjustedY = pointerY - offsetY;
+        const pointer =
+            DragPositionCalculator.calculate(
+                pointerX,
+                pointerY
+            );
 
         const localX =
-            adjustedX -
+            pointer.x -
             rect.left -
             paddingLeft;
 
         const localY =
-            adjustedY -
+            pointer.y -
             rect.top -
             paddingTop;
 

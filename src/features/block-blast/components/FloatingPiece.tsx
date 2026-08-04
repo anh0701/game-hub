@@ -1,7 +1,8 @@
 import type { Piece } from "../models/Piece";
 import PieceView from "./PieceView";
 
-import { CELL_GAP, getBoardCellSize, getDragOffset } from "../constants";
+import { CELL_GAP, getBoardCellSize } from "../constants";
+import { DragPositionCalculator } from "../utils/DragPositionCalculator";
 
 interface Props {
     piece: Piece;
@@ -14,14 +15,17 @@ export default function FloatingPiece({ piece, x, y }: Props) {
 
     const step = cellSize + CELL_GAP;
 
-    const { x: offsetX, y: offsetY } = getDragOffset();
-
+    const pointer =
+        DragPositionCalculator.calculate(
+            x,
+            y
+        );
     return (
         <div
             className="fixed pointer-events-none z-50"
             style={{
-                left: x - piece.anchor.col * step + offsetX,
-                top: y - piece.anchor.row * step - offsetY,
+                left: pointer.x - piece.anchor.col * step,
+                top:  pointer.y - piece.anchor.row * step,
             }}
         >
             <PieceView piece={piece} cellSize={cellSize} />
