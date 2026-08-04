@@ -11,6 +11,7 @@ import { useBlockBlast } from "../hooks/useBlockBlast";
 import { useDrag } from "../hooks/useDrag";
 
 import { BoardPositionCalculator } from "../utils/BoardPositionCalculator";
+import GameOverModal from "../components/GameOverModal";
 
 export default function BlockBlast() {
     const game = useBlockBlast();
@@ -100,12 +101,16 @@ export default function BlockBlast() {
             >
                 <Board board={game.board} boardRef={boardRef} />
 
-                <div className="mt-6
+                <div
+                    className="mt-6
                     text-xl
                     font-bold
                     text-white
                     sm:mt-8
-                    sm:text-2xl">Score : {game.score}</div>
+                    sm:text-2xl"
+                >
+                    Score : {game.score}
+                </div>
 
                 <PieceTray
                     pieces={game.pieces}
@@ -123,24 +128,15 @@ export default function BlockBlast() {
                     <FloatingPiece piece={drag.state.piece} x={drag.state.x} y={drag.state.y} />
                 )}
                 {game.gameOver && (
-                    <div className="fixed inset-0 flex items-center justify-center bg-black/60">
-                        <div className="rounded-2xl bg-slate-800 p-8 text-center shadow-2xl">
-                            <h1 className="text-4xl font-bold text-white">Game Over</h1>
+                    <GameOverModal
+                        score={game.score}
 
-                            <p className="mt-4 text-xl text-white">Score : {game.score}</p>
+                        onRestart={() => {
+                            drag.end();
 
-                            <button
-                                className="mt-6 rounded-lg bg-cyan-500 px-6 py-3 font-bold text-white transition hover:bg-cyan-600"
-                                onClick={() => {
-                                    drag.end();
-
-                                    game.restart();
-                                }}
-                            >
-                                Restart
-                            </button>
-                        </div>
-                    </div>
+                            game.restart();
+                        }}
+                    />
                 )}
             </main>
         </Layout>

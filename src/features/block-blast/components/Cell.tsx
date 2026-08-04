@@ -1,4 +1,4 @@
-import { BOARD_CELL_SIZE } from "../constants";
+// import { BOARD_CELL_SIZE } from "../constants";
 
 import type { Cell as CellModel } from "../models/Cell";
 
