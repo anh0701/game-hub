@@ -24,7 +24,19 @@ export default function BlockBlast() {
             <Header />
 
             <main
-                className="mx-auto flex max-w-4xl flex-col items-center py-10"
+                className="
+                    mx-auto
+                    flex
+                    w-full
+                    max-w-4xl
+                    flex-col
+                    items-center
+                    px-4
+                    py-6
+                    sm:px-6
+                    sm:py-8
+                    lg:py-10
+                "
 
                 onPointerMove={(event) => {
                     if (game.gameOver) {
@@ -88,7 +100,12 @@ export default function BlockBlast() {
             >
                 <Board board={game.board} boardRef={boardRef} />
 
-                <div className="mt-8 text-2xl font-bold text-white">Score : {game.score}</div>
+                <div className="mt-6
+                    text-xl
+                    font-bold
+                    text-white
+                    sm:mt-8
+                    sm:text-2xl">Score : {game.score}</div>
 
                 <PieceTray
                     pieces={game.pieces}

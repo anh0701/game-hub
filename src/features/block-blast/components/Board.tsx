@@ -14,9 +14,19 @@ export default function Board({ board, boardRef }: Props) {
     return (
         <div
             ref={boardRef}
-            className="grid gap-1 rounded-2xl bg-slate-800 p-3 shadow-xl"
+            className="
+                grid
+                w-full
+                max-w-[520px]
+                gap-1
+                rounded-2xl
+                bg-slate-800
+                p-2
+                shadow-xl
+                sm:p-3
+            "
             style={{
-                gridTemplateColumns: `repeat(${board.cols}, auto)`,
+                gridTemplateColumns: `repeat(${board.cols}, minmax(0, 1fr))`,
             }}
         >
             {board.cells.flat().map((cell, index) => (

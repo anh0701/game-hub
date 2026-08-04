@@ -14,13 +14,19 @@ export default function PieceTray({ pieces, onDragStart }: Props) {
     return (
         <div
             className="
-                mt-10
+                mt-6
                 flex
+                flex-wrap
+                justify-center
                 items-end
-                gap-5
+                gap-3
                 rounded-3xl
                 bg-slate-900/60
-                p-5
+                p-3
+
+                sm:mt-8
+                sm:gap-5
+                sm:p-5
             "
         >
             {pieces.map((piece, index) => (

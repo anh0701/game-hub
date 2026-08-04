@@ -18,13 +18,15 @@ export default function Cell({ cell }: Props) {
     return (
         <div
             className="
+                aspect-square
+                w-full
                 rounded-md
                 border
                 border-slate-700
             "
             style={{
-                width: BOARD_CELL_SIZE,
-                height: BOARD_CELL_SIZE,
+                // width: BOARD_CELL_SIZE,
+                // height: BOARD_CELL_SIZE,
                 backgroundColor,
             }}
         />
