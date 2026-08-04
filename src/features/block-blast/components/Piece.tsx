@@ -23,8 +23,17 @@ export default function Piece({ piece, index, onDragStart }: Props) {
                 hover:scale-110
                 active:scale-95
                 select-none
+                touch-none
             "
-            onPointerDown={(event) => onDragStart(piece, index, event)}
+            onPointerDown={(event) => {
+
+                console.log("pointer down");
+
+                event.preventDefault();
+
+                onDragStart(piece, index, event);
+
+            }}
         >
             <PieceView piece={piece} cellSize={TRAY_CELL_SIZE} />
         </div>
