@@ -1,7 +1,7 @@
 import type { Piece } from "../models/Piece";
 import PieceView from "./PieceView";
 
-import { BOARD_CELL_SIZE, CELL_GAP } from "../constants";
+import { CELL_GAP, getBoardCellSize } from "../constants";
 
 interface Props {
     piece: Piece;
@@ -10,18 +10,19 @@ interface Props {
 }
 
 export default function FloatingPiece({ piece, x, y }: Props) {
-    const step = BOARD_CELL_SIZE + CELL_GAP;
+    const cellSize = getBoardCellSize();
+
+    const step = cellSize + CELL_GAP;
 
     return (
         <div
             className="fixed pointer-events-none z-50"
             style={{
                 left: x - piece.anchor.col * step,
-
                 top: y - piece.anchor.row * step,
             }}
         >
-            <PieceView piece={piece} cellSize={BOARD_CELL_SIZE} />
+            <PieceView piece={piece} cellSize={cellSize} />
         </div>
     );
 }

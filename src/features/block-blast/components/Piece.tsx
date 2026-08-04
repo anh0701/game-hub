@@ -26,13 +26,11 @@ export default function Piece({ piece, index, onDragStart }: Props) {
                 touch-none
             "
             onPointerDown={(event) => {
-
                 console.log("pointer down");
 
                 event.preventDefault();
 
                 onDragStart(piece, index, event);
-
             }}
         >
             <PieceView piece={piece} cellSize={TRAY_CELL_SIZE} />
