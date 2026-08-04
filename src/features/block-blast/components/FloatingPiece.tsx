@@ -1,7 +1,7 @@
 import type { Piece } from "../models/Piece";
 import PieceView from "./PieceView";
 
-import { CELL_GAP, getBoardCellSize } from "../constants";
+import { CELL_GAP, getBoardCellSize, getDragOffset, MOBILE_DRAG_OFFSET_X, MOBILE_DRAG_OFFSET_Y } from "../constants";
 
 interface Props {
     piece: Piece;
@@ -14,11 +14,8 @@ export default function FloatingPiece({ piece, x, y }: Props) {
 
     const step = cellSize + CELL_GAP;
 
-    const isMobile = window.innerWidth < 640;
+    const { x: offsetX, y: offsetY } = getDragOffset();
 
-    const offsetX = isMobile ? 10 : 0;
-    const offsetY = isMobile ? 70 : 0;
-    
     return (
         <div
             className="fixed pointer-events-none z-50"

@@ -1,3 +1,4 @@
+import { getDragOffset } from "../constants";
 import type { Piece } from "../models/Piece";
 
 export interface BoardPosition {
@@ -6,7 +7,7 @@ export interface BoardPosition {
 }
 
 export class BoardPositionCalculator {
-    static calculate(boardElement: HTMLDivElement, mouseX: number, mouseY: number, piece: Piece): BoardPosition {
+    static calculate(boardElement: HTMLDivElement, piece: Piece): BoardPosition {
         const rect = boardElement.getBoundingClientRect();
 
         const style = getComputedStyle(boardElement);
@@ -23,9 +24,11 @@ export class BoardPositionCalculator {
 
         const step = cellSize + gap;
 
-        const localX = mouseX - rect.left - paddingLeft;
+        const { x: adjustedX, y: adjustedY } = getDragOffset();
 
-        const localY = mouseY - rect.top - paddingTop;
+        const localX = adjustedX - rect.left - paddingLeft;
+
+        const localY = adjustedY - rect.top - paddingTop;
 
         const anchorCol = Math.floor(localX / step);
 

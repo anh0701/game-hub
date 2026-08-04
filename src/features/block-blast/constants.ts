@@ -15,3 +15,21 @@ export function getBoardCellSize(): number {
 
     return BOARD_CELL_SIZE;
 }
+
+export const MOBILE_DRAG_OFFSET_X = 12;
+
+export const MOBILE_DRAG_OFFSET_Y = 80;
+
+export function getDragOffset() {
+    if (window.innerWidth < 640) {
+        return {
+            x: 12,
+            y: 80,
+        };
+    }
+
+    return {
+        x: 0,
+        y: 0,
+    };
+}
