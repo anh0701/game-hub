@@ -7,7 +7,14 @@ export interface BoardPosition {
 }
 
 export class BoardPositionCalculator {
-    static calculate(boardElement: HTMLDivElement, piece: Piece): BoardPosition {
+
+    static calculate(
+        boardElement: HTMLDivElement,
+        pointerX: number,
+        pointerY: number,
+        piece: Piece
+    ): BoardPosition {
+
         const rect = boardElement.getBoundingClientRect();
 
         const style = getComputedStyle(boardElement);
@@ -18,26 +25,47 @@ export class BoardPositionCalculator {
 
         const gap = parseFloat(style.gap);
 
-        const firstCell = boardElement.firstElementChild as HTMLElement;
+        const firstCell =
+            boardElement.firstElementChild as HTMLElement;
 
-        const cellSize = firstCell.getBoundingClientRect().width;
+        const cellSize =
+            firstCell.getBoundingClientRect().width;
 
         const step = cellSize + gap;
 
-        const { x: adjustedX, y: adjustedY } = getDragOffset();
+        const { x: offsetX, y: offsetY } = getDragOffset();
 
-        const localX = adjustedX - rect.left - paddingLeft;
+        const adjustedX = pointerX + offsetX;
+        const adjustedY = pointerY - offsetY;
 
-        const localY = adjustedY - rect.top - paddingTop;
+        const localX =
+            adjustedX -
+            rect.left -
+            paddingLeft;
 
-        const anchorCol = Math.floor(localX / step);
+        const localY =
+            adjustedY -
+            rect.top -
+            paddingTop;
 
-        const anchorRow = Math.floor(localY / step);
+        const anchorCol =
+            Math.floor(localX / step);
+
+        const anchorRow =
+            Math.floor(localY / step);
 
         return {
-            row: anchorRow - piece.anchor.row,
 
-            col: anchorCol - piece.anchor.col,
+            row:
+                anchorRow -
+                piece.anchor.row,
+
+            col:
+                anchorCol -
+                piece.anchor.col,
+
         };
+
     }
+
 }

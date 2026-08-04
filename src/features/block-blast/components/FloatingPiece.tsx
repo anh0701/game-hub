@@ -1,7 +1,7 @@
 import type { Piece } from "../models/Piece";
 import PieceView from "./PieceView";
 
-import { CELL_GAP, getBoardCellSize, getDragOffset, MOBILE_DRAG_OFFSET_X, MOBILE_DRAG_OFFSET_Y } from "../constants";
+import { CELL_GAP, getBoardCellSize, getDragOffset } from "../constants";
 
 interface Props {
     piece: Piece;
