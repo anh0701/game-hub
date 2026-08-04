@@ -14,12 +14,17 @@ export default function FloatingPiece({ piece, x, y }: Props) {
 
     const step = cellSize + CELL_GAP;
 
+    const isMobile = window.innerWidth < 640;
+
+    const offsetX = isMobile ? 10 : 0;
+    const offsetY = isMobile ? 70 : 0;
+    
     return (
         <div
             className="fixed pointer-events-none z-50"
             style={{
-                left: x - piece.anchor.col * step,
-                top: y - piece.anchor.row * step,
+                left: x - piece.anchor.col * step + offsetX,
+                top: y - piece.anchor.row * step - offsetY,
             }}
         >
             <PieceView piece={piece} cellSize={cellSize} />
