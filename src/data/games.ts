@@ -26,6 +26,6 @@ export const games: Game[] = [
         title: "Sudoku",
         description: "Logic puzzle.",
         path: "/sudoku",
-        available: false,
+        available: true,
     },
 ];
