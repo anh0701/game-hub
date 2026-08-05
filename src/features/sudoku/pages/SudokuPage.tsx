@@ -5,7 +5,7 @@ import { SudokuBoard } from "../components/SudokuBoard";
 import { useSudoku } from "../hooks/useSudoku";
 
 export function SudokuPage() {
-    const { board, score, startGame } = useSudoku();
+    const { board, score, startGame, selectCell } = useSudoku();
 
     useEffect(() => {
         startGame();
@@ -15,9 +15,9 @@ export function SudokuPage() {
             <div className="mx-auto flex max-w-md flex-col items-center gap-6">
                 <h1 className="text-3xl font-bold text-slate-800">Sudoku</h1>
 
-                <ScoreBoard score={0} />
+                <ScoreBoard score={score} />
 
-                <SudokuBoard board={board} />
+                <SudokuBoard board={board} onCellClick={selectCell} />
 
                 <NumberPad
                     onNumberClick={(value) => {

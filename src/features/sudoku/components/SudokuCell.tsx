@@ -1,21 +1,19 @@
 interface SudokuCellProps {
-    value?: number;
+    value: number;
+    fixed: boolean;
+    onClick: () => void;
 }
 
-export function SudokuCell({ value }: SudokuCellProps) {
+export function SudokuCell({ value, fixed, onClick }: SudokuCellProps) {
     return (
         <div
-            className="
-                flex
-                h-10
-                w-10
-                items-center
-                justify-center
-                border
-                border-gray-300
-                text-lg
-                font-semibold
-            "
+            onClick={onClick}
+            className={`
+                flex size-10 items-center justify-center
+                border border-gray-300
+                cursor-pointer select-none
+                ${fixed ? "bg-gray-100 font-bold text-slate-800" : "bg-white text-blue-600"}
+            `}
         >
             {value !== 0 ? value : ""}
         </div>

@@ -24,6 +24,10 @@ export function useSudoku() {
         setGameOver(false);
     }
 
+    function selectCell(position: Position) {
+        setSelectedCell(position);
+    }
+
     return {
         board,
         score,
@@ -31,5 +35,6 @@ export function useSudoku() {
         selectedCell,
 
         startGame,
+        selectCell,
     };
 }
