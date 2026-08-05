@@ -1,6 +1,6 @@
 export interface Cell {
     value: number | null;
-    solution: number;
+    // solution: number;
     fixed: boolean;
-    error: boolean;
+    // error: boolean;
 }

@@ -1,5 +1,5 @@
 import type { SudokuPuzzle } from "../models/SudokuPuzzle";
-import { cloneBoard, createEmptyBoard } from "./Board";
+import { cloneBoard, createCellBoard, createEmptyBoard } from "./Board";
 import { REMOVE_COUNT } from "./constants";
 import { solveSudoku } from "./Solver";
 
@@ -13,7 +13,7 @@ export function generateSudoku(): SudokuPuzzle {
     removeRandomCells(puzzle, REMOVE_COUNT);
 
     return {
-        puzzle,
+        puzzle: createCellBoard(puzzle),
         solution,
     };
 }
