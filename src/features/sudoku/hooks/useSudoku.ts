@@ -26,7 +26,7 @@ export function useSudoku() {
     }
 
     function selectCell(position: Position) {
-        console.log("Select:", position);
+        // console.log("Select:", position);
 
         if (gameOver) {
             return;
@@ -40,10 +40,10 @@ export function useSudoku() {
     }
 
     function inputNumber(value: number) {
-        console.log("inputNumber:", value);
+        // console.log("inputNumber:", value);
 
         if (selectedCell === null) {
-            console.log("selectedCell is null");
+            // console.log("selectedCell is null");
             return;
         }
 
@@ -53,27 +53,33 @@ export function useSudoku() {
             return;
         }
 
-        if (solution[row][col] !== value) {
-            console.log("Wrong answer");
-            setGameOver(true);
-            return;
-        }
-
         const newBoard = board.map((row) => row.map((cell) => ({ ...cell })));
 
         newBoard[row][col].value = value;
 
-        console.log(newBoard[row][col]);
+        if (solution[row][col] !== value) {
+            newBoard[row][col].error = true;
 
-        setBoard(newBoard);
+            setBoard(newBoard);
 
-        if (isBoardCompleted(newBoard)) {
-            setScore((prev) => prev + 1);
-
-            startGame();
+            setTimeout(() => {
+                endGame();
+            }, 500);
 
             return;
         }
+
+        setBoard(newBoard);
+    }
+
+    function endGame() {
+        setGameOver(true);
+    }
+
+    function restart() {
+        setScore(0);
+
+        startGame();
     }
 
     return {
@@ -85,5 +91,6 @@ export function useSudoku() {
         startGame,
         selectCell,
         inputNumber,
+        restart,
     };
 }

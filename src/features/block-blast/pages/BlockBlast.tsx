@@ -95,7 +95,7 @@ export default function BlockBlast() {
                     drag.end();
 
                     if (result.gameOver) {
-                        console.log("Game Over");
+                        // console.log("Game Over");
                     }
                 }}
             >

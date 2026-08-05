@@ -12,6 +12,7 @@ export function createCellBoard(board: number[][]): Cell[][] {
     return board.map((row) =>
         row.map((value) => ({
             value,
+            error: false,
             fixed: value !== 0,
         }))
     );

@@ -17,8 +17,8 @@ export function NumberPad({ onNumberClick }: NumberPadProps) {
                 <button
                     key={num}
                     onClick={() => {
-                        console.log("Button:", num);
-                        onNumberClick(num)
+                        // console.log("Button:", num);
+                        onNumberClick(num);
                     }}
                     className="
                         aspect-square

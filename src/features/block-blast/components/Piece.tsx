@@ -26,7 +26,7 @@ export default function Piece({ piece, index, onDragStart }: Props) {
                 touch-none
             "
             onPointerDown={(event) => {
-                console.log("pointer down");
+                // console.log("pointer down");
 
                 event.preventDefault();
 

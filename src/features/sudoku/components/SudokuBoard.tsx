@@ -8,11 +8,7 @@ interface SudokuBoardProps {
     onCellClick: (position: Position) => void;
 }
 
-export function SudokuBoard({
-    board,
-    selectedCell,
-    onCellClick,
-}: SudokuBoardProps) {
+export function SudokuBoard({ board, selectedCell, onCellClick }: SudokuBoardProps) {
     return (
         <div className="border-2 border-gray-800">
             {board.map((row, rowIndex) => (
@@ -24,10 +20,8 @@ export function SudokuBoard({
                             fixed={cell.fixed}
                             row={rowIndex}
                             col={colIndex}
-                            selected={
-                                selectedCell?.row === rowIndex &&
-                                selectedCell?.col === colIndex
-                            }
+                            error={cell.error}
+                            selected={selectedCell?.row === rowIndex && selectedCell?.col === colIndex}
                             onClick={() =>
                                 onCellClick({
                                     row: rowIndex,
