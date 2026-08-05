@@ -1,5 +1,5 @@
 export interface Cell {
-    value: number | null;
+    value: number;
     // solution: number;
     fixed: boolean;
     // error: boolean;

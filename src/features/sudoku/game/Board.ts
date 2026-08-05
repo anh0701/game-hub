@@ -16,3 +16,15 @@ export function createCellBoard(board: number[][]): Cell[][] {
         }))
     );
 }
+
+export function isBoardCompleted(board: Cell[][]): boolean {
+    for (const row of board) {
+        for (const cell of row) {
+            if (cell.value === 0) {
+                return false;
+            }
+        }
+    }
+
+    return true;
+}

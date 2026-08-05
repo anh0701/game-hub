@@ -16,7 +16,10 @@ export function NumberPad({ onNumberClick }: NumberPadProps) {
             {NUMBERS.map((num) => (
                 <button
                     key={num}
-                    onClick={() => onNumberClick(num)}
+                    onClick={() => {
+                        console.log("Button:", num);
+                        onNumberClick(num)
+                    }}
                     className="
                         aspect-square
                         rounded-md
