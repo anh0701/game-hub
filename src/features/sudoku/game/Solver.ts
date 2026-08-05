@@ -14,10 +14,7 @@ export function solveSudoku(board: number[][]): boolean {
 
     const { row, col } = position;
 
-    const numbers = Array.from(
-        { length: BOARD_SIZE },
-        (_, index) => index + 1
-    );
+    const numbers = Array.from({ length: BOARD_SIZE }, (_, index) => index + 1);
 
     shuffle(numbers);
 

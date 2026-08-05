@@ -18,10 +18,7 @@ export function generateSudoku(): SudokuPuzzle {
     };
 }
 
-function removeRandomCells(
-    board: number[][],
-    count: number
-): void {
+function removeRandomCells(board: number[][], count: number): void {
     let removed = 0;
 
     while (removed < count) {

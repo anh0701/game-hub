@@ -1,10 +1,4 @@
-export function isValidMove(
-    board: number[][],
-    row: number,
-    col: number,
-    value: number
-): boolean {
-
+export function isValidMove(board: number[][], row: number, col: number, value: number): boolean {
     // Check row
     for (let c = 0; c < 9; c++) {
         if (board[row][c] === value) {

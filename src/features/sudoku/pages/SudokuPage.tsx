@@ -1,10 +1,15 @@
+import { useEffect } from "react";
 import { NumberPad } from "../components/NumberPad";
 import { ScoreBoard } from "../components/ScoreBoard";
 import { SudokuBoard } from "../components/SudokuBoard";
-
-const board = Array.from({ length: 9 }, () => Array(9).fill(undefined));
+import { useSudoku } from "../hooks/useSudoku";
 
 export function SudokuPage() {
+    const { board, score, startGame } = useSudoku();
+
+    useEffect(() => {
+        startGame();
+    }, []);
     return (
         <main className="min-h-screen bg-slate-100 p-4">
             <div className="mx-auto flex max-w-md flex-col items-center gap-6">
