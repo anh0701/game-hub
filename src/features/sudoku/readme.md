@@ -63,3 +63,37 @@ Typography
     ↓
 Interaction
 ```
+
+## Luật chơi Sudoku
+
+```sh
+Có trùng trong hàng không?
+        ↓
+Có trùng trong cột không?
+        ↓
+Có trùng trong khối 3×3 không?
+        ↓
+Nếu đều không → Hợp lệ
+```
+
+## Lý thuyết sinh board
+
+```sh
+Board rỗng
+
+    ↓
+
+solveSudoku()
+
+    ↓
+
+Board đầy
+
+    ↓
+
+Generator xóa bớt số
+
+    ↓
+
+Game bắt đầu
+```
