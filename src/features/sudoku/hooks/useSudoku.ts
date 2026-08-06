@@ -1,8 +1,10 @@
 import { useState } from "react";
+
 import { generateSudoku } from "../game/Generator";
-import type { Position } from "../models/Position";
-import type { Cell } from "../models/Cell";
 import { isBoardCompleted } from "../game/Board";
+
+import type { Cell } from "../models/Cell";
+import type { Position } from "../models/Position";
 
 export function useSudoku() {
     const [board, setBoard] = useState<Cell[][]>([]);
@@ -15,6 +17,21 @@ export function useSudoku() {
 
     const [gameOver, setGameOver] = useState(false);
 
+    const [showAnswer, setShowAnswer] = useState(false);
+
+    const [usedHint, setUsedHint] = useState(false);
+
+    // Board dùng để hiển thị
+    const displayBoard = showAnswer
+        ? board.map((row, rowIndex) =>
+              row.map((cell, colIndex) => ({
+                  ...cell,
+                  value: solution[rowIndex]?.[colIndex] ?? cell.value,
+                  error: false,
+              }))
+          )
+        : board;
+
     function startGame() {
         const { puzzle, solution } = generateSudoku();
 
@@ -23,16 +40,12 @@ export function useSudoku() {
 
         setSelectedCell(null);
         setGameOver(false);
+        setShowAnswer(false);
+        setUsedHint(false);
     }
 
     function selectCell(position: Position) {
-        // console.log("Select:", position);
-
         if (gameOver) {
-            return;
-        }
-
-        if (board[position.row][position.col].fixed) {
             return;
         }
 
@@ -40,10 +53,7 @@ export function useSudoku() {
     }
 
     function inputNumber(value: number) {
-        // console.log("inputNumber:", value);
-
-        if (selectedCell === null) {
-            // console.log("selectedCell is null");
+        if (selectedCell === null || showAnswer) {
             return;
         }
 
@@ -63,17 +73,28 @@ export function useSudoku() {
             setBoard(newBoard);
 
             setTimeout(() => {
-                endGame();
+                setGameOver(true);
             }, 500);
 
             return;
         }
 
         setBoard(newBoard);
+
+        if (isBoardCompleted(newBoard)) {
+            if (!usedHint) {
+                setScore((prev) => prev + 1);
+            }
+
+            startGame();
+        }
     }
 
-    function endGame() {
-        setGameOver(true);
+    function toggleShowAnswer() {
+        if (!showAnswer) {
+            setUsedHint(true);
+        }
+        setShowAnswer((prev) => !prev);
     }
 
     function restart() {
@@ -83,14 +104,17 @@ export function useSudoku() {
     }
 
     return {
-        board,
+        board: displayBoard,
+
         score,
         gameOver,
         selectedCell,
+        showAnswer,
 
         startGame,
         selectCell,
         inputNumber,
+        toggleShowAnswer,
         restart,
     };
 }

@@ -6,7 +6,18 @@ import { useSudoku } from "../hooks/useSudoku";
 import { GameOverModal } from "../components/GameOverModal";
 
 export function SudokuPage() {
-    const { board, score, startGame, selectCell, selectedCell, inputNumber, gameOver, restart } = useSudoku();
+    const {
+        board,
+        score,
+        startGame,
+        selectCell,
+        selectedCell,
+        showAnswer,
+        toggleShowAnswer,
+        inputNumber,
+        gameOver,
+        restart,
+    } = useSudoku();
 
     useEffect(() => {
         startGame();
@@ -22,6 +33,22 @@ export function SudokuPage() {
                 <ScoreBoard score={score} />
 
                 <SudokuBoard board={board} onCellClick={selectCell} selectedCell={selectedCell} />
+
+                <button
+                    onClick={toggleShowAnswer}
+                    className="
+                        rounded-lg
+                        bg-emerald-600
+                        px-4
+                        py-2
+                        font-semibold
+                        text-white
+                        transition
+                        hover:bg-emerald-700
+                    "
+                >
+                    {showAnswer ? "Hide Answer" : "Show Answer"}
+                </button>
 
                 <NumberPad onNumberClick={inputNumber} />
 
