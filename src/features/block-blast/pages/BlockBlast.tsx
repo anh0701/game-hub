@@ -1,6 +1,6 @@
 import { useRef } from "react";
 
-import Header from "../../../components/Header";
+// import Header from "../../../components/Header";
 import Layout from "../../../components/Layout";
 
 import Board from "../components/Board";
@@ -12,6 +12,7 @@ import { useDrag } from "../hooks/useDrag";
 
 import { BoardPositionCalculator } from "../utils/BoardPositionCalculator";
 import GameOverModal from "../components/GameOverModal";
+import { ScoreBoard } from "../../../components/ScoreBoard";
 
 export default function BlockBlast() {
     const game = useBlockBlast();
@@ -22,7 +23,7 @@ export default function BlockBlast() {
 
     return (
         <Layout>
-            <Header />
+            {/* <Header /> */}
 
             <main
                 className="
@@ -99,18 +100,10 @@ export default function BlockBlast() {
                     }
                 }}
             >
-                <Board board={game.board} boardRef={boardRef} />
+                
+                <ScoreBoard score={game.score}/>
 
-                <div
-                    className="mt-6
-                    text-xl
-                    font-bold
-                    text-white
-                    sm:mt-8
-                    sm:text-2xl"
-                >
-                    Score : {game.score}
-                </div>
+                <Board board={game.board} boardRef={boardRef} />
 
                 <PieceTray
                     pieces={game.pieces}

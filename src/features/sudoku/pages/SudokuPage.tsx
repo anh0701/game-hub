@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { NumberPad } from "../components/NumberPad";
-import { ScoreBoard } from "../components/ScoreBoard";
+import { ScoreBoard } from "../../../components/ScoreBoard";
 import { SudokuBoard } from "../components/SudokuBoard";
 import { useSudoku } from "../hooks/useSudoku";
 import { GameOverModal } from "../components/GameOverModal";
