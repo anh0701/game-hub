@@ -100,8 +100,7 @@ export default function BlockBlast() {
                     }
                 }}
             >
-                
-                <ScoreBoard score={game.score}/>
+                <ScoreBoard score={game.score} />
 
                 <Board board={game.board} boardRef={boardRef} />
 

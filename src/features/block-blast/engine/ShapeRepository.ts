@@ -16,10 +16,7 @@ export class ShapeRepository {
         {
             name: "Domino Vertical",
             weight: 7,
-            shape: [
-                [1],
-                [1],
-            ],
+            shape: [[1], [1]],
         },
 
         // ===== 3 BLOCKS =====
@@ -31,11 +28,7 @@ export class ShapeRepository {
         {
             name: "Line3 Vertical",
             weight: 6,
-            shape: [
-                [1],
-                [1],
-                [1],
-            ],
+            shape: [[1], [1], [1]],
         },
         {
             name: "L Small └",
@@ -87,12 +80,7 @@ export class ShapeRepository {
         {
             name: "Line4 Vertical",
             weight: 5,
-            shape: [
-                [1],
-                [1],
-                [1],
-                [1],
-            ],
+            shape: [[1], [1], [1], [1]],
         },
         {
             name: "L4 └",
@@ -190,13 +178,7 @@ export class ShapeRepository {
         {
             name: "Line5 Vertical",
             weight: 2,
-            shape: [
-                [1],
-                [1],
-                [1],
-                [1],
-                [1],
-            ],
+            shape: [[1], [1], [1], [1], [1]],
         },
         {
             name: "Plus",
