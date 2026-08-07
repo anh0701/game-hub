@@ -6,7 +6,7 @@ interface CloudProps {
 }
 
 function Cloud({ cloud, cameraY }: CloudProps) {
-    const screenY = cloud.y - cameraY;
+    const screenY = cloud.y + cameraY;
 
     return (
         <div
@@ -14,10 +14,15 @@ function Cloud({ cloud, cameraY }: CloudProps) {
             style={{
                 left: cloud.x,
                 top: screenY,
+
                 width: cloud.size,
                 height: cloud.size * 0.55,
+
                 transform: "translate(-50%, -50%)",
+
                 opacity: 0.8,
+
+                zIndex: 1,
             }}
         >
             <div className="relative h-full w-full">
@@ -25,6 +30,7 @@ function Cloud({ cloud, cameraY }: CloudProps) {
                     className="absolute bottom-0 left-0 rounded-full bg-white"
                     style={{
                         width: cloud.size * 0.65,
+
                         height: cloud.size * 0.35,
                     }}
                 />
@@ -33,6 +39,7 @@ function Cloud({ cloud, cameraY }: CloudProps) {
                     className="absolute bottom-0 left-[25%] rounded-full bg-white"
                     style={{
                         width: cloud.size * 0.45,
+
                         height: cloud.size * 0.45,
                     }}
                 />
@@ -41,6 +48,7 @@ function Cloud({ cloud, cameraY }: CloudProps) {
                     className="absolute bottom-0 right-0 rounded-full bg-white"
                     style={{
                         width: cloud.size * 0.55,
+
                         height: cloud.size * 0.32,
                     }}
                 />
@@ -49,6 +57,7 @@ function Cloud({ cloud, cameraY }: CloudProps) {
                     className="absolute left-[42%] top-0 rounded-full bg-white"
                     style={{
                         width: cloud.size * 0.35,
+
                         height: cloud.size * 0.35,
                     }}
                 />

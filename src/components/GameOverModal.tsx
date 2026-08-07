@@ -1,78 +1,67 @@
-interface Props {
+interface GameOverModalProps {
     score: number;
-
     onRestart: () => void;
 }
 
-export default function GameOverModal({ score, onRestart }: Props) {
+export function GameOverModal({ score, onRestart }: GameOverModalProps) {
     return (
         <div
             className="
                 fixed
                 inset-0
-                z-50
+                z-[999]
                 flex
                 items-center
                 justify-center
-                bg-black/60
-                backdrop-blur-sm
+                bg-black/30
+                px-4
             "
         >
             <div
                 className="
-                    w-[90%]
+                    w-full
                     max-w-sm
                     rounded-2xl
-                    bg-slate-800
-                    p-8
-                    text-center
+                    bg-white
+                    px-7
+                    py-7
                     shadow-2xl
                 "
             >
-                <h1
+                <h2
                     className="
-                        text-4xl
+                        text-center
+                        text-2xl
                         font-bold
-                        text-white
+                        text-gray-800
                     "
                 >
                     Game Over
-                </h1>
+                </h2>
 
                 <p
                     className="
-                        mt-5
-                        text-lg
-                        text-slate-300
+                        mb-6
+                        mt-4
+                        text-center
+                        text-black
                     "
                 >
-                    Final Score
-                </p>
-
-                <p
-                    className="
-                        mt-2
-                        text-5xl
-                        font-bold
-                        text-cyan-400
-                    "
-                >
-                    {score}
+                    Score: <span className="font-bold">{Math.floor(score)}</span>
                 </p>
 
                 <button
                     onClick={onRestart}
                     className="
-                        mt-8
                         w-full
-                        rounded-xl
-                        bg-cyan-500
-                        py-3
-                        text-lg
+                        rounded-lg
+                        bg-blue-600
+                        py-2.5
                         font-semibold
                         text-white
                         transition
-                        hover:bg-cyan-600
+                        hover:bg-blue-700
+                        active:scale-[0.98]
                     "
                 >
                     Play Again

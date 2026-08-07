@@ -11,8 +11,8 @@ import { useBlockBlast } from "../hooks/useBlockBlast";
 import { useDrag } from "../hooks/useDrag";
 
 import { BoardPositionCalculator } from "../utils/BoardPositionCalculator";
-import GameOverModal from "../components/GameOverModal";
 import { ScoreBoard } from "../../../components/ScoreBoard";
+import { GameOverModal } from "../../../components/GameOverModal";
 
 export default function BlockBlast() {
     const game = useBlockBlast();

@@ -6,43 +6,27 @@ interface PointerPosition {
 }
 
 export function usePointer() {
-    const [pointer, setPointer] =
-        useState<PointerPosition>({
-            x: 0,
-            y: 0,
-        });
+    const [pointer, setPointer] = useState<PointerPosition>({
+        x: 0,
+        y: 0,
+    });
 
-    const updatePointer = useCallback(
-        (event: PointerEvent) => {
-            setPointer({
-                x: event.clientX,
-                y: event.clientY,
-            });
-        },
-        []
-    );
+    const updatePointer = useCallback((event: PointerEvent) => {
+        setPointer({
+            x: event.clientX,
+            y: event.clientY,
+        });
+    }, []);
 
     useEffect(() => {
-        window.addEventListener(
-            "pointermove",
-            updatePointer
-        );
+        window.addEventListener("pointermove", updatePointer);
 
-        window.addEventListener(
-            "pointerdown",
-            updatePointer
-        );
+        window.addEventListener("pointerdown", updatePointer);
 
         return () => {
-            window.removeEventListener(
-                "pointermove",
-                updatePointer
-            );
+            window.removeEventListener("pointermove", updatePointer);
 
-            window.removeEventListener(
-                "pointerdown",
-                updatePointer
-            );
+            window.removeEventListener("pointerdown", updatePointer);
         };
     }, [updatePointer]);
 

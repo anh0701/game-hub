@@ -1,6 +1,5 @@
 import type { Balloon } from "./Balloon";
 import type { Camera } from "./Camera";
-import type { Obstacle } from "./Obstacle";
 import type { Shield } from "./Shield";
 import type { Zone } from "./Zone";
 
@@ -12,8 +11,6 @@ export interface GameState {
     camera: Camera;
 
     zones: Zone[];
-
-    obstacles: Obstacle[];
 
     score: number;
 

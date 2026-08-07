@@ -1,4 +1,5 @@
 import type { Cloud } from "./Cloud";
+import type { Obstacle } from "./Obstacle";
 
 export interface Zone {
     id: number;
@@ -8,4 +9,6 @@ export interface Zone {
     height: number;
 
     clouds: Cloud[];
+
+    obstacles: Obstacle[];
 }
