@@ -56,4 +56,11 @@ export const games: Game[] = [
         path: "/guess-number",
         available: false,
     },
+    {
+        id: "Rise-Up",
+        title: "Rise Up",
+        description: "",
+        path: "/rise-up",
+        available: true,
+    },
 ];

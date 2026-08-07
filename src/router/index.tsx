@@ -4,6 +4,7 @@ import App from "../App";
 import Home from "../pages/Home";
 import BlockBlast from "../features/block-blast/pages/BlockBlast";
 import { SudokuPage } from "../features/sudoku/pages/SudokuPage";
+import RiseUpPage from "../features/rise-up/RiseUpPage";
 
 export const router = createHashRouter([
     {
@@ -21,6 +22,10 @@ export const router = createHashRouter([
             {
                 path: "sudoku",
                 element: <SudokuPage />,
+            },
+            {
+                path: "rise-up",
+                element: <RiseUpPage />,
             },
         ],
     },
