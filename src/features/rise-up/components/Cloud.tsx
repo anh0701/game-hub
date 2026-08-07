@@ -6,11 +6,11 @@ interface CloudProps {
 }
 
 function Cloud({ cloud, cameraY }: CloudProps) {
-    const screenY = cloud.y + cameraY;
+    const screenY = cloud.y - cameraY;
 
     return (
         <div
-            className="absolute pointer-events-none"
+            className="pointer-events-none absolute"
             style={{
                 left: cloud.x,
                 top: screenY,

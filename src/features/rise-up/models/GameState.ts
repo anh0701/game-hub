@@ -1,8 +1,8 @@
 import type { Balloon } from "./Balloon";
 import type { Camera } from "./Camera";
-import type { Cloud } from "./Cloud";
 import type { Obstacle } from "./Obstacle";
 import type { Shield } from "./Shield";
+import type { Zone } from "./Zone";
 
 export interface GameState {
     balloon: Balloon;
@@ -11,7 +11,7 @@ export interface GameState {
 
     camera: Camera;
 
-    clouds: Cloud[];
+    zones: Zone[];
 
     obstacles: Obstacle[];
 
