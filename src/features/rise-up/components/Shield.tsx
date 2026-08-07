@@ -1,29 +1,23 @@
+import type { Shield as ShieldModel } from "../models/Shield";
+
 interface ShieldProps {
-
-    x: number;
-
-    y: number;
-
-    radius: number;
-
+    shield: ShieldModel;
 }
 
-function Shield({ x, y, radius }: ShieldProps) {
+function Shield({ shield }: ShieldProps) {
+    const diameter = shield.radius * 2;
 
     return (
-
         <div
-            className="absolute rounded-full border-4 border-white bg-white/20"
+            className="absolute rounded-full border-4 border-white bg-white/30 shadow-lg"
             style={{
-                width: radius * 2,
-                height: radius * 2,
-                left: x - radius,
-                top: y - radius,
+                width: diameter,
+                height: diameter,
+                left: shield.x - shield.radius,
+                top: shield.y - shield.radius,
             }}
         />
-
     );
-
 }
 
 export default Shield;
