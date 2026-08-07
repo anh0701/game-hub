@@ -11,11 +11,14 @@ import type { GameState } from "./models/GameState";
 
 import { generateZone } from "./utils/ZoneGenerator";
 import type { Zone } from "./models/Zone";
+import { usePointer } from "./hooks/usePointer";
 
 const ZONE_HEIGHT = 1000;
 
 function RiseUpPage() {
     const { ref, size } = useBoardSize<HTMLDivElement>();
+
+    const pointer = usePointer();
 
     const [game, setGame] = useState<GameState>({
         balloon: {
@@ -76,44 +79,85 @@ function RiseUpPage() {
 
     useGameLoop((deltaTime) => {
         setGame((prev) => {
-            const nextCameraY = prev.camera.y + prev.camera.speed * deltaTime;
+            const nextCameraY =
+                prev.camera.y +
+                prev.camera.speed * deltaTime;
 
             let zones = prev.zones;
 
-            /*
-             * Generate more zones when the camera
-             * gets close to the end of the existing world.
-             */
-            const requiredZoneCount = Math.ceil((nextCameraY + size.height) / ZONE_HEIGHT) + 1;
+            const requiredZoneCount =
+                Math.ceil(
+                    (nextCameraY + size.height) /
+                    ZONE_HEIGHT
+                ) + 1;
 
-            if (size.width > 0 && zones.length < requiredZoneCount) {
+            if (
+                size.width > 0 &&
+                zones.length < requiredZoneCount
+            ) {
                 zones = [...zones];
 
-                while (zones.length < requiredZoneCount) {
+                while (
+                    zones.length <
+                    requiredZoneCount
+                ) {
                     const zoneId = zones.length;
 
-                    zones.push(generateZone(zoneId, size.width));
+                    zones.push(
+                        generateZone(
+                            zoneId,
+                            size.width
+                        )
+                    );
                 }
             }
+
+            /*
+             * Shield follows pointer.
+             */
+            const shieldRadius = prev.shield.radius;
+
+            const shieldX = Math.max(
+                shieldRadius,
+                Math.min(
+                    pointer.x,
+                    size.width - shieldRadius
+                )
+            );
+
+            const shieldY = Math.max(
+                shieldRadius,
+                Math.min(
+                    pointer.y,
+                    size.height - shieldRadius
+                )
+            );
 
             return {
                 ...prev,
 
                 camera: {
                     ...prev.camera,
-
                     y: nextCameraY,
+                },
+
+                shield: {
+                    ...prev.shield,
+                    x: shieldX,
+                    y: shieldY,
                 },
 
                 zones,
 
-                score: prev.score + deltaTime,
+                score:
+                    prev.score +
+                    deltaTime,
             };
         });
     });
 
     return (
-        <div ref={ref} className="relative h-screen w-screen overflow-hidden bg-sky-300">
+        <div ref={ref} className="touch-none relative h-screen w-screen overflow-hidden bg-sky-300">
             {game.zones.map((zone) =>
                 zone.clouds.map((cloud) => <Cloud key={cloud.id} cloud={cloud} cameraY={game.camera.y} />)
             )}
