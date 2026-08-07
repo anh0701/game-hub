@@ -2,9 +2,9 @@ import { createHashRouter } from "react-router-dom";
 
 import App from "../App";
 import Home from "../pages/Home";
-import BlockBlast from "../features/block-blast/pages/BlockBlast";
+import BlockBlast from "../features/block/pages/BlockBlast";
 import { SudokuPage } from "../features/sudoku/pages/SudokuPage";
-import RiseUpPage from "../features/rise-up/RiseUpPage";
+import RiseUpPage from "../features/shield/RiseUpPage";
 
 export const router = createHashRouter([
     {
@@ -16,7 +16,7 @@ export const router = createHashRouter([
                 element: <Home />,
             },
             {
-                path: "block-blast",
+                path: "block",
                 element: <BlockBlast />,
             },
             {
@@ -24,7 +24,7 @@ export const router = createHashRouter([
                 element: <SudokuPage />,
             },
             {
-                path: "rise-up",
+                path: "shield",
                 element: <RiseUpPage />,
             },
         ],

@@ -33,7 +33,7 @@ function Balloon({ balloon }: BalloonProps) {
             <div className="mx-auto h-16 w-0.5 bg-gray-600" />
 
             {/* Flower */}
-            {/* <div className="absolute left-1/2 top-11 -translate-x-1/2">
+            <div className="absolute left-1/2 top-11 -translate-x-1/2">
                 <div className="relative h-8 w-8">
                     <div className="absolute left-3 top-0 h-3 w-3 rounded-full bg-yellow-300" />
                     <div className="absolute left-0 top-3 h-3 w-3 rounded-full bg-yellow-300" />
@@ -42,7 +42,7 @@ function Balloon({ balloon }: BalloonProps) {
 
                     <div className="absolute left-3 top-3 h-3 w-3 rounded-full bg-green-500" />
                 </div>
-            </div> */}
+            </div>
         </div>
     );
 }
