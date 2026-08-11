@@ -26,6 +26,8 @@ export interface ObstacleUpdateResult {
 export function updateObstacle(obstacle: Obstacle, context: ObstacleUpdateContext): ObstacleUpdateResult {
     const { deltaTime, cameraY, shield, board } = context;
 
+    const gravity = 30;
+
     // MOVE OBSTACLE
     let nextX = obstacle.x + obstacle.vx * deltaTime;
 
@@ -76,7 +78,7 @@ export function updateObstacle(obstacle: Obstacle, context: ObstacleUpdateContex
 
         nextVx = Math.max(-maxSpeed, Math.min(nextVx, maxSpeed));
 
-        nextVy = Math.max(-maxSpeed, Math.min(nextVy, maxSpeed));
+        nextVy += gravity * deltaTime;
 
         // Push obstacle outside the Shield.
 
@@ -94,7 +96,7 @@ export function updateObstacle(obstacle: Obstacle, context: ObstacleUpdateContex
                 y: nextY,
 
                 vx: nextVx,
-                vy: obstacle.vy + 120 * deltaTime,
+                vy: nextVy,
 
                 rotation: obstacle.rotation + 60 * deltaTime,
             },
@@ -112,7 +114,7 @@ export function updateObstacle(obstacle: Obstacle, context: ObstacleUpdateContex
 
             vx: nextVx,
 
-            vy: obstacle.vy * 0.98,
+            vy: obstacle.vy + 80 * deltaTime,
 
             rotation: obstacle.rotation + 60 * deltaTime,
         },

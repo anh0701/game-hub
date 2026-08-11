@@ -73,10 +73,10 @@ function generateObstacles(zoneId: number, startY: number, screenWidth: number):
             radius,
 
             // Horizontal movement.
-            vx: random(-40, 40),
+            vx: random(-70, 70),
 
             // Vertical movement.
-            vy: random(-20, 20),
+            vy: random(60, 100),
 
             rotation: random(0, 360),
         });
