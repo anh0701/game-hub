@@ -7,9 +7,7 @@ interface BaseShape {
 }
 
 function rotate(shape: number[][]): number[][] {
-    return shape[0].map((_, colIndex) =>
-        shape.map((row) => row[colIndex]).reverse()
-    );
+    return shape[0].map((_, colIndex) => shape.map((row) => row[colIndex]).reverse());
 }
 
 function flipHorizontal(shape: number[][]): number[][] {
@@ -29,9 +27,7 @@ function normalize(shape: number[][]): number[][] {
         }
     }
 
-    return shape
-        .slice(minRow)
-        .map((row) => row.slice(minCol));
+    return shape.slice(minRow).map((row) => row.slice(minCol));
 }
 
 function shapeKey(shape: number[][]): string {
@@ -182,21 +178,15 @@ const baseShapes: BaseShape[] = [
 ];
 
 export class ShapeRepository {
-    static readonly shapes: ShapeDefinition[] = baseShapes.flatMap(
-        (baseShape) => {
-            const variants = generateVariants(baseShape.shape);
+    static readonly shapes: ShapeDefinition[] = baseShapes.flatMap((baseShape) => {
+        const variants = generateVariants(baseShape.shape);
 
-            const variantWeight = baseShape.weight / variants.length;
+        const variantWeight = baseShape.weight / variants.length;
 
-            return variants.map((shape, index) => ({
-                name:
-                    variants.length === 1
-                        ? baseShape.name
-                        : `${baseShape.name} ${index + 1}`,
-                weight: variantWeight,
-                shape,
-            }));
-        }
-    );
+        return variants.map((shape, index) => ({
+            name: variants.length === 1 ? baseShape.name : `${baseShape.name} ${index + 1}`,
+            weight: variantWeight,
+            shape,
+        }));
+    });
 }
-

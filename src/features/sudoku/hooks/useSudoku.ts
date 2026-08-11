@@ -21,6 +21,8 @@ export function useSudoku() {
 
     const [usedHint, setUsedHint] = useState(false);
 
+    const [lives, setLives] = useState(3);
+
     // Board dùng để hiển thị
     const displayBoard = showAnswer
         ? board.map((row, rowIndex) =>
@@ -42,6 +44,7 @@ export function useSudoku() {
         setGameOver(false);
         setShowAnswer(false);
         setUsedHint(false);
+        setLives(3);
     }
 
     function selectCell(position: Position) {
@@ -53,7 +56,7 @@ export function useSudoku() {
     }
 
     function inputNumber(value: number) {
-        if (selectedCell === null || showAnswer) {
+        if (selectedCell === null || showAnswer || gameOver) {
             return;
         }
 
@@ -67,17 +70,41 @@ export function useSudoku() {
 
         newBoard[row][col].value = value;
 
+        // Nhập sai
         if (solution[row][col] !== value) {
             newBoard[row][col].error = true;
 
             setBoard(newBoard);
 
+            const remainingLives = lives - 1;
+
+            setLives(remainingLives);
+
+            if (remainingLives <= 0) {
+                setTimeout(() => {
+                    setGameOver(true);
+                }, 500);
+
+                return;
+            }
+
+            // Còn mạng → xóa số sai để nhập lại
             setTimeout(() => {
-                setGameOver(true);
+                setBoard((currentBoard) => {
+                    const resetBoard = currentBoard.map((row) => row.map((cell) => ({ ...cell })));
+
+                    resetBoard[row][col].value = 0;
+                    resetBoard[row][col].error = false;
+
+                    return resetBoard;
+                });
             }, 500);
 
             return;
         }
+
+        // Nhập đúng
+        newBoard[row][col].error = false;
 
         setBoard(newBoard);
 
@@ -86,7 +113,9 @@ export function useSudoku() {
                 setScore((prev) => prev + 1);
             }
 
-            startGame();
+            setTimeout(() => {
+                startGame();
+            }, 300);
         }
     }
 
@@ -107,6 +136,7 @@ export function useSudoku() {
         board: displayBoard,
 
         score,
+        lives,
         gameOver,
         selectedCell,
         showAnswer,

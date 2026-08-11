@@ -1,4 +1,6 @@
 import { useEffect } from "react";
+import { FaHeart, FaHeartBroken } from "react-icons/fa";
+
 import { NumberPad } from "../components/NumberPad";
 import { ScoreBoard } from "../../../components/ScoreBoard";
 import { SudokuBoard } from "../components/SudokuBoard";
@@ -9,6 +11,7 @@ export function SudokuPage() {
     const {
         board,
         score,
+        lives,
         startGame,
         selectCell,
         selectedCell,
@@ -23,14 +26,29 @@ export function SudokuPage() {
         startGame();
     }, []);
 
-    // console.log("selectedCell:", selectedCell);
-
     return (
         <main className="min-h-screen bg-slate-100 p-4">
             <div className="mx-auto flex max-w-md flex-col items-center gap-6">
-                <h1 className="text-3xl font-bold text-slate-800">Sudoku</h1>
+                {/* <h1 className="text-3xl font-bold text-slate-800">Sudoku</h1> */}
 
-                <ScoreBoard score={score} />
+                {/* Score + Lives */}
+                <div className="flex w-full items-center justify-between rounded-xl bg-white px-5 py-3 shadow-sm">
+                    <ScoreBoard score={score} />
+
+                    <div className="flex flex-col items-end">
+                        <span className="text-sm font-medium text-slate-500">Lives</span>
+
+                        <div className="flex gap-1 text-xl">
+                            {Array.from({ length: 3 }).map((_, index) =>
+                                index < lives ? (
+                                    <FaHeart key={index} className="text-red-500" />
+                                ) : (
+                                    <FaHeartBroken key={index} className="text-slate-300" />
+                                )
+                            )}
+                        </div>
+                    </div>
+                </div>
 
                 <SudokuBoard board={board} onCellClick={selectCell} selectedCell={selectedCell} />
 
@@ -45,6 +63,7 @@ export function SudokuPage() {
                         text-white
                         transition
                         hover:bg-emerald-700
+                        active:scale-95
                     "
                 >
                     {showAnswer ? "Hide Answer" : "Show Answer"}
