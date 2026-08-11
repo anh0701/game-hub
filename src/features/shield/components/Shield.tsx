@@ -1,11 +1,13 @@
 import type { Shield as ShieldModel } from "../models/Shield";
+import { BALLOON_SIZE, SHIELD_SCALE } from "../constants/game";
 
 interface ShieldProps {
     shield: ShieldModel;
 }
 
 function Shield({ shield }: ShieldProps) {
-    const diameter = shield.radius * 2;
+    const diameter = BALLOON_SIZE * SHIELD_SCALE;
+    const radius = diameter / 2;
 
     return (
         <div
@@ -13,8 +15,8 @@ function Shield({ shield }: ShieldProps) {
             style={{
                 width: diameter,
                 height: diameter,
-                left: shield.x - shield.radius,
-                top: shield.y - shield.radius,
+                left: shield.x - radius,
+                top: shield.y - radius,
             }}
         />
     );

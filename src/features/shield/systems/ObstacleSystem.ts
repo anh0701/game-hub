@@ -33,7 +33,7 @@ export function updateObstacle(obstacle: Obstacle, context: ObstacleUpdateContex
 
     let nextVx = obstacle.vx;
 
-//    WALL COLLISION
+    //    WALL COLLISION
 
     if (nextX - obstacle.radius < 0) {
         nextX = obstacle.radius;

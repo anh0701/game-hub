@@ -43,13 +43,10 @@ function generateClouds(zoneId: number, startY: number, screenWidth: number): Cl
 function randomObstacleX(radius: number, screenWidth: number): number {
     const centerChance = Math.random();
 
-    /*
-     * 70% spawn in the center area.
-     */
-    if (centerChance < 0.7) {
-        const minX = screenWidth * 0.25;
-
-        const maxX = screenWidth * 0.75;
+    // 90% spawn in the center area.
+    if (centerChance < 0.9) {
+        const minX = screenWidth * 0.4;
+        const maxX = screenWidth * 0.6;
 
         return random(Math.max(radius, minX), Math.min(screenWidth - radius, maxX));
     }
@@ -58,7 +55,6 @@ function randomObstacleX(radius: number, screenWidth: number): number {
 }
 
 function generateObstacles(zoneId: number, startY: number, screenWidth: number): Obstacle[] {
-    
     // Early zones are easier.
     const count = zoneId <= 1 ? randomInt(1, 2) : randomInt(1, 4);
 

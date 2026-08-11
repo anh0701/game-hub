@@ -19,15 +19,17 @@ function RiseUpPage() {
     const [game, setGame] = useState<GameState>(createInitialGame());
 
     function createInitialGame(): GameState {
+        const balloon = {
+            x: 0,
+            y: 0,
+        };
+
         return {
-            balloon: {
-                x: 0,
-                y: 0,
-            },
+            balloon,
 
             shield: {
-                x: 0,
-                y: 0,
+                x: balloon.x,
+                y: balloon.y,
                 radius: 35,
             },
 
@@ -67,21 +69,26 @@ function RiseUpPage() {
             return;
         }
 
-        setGame((prev) => ({
-            ...prev,
+        setGame((prev) => {
+            const balloonX = size.width / 2;
+            const balloonY = size.height * 0.8;
 
-            balloon: {
-                ...prev.balloon,
-                x: size.width / 2,
-                y: size.height * 0.8,
-            },
+            return {
+                ...prev,
 
-            shield: {
-                ...prev.shield,
-                x: size.width / 2,
-                y: size.height * 0.65,
-            },
-        }));
+                balloon: {
+                    ...prev.balloon,
+                    x: balloonX,
+                    y: balloonY,
+                },
+
+                shield: {
+                    ...prev.shield,
+                    x: balloonY,
+                    y: size.height * 0.65,
+                },
+            };
+        });
     }, [size]);
 
     useGameLoop((deltaTime) => {
