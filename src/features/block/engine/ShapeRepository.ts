@@ -1,8 +1,4 @@
-export interface ShapeDefinition {
-    name: string;
-    weight: number;
-    shape: number[][];
-}
+import type { ShapeDefinition } from "./ShapeDefinition";
 
 interface BaseShape {
     name: string;
