@@ -43,6 +43,29 @@ export function updateGame(prev: GameState, deltaTime: number, pointer: PointerP
         }
     }
 
+    // UPDATE CLOUDS
+
+    zones = zones.map((zone) => ({
+        ...zone,
+
+        clouds: zone.clouds.map((cloud) => {
+            let nextX = cloud.x + cloud.speed * deltaTime;
+
+            if (nextX < -cloud.size) {
+                nextX = size.width + cloud.size;
+            }
+
+            if (nextX > size.width + cloud.size) {
+                nextX = -cloud.size;
+            }
+
+            return {
+                ...cloud,
+                x: nextX,
+            };
+        }),
+    }));
+
     // SHIELD → POINTER
 
     const shieldRadius = prev.shield.radius;

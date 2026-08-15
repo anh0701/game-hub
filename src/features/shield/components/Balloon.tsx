@@ -1,12 +1,22 @@
-import { BALLOON_SIZE } from "../constants/game";
 import type { Balloon as BalloonModel } from "../models/Balloon";
+import Sunflower from "./Sunflower";
 
 interface BalloonProps {
     balloon: BalloonModel;
 }
 
-const WIDTH = BALLOON_SIZE;
-const HEIGHT = 108;
+const FLOWERS = [
+    // Hàng sau
+    { x: 55, y: 0 },
+
+    // Hai bên
+    { x: 0, y: 18 },
+    { x: 110, y: 18 },
+
+    // Hàng trước
+    { x: 30, y: 42 },
+    { x: 80, y: 42 },
+];
 
 function Balloon({ balloon }: BalloonProps) {
     return (
@@ -15,17 +25,60 @@ function Balloon({ balloon }: BalloonProps) {
             style={{
                 left: balloon.x,
                 top: balloon.y,
-                width: WIDTH,
-                height: HEIGHT,
+                width: 192,
+                height: 160,
                 transform: "translate(-50%, -50%)",
             }}
         >
-            <svg width="82" height="108" viewBox="0 0 82 108" xmlns="http://www.w3.org/2000/svg">
-                {/* =========================
-                    STEM
-                ========================= */}
+            {/* =========================
+                COMMON STEM
+            ========================= */}
+            <svg
+                className="absolute inset-0 z-0"
+                width="192"
+                height="160"
+                viewBox="0 0 192 160"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+                {/* Main stem */}
                 <path
-                    d="M41 61 C40 72 40 88 40 103"
+                    d="M96 150 C96 130 96 110 96 92"
+                    fill="none"
+                    stroke="#2F8F3D"
+                    strokeWidth="5"
+                    strokeLinecap="round"
+                />
+
+                {/* Left branch */}
+                <path
+                    d="M96 120 C78 105 58 88 41 61"
+                    fill="none"
+                    stroke="#2F8F3D"
+                    strokeWidth="4"
+                    strokeLinecap="round"
+                />
+
+                {/* Right branch */}
+                <path
+                    d="M96 120 C114 105 134 88 151 61"
+                    fill="none"
+                    stroke="#2F8F3D"
+                    strokeWidth="4"
+                    strokeLinecap="round"
+                />
+
+                {/* Upper-left branch */}
+                <path
+                    d="M96 105 C88 88 82 70 81 43"
+                    fill="none"
+                    stroke="#2F8F3D"
+                    strokeWidth="4"
+                    strokeLinecap="round"
+                />
+
+                {/* Upper-right branch */}
+                <path
+                    d="M96 105 C104 88 110 70 111 43"
                     fill="none"
                     stroke="#2F8F3D"
                     strokeWidth="4"
@@ -33,123 +86,82 @@ function Balloon({ balloon }: BalloonProps) {
                 />
 
                 {/* =========================
-                    LEFT LEAF
+                    LEAVES
                 ========================= */}
+
+                {/* Left lower leaf */}
                 <path
                     d="
-                        M40 78
-                        C32 72 23 72 17 76
-                        C23 82 31 83 40 80
+                        M82 124
+                        C69 113 55 113 46 119
+                        C57 128 70 130 83 127
                         Z
                     "
                     fill="#42A947"
                 />
 
-                {/* Leaf vein */}
-                <path
-                    d="M39 79 C31 77 25 77 19 77"
-                    fill="none"
-                    stroke="#2F8F3D"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                />
-
-                {/* =========================
-                    RIGHT LEAF
-                ========================= */}
+                {/* Left upper leaf */}
                 <path
                     d="
-                        M40 88
-                        C49 82 58 83 64 87
-                        C58 93 49 94 40 91
+                        M70 105
+                        C59 97 48 98 41 103
+                        C50 111 60 112 71 109
                         Z
                     "
                     fill="#42A947"
                 />
 
-                {/* Leaf vein */}
+                {/* Right lower leaf */}
                 <path
-                    d="M42 89 C50 87 56 87 62 88"
-                    fill="none"
-                    stroke="#2F8F3D"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
+                    d="
+                        M110 124
+                        C123 113 137 113 146 119
+                        C135 128 122 130 109 127
+                        Z
+                    "
+                    fill="#42A947"
                 />
 
-                {/* =========================
-                    OUTER PETALS
-                ========================= */}
-                <g fill="#F9B91F">
-                    {/* Top */}
-                    <ellipse cx="41" cy="14" rx="7" ry="14" />
+                {/* Right upper leaf */}
+                <path
+                    d="
+                        M122 105
+                        C133 97 144 98 151 103
+                        C142 111 132 112 121 109
+                        Z
+                    "
+                    fill="#42A947"
+                />
 
-                    {/* Top-right */}
-                    <ellipse cx="57" cy="20" rx="7" ry="14" transform="rotate(42 57 20)" />
+                {/* Small center leaves */}
+                <path
+                    d="
+                        M94 111
+                        C84 104 76 105 71 109
+                        C79 115 87 116 95 114
+                        Z
+                    "
+                    fill="#42A947"
+                />
 
-                    {/* Right */}
-                    <ellipse cx="66" cy="35" rx="7" ry="14" transform="rotate(82 66 35)" />
-
-                    {/* Bottom-right */}
-                    <ellipse cx="59" cy="50" rx="7" ry="14" transform="rotate(132 59 50)" />
-
-                    {/* Bottom */}
-                    <ellipse cx="42" cy="57" rx="7" ry="14" />
-
-                    {/* Bottom-left */}
-                    <ellipse cx="24" cy="50" rx="7" ry="14" transform="rotate(-132 24 50)" />
-
-                    {/* Left */}
-                    <ellipse cx="16" cy="35" rx="7" ry="14" transform="rotate(-82 16 35)" />
-
-                    {/* Top-left */}
-                    <ellipse cx="25" cy="20" rx="7" ry="14" transform="rotate(-42 25 20)" />
-                </g>
-
-                {/* =========================
-                    INNER PETALS
-                ========================= */}
-                <g fill="#FFD447">
-                    <ellipse cx="41" cy="20" rx="5" ry="11" />
-
-                    <ellipse cx="53" cy="25" rx="5" ry="11" transform="rotate(45 53 25)" />
-
-                    <ellipse cx="57" cy="37" rx="5" ry="11" transform="rotate(90 57 37)" />
-
-                    <ellipse cx="51" cy="48" rx="5" ry="11" transform="rotate(135 51 48)" />
-
-                    <ellipse cx="41" cy="50" rx="5" ry="11" />
-
-                    <ellipse cx="30" cy="47" rx="5" ry="11" transform="rotate(-135 30 47)" />
-
-                    <ellipse cx="25" cy="36" rx="5" ry="11" transform="rotate(-90 25 36)" />
-
-                    <ellipse cx="30" cy="25" rx="5" ry="11" transform="rotate(-45 30 25)" />
-                </g>
-
-                {/* =========================
-                    FLOWER CENTER
-                ========================= */}
-                <circle cx="41" cy="35" r="13" fill="#704018" />
-
-                {/* Center highlight */}
-                <circle cx="37" cy="31" r="2" fill="#8F5425" />
-
-                {/* Seeds */}
-                <g fill="#3B210F">
-                    <circle cx="34" cy="27" r="1.8" />
-                    <circle cx="41" cy="25" r="1.8" />
-                    <circle cx="47" cy="29" r="1.8" />
-
-                    <circle cx="31" cy="34" r="1.8" />
-                    <circle cx="38" cy="33" r="1.8" />
-                    <circle cx="45" cy="35" r="1.8" />
-                    <circle cx="51" cy="34" r="1.8" />
-
-                    <circle cx="34" cy="41" r="1.8" />
-                    <circle cx="41" cy="42" r="1.8" />
-                    <circle cx="47" cy="41" r="1.8" />
-                </g>
+                <path
+                    d="
+                        M98 111
+                        C108 104 116 105 121 109
+                        C113 115 105 116 97 114
+                        Z
+                    "
+                    fill="#42A947"
+                />
             </svg>
+
+            {/* =========================
+                FLOWER HEADS
+            ========================= */}
+
+            {FLOWERS.map((flower, index) => (
+                <Sunflower key={index} x={flower.x} y={flower.y} />
+            ))}
         </div>
     );
 }

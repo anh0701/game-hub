@@ -12,14 +12,14 @@ function randomInt(min: number, max: number) {
     return Math.floor(random(min, max + 1));
 }
 
-function generateClouds(zoneId: number, startY: number, screenWidth: number): Cloud[] {
+function generateClouds(zoneId: number, screenWidth: number): Cloud[] {
     // 25% chance of having no clouds.
 
     if (Math.random() < 0.25) {
         return [];
     }
 
-    const count = randomInt(2, 5);
+    const count = randomInt(1, 3);
 
     const clouds: Cloud[] = [];
 
@@ -29,11 +29,11 @@ function generateClouds(zoneId: number, startY: number, screenWidth: number): Cl
 
             x: random(50, Math.max(50, screenWidth - 50)),
 
-            y: startY - random(100, ZONE_HEIGHT - 100),
+            y: random(50, 450),
 
             size: random(80, 180),
 
-            speed: random(0.5, 0.9),
+            speed: random(15, 30),
         });
     }
 
@@ -95,7 +95,7 @@ export function generateZone(zoneId: number, screenWidth: number): Zone {
 
         height: ZONE_HEIGHT,
 
-        clouds: generateClouds(zoneId, startY, screenWidth),
+        clouds: generateClouds(zoneId, startY),
 
         obstacles: generateObstacles(zoneId, startY, screenWidth),
     };

@@ -5,10 +5,14 @@ interface ObstacleProps {
     cameraY: number;
 }
 
+const BASE_SIZE = 70;
+
 function Obstacle({ obstacle, cameraY }: ObstacleProps) {
     const screenY = obstacle.y + cameraY;
 
     const diameter = obstacle.radius * 2;
+
+    const scale = diameter / BASE_SIZE;
 
     return (
         <div
@@ -17,34 +21,35 @@ function Obstacle({ obstacle, cameraY }: ObstacleProps) {
                 left: obstacle.x,
                 top: screenY,
 
-                width: diameter,
-                height: diameter,
+                width: BASE_SIZE,
+                height: BASE_SIZE,
 
                 transform: `
                     translate(-50%, -50%)
                     rotate(${obstacle.rotation}deg)
+                    scale(${scale})
                 `,
             }}
         >
             {/* Main obstacle */}
-            <div className="h-full w-full rounded-full border-4 border-gray-700 bg-gray-500 shadow-lg">
+            <div className="relative h-full w-full rounded-full border-4 border-gray-700 bg-gray-500 shadow-lg">
+                {/* Highlight */}
                 <div
                     className="absolute rounded-full bg-gray-400"
                     style={{
-                        width: obstacle.radius * 0.45,
+                        width: 18,
+                        height: 18,
 
-                        height: obstacle.radius * 0.45,
-
-                        left: obstacle.radius * 0.35,
-
-                        top: obstacle.radius * 0.25,
+                        left: 14,
+                        top: 10,
                     }}
                 />
 
-                {/* Cracks */}
-                <div className="absolute left-1/2 top-[20%] h-[60%] w-1 -rotate-12 bg-gray-700" />
+                {/* Crack 1 */}
+                <div className="absolute left-1/2 top-[20%] h-[60%] w-1 -translate-x-1/2 -rotate-12 bg-gray-700" />
 
-                <div className="absolute left-[35%] top-1/2 h-1 w-[45%] rotate-45 bg-gray-700" />
+                {/* Crack 2 */}
+                <div className="absolute left-[35%] top-1/2 h-1 w-[45%] -translate-y-1/2 rotate-45 bg-gray-700" />
             </div>
         </div>
     );

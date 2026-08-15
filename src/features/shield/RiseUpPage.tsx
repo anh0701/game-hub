@@ -84,7 +84,7 @@ function RiseUpPage() {
 
                 shield: {
                     ...prev.shield,
-                    x: balloonY,
+                    x: balloonX,
                     y: size.height * 0.65,
                 },
             };
@@ -97,9 +97,7 @@ function RiseUpPage() {
 
     return (
         <div ref={ref} className="touch-none relative h-screen w-screen overflow-hidden bg-sky-300">
-            {game.zones.map((zone) =>
-                zone.clouds.map((cloud) => <Cloud key={cloud.id} cloud={cloud} cameraY={game.camera.y} />)
-            )}
+            {game.zones.map((zone) => zone.clouds.map((cloud) => <Cloud key={cloud.id} cloud={cloud} />))}
 
             {game.zones.map((zone) =>
                 zone.obstacles.map((obstacle) => (
@@ -107,19 +105,19 @@ function RiseUpPage() {
                 ))
             )}
 
-            {/* <div className="absolute left-4 top-4 z-50 rounded-lg bg-white/80 px-3 py-2 text-sm shadow">
-                <div>
+            <div className="absolute left-4 top-4 z-50 rounded-lg bg-white/80 px-3 py-2 text-sm shadow">
+                {/* <div>
                     Board: {Math.round(size.width)} × {Math.round(size.height)}
-                </div>
+                </div> */}
 
-                <div>Camera Y: {game.camera.y.toFixed(1)}</div>
+                {/* <div>Camera Y: {game.camera.y.toFixed(1)}</div> */}
 
                 <div>Score: {Math.floor(game.score)}</div>
 
-                <div>Zones: {game.zones.length}</div>
+                {/* <div>Zones: {game.zones.length}</div> */}
 
-                <div>Clouds: {game.zones.reduce((total, zone) => total + zone.clouds.length, 0)}</div>
-            </div> */}
+                {/* <div>Clouds: {game.zones.reduce((total, zone) => total + zone.clouds.length, 0)}</div> */}
+            </div>
 
             <Shield shield={game.shield} />
 
