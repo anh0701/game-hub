@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-.block-cell {
+/* .block-cell {
     transition:
         transform 120ms ease,
         filter 120ms ease,
@@ -24,4 +24,4 @@
     transform: rotate(25deg);
     pointer-events: none;
     opacity: 0.65;
-}
+} */
