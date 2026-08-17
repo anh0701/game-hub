@@ -1,10 +1,9 @@
 import type { Piece } from "../models/Piece";
 import { PieceAnchor } from "./PieceAnchor";
-
 import { ShapeRepository } from "./ShapeRepository";
 
 export class PieceFactory {
-    private static colors = ["#06b6d4", "#3b82f6", "#22c55e", "#f59e0b", "#ef4444", "#8b5cf6"];
+    private static colors = ["cyan", "blue", "green", "orange", "red", "purple"];
 
     private static nextId = 1;
 
@@ -22,7 +21,6 @@ export class PieceFactory {
 
             if (random <= 0) {
                 definition = shape;
-
                 break;
             }
         }

@@ -1,1 +1,27 @@
 @import "tailwindcss";
+
+.block-cell {
+    transition:
+        transform 120ms ease,
+        filter 120ms ease,
+        box-shadow 120ms ease;
+}
+
+.block-cell:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.08);
+}
+
+.block-shine {
+    position: absolute;
+    top: -40%;
+    left: -80%;
+    width: 55%;
+    height: 180%;
+
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+
+    transform: rotate(25deg);
+    pointer-events: none;
+    opacity: 0.65;
+}
