@@ -28,6 +28,10 @@ export class GameController {
 
     private clearedColumns = 0;
 
+    private clearedBlocks = 0;
+
+    private clearedBlocksByColor: Record<string, number> = {};
+
     constructor(rows = 8, cols = 8, mode: GameMode = "classic", level?: Level) {
         this.mode = mode;
         this.level = level;
@@ -37,6 +41,10 @@ export class GameController {
         this.pieceManager = new PieceManager();
 
         this.scoreManager = new ScoreManager();
+
+        if (mode === "level" && level) {
+            this.boardEngine.setInitialBlocks(level.initialBlocks);
+        }
     }
 
     getBoard(): Board {
@@ -76,32 +84,41 @@ export class GameController {
     }
 
     getObjectiveProgress() {
-        return (
-            this.level?.objectives.map((objective) => {
-                let current = 0;
+        if (!this.level) {
+            return [];
+        }
 
-                switch (objective.type) {
-                    case "score":
-                        current = this.scoreManager.getScore();
-                        break;
+        return this.level.objectives.map((objective) => {
+            let current = 0;
 
-                    case "clear_rows":
-                        current = this.clearedRows;
-                        break;
+            switch (objective.type) {
+                case "score":
+                    current = this.scoreManager.getScore();
+                    break;
 
-                    case "clear_columns":
-                        current = this.clearedColumns;
-                        break;
-                }
+                case "clear_rows":
+                    current = this.clearedRows;
+                    break;
 
-                return {
-                    type: objective.type,
-                    current,
-                    target: objective.target,
-                    completed: current >= objective.target,
-                };
-            }) ?? []
-        );
+                case "clear_columns":
+                    current = this.clearedColumns;
+                    break;
+
+                case "clear_blocks":
+                    if (objective.color) {
+                        current = this.clearedBlocksByColor[objective.color] ?? 0;
+                    } else {
+                        current = this.clearedBlocks;
+                    }
+                    break;
+            }
+
+            return {
+                ...objective,
+                current,
+                completed: current >= objective.target,
+            };
+        });
     }
 
     play(pieceIndex: number, row: number, col: number): PlayResult {
@@ -131,6 +148,12 @@ export class GameController {
 
         const cleared = this.boardEngine.clearCompletedLines();
 
+        this.clearedBlocks += cleared.clearedBlocks;
+
+        for (const [color, count] of Object.entries(cleared.clearedBlocksByColor)) {
+            this.clearedBlocksByColor[color] = (this.clearedBlocksByColor[color] ?? 0) + count;
+        }
+
         const score = this.scoreManager.calculate(cleared.rows.length, cleared.cols.length);
 
         this.scoreManager.add(score);
@@ -144,6 +167,7 @@ export class GameController {
         this.levelPassed = this.checkLevelObjective();
 
         this.gameOver = !this.levelPassed && !GameRule.hasMove(this.boardEngine, this.pieceManager.getPieces());
+
         return {
             success: true,
 
@@ -164,19 +188,25 @@ export class GameController {
 
         this.scoreManager.reset();
 
+        this.resetProgress();
+
         this.gameOver = false;
 
         this.levelPassed = false;
 
-        this.clearedRows = 0;
+        if (this.mode === "level" && this.level) {
+            this.boardEngine.setInitialBlocks(this.level.initialBlocks);
 
-        this.clearedColumns = 0;
+            this.boardEngine.reset();
+        }
     }
 
     startLevel(level: Level): void {
         this.mode = "level";
 
         this.level = level;
+
+        this.boardEngine.reset();
 
         this.boardEngine.setInitialBlocks(level.initialBlocks);
 
@@ -186,13 +216,21 @@ export class GameController {
 
         this.scoreManager.reset();
 
+        this.resetProgress();
+
         this.gameOver = false;
 
         this.levelPassed = false;
+    }
 
+    private resetProgress(): void {
         this.clearedRows = 0;
 
         this.clearedColumns = 0;
+
+        this.clearedBlocks = 0;
+
+        this.clearedBlocksByColor = {};
     }
 
     preview(pieceIndex: number, row: number, col: number): void {
@@ -224,6 +262,13 @@ export class GameController {
 
                 case "clear_columns":
                     return this.clearedColumns >= objective.target;
+
+                case "clear_blocks":
+                    if (objective.color) {
+                        return (this.clearedBlocksByColor[objective.color] ?? 0) >= objective.target;
+                    }
+
+                    return this.clearedBlocks >= objective.target;
 
                 default:
                     return false;

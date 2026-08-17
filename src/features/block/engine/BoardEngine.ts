@@ -165,21 +165,50 @@ export class BoardEngine {
         const rows = this.getCompletedRows();
         const cols = this.getCompletedColumns();
 
-        rows.forEach((row) => {
-            for (let col = 0; col < this.board.cols; col++) {
-                this.clearCell(row, col);
-            }
-        });
+        const cellsToClear = new Set<string>();
 
-        cols.forEach((col) => {
-            for (let row = 0; row < this.board.rows; row++) {
-                this.clearCell(row, col);
+        for (const row of rows) {
+            for (let col = 0; col < this.board.cols; col++) {
+                cellsToClear.add(`${row}:${col}`);
             }
-        });
+        }
+
+        for (const col of cols) {
+            for (let row = 0; row < this.board.rows; row++) {
+                cellsToClear.add(`${row}:${col}`);
+            }
+        }
+
+        let clearedBlocks = 0;
+        const clearedBlocksByColor: Record<string, number> = {};
+
+        // Đếm block TRƯỚC khi xóa
+        for (const key of cellsToClear) {
+            const [row, col] = key.split(":").map(Number);
+
+            const cell = this.board.cells[row][col];
+
+            if (!cell.occupied || !cell.color) {
+                continue;
+            }
+
+            clearedBlocks++;
+
+            clearedBlocksByColor[cell.color] = (clearedBlocksByColor[cell.color] ?? 0) + 1;
+        }
+
+        // Xóa
+        for (const key of cellsToClear) {
+            const [row, col] = key.split(":").map(Number);
+
+            this.clearCell(row, col);
+        }
 
         return {
             rows,
             cols,
+            clearedBlocks,
+            clearedBlocksByColor,
         };
     }
 

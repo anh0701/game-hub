@@ -3,6 +3,7 @@ export type ObjectiveType = "score" | "clear_rows" | "clear_columns" | "clear_bl
 export interface LevelObjective {
     type: ObjectiveType;
     target: number;
+    color?: string;
 }
 
 export interface InitialBlock {

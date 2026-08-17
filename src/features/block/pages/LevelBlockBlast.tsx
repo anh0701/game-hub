@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { FiAward, FiBox, FiCheck, FiGrid } from "react-icons/fi";
 
 import Layout from "../../../components/Layout";
 
@@ -10,9 +11,9 @@ import { useBlockBlast } from "../hooks/useBlockBlast";
 import { useDrag } from "../hooks/useDrag";
 
 import { BoardPositionCalculator } from "../utils/BoardPositionCalculator";
-// import { ScoreBoard } from "../../../components/ScoreBoard";
 import { GameOverModal } from "../../../components/GameOverModal";
 import { levels } from "../constants/levels";
+import type { ObjectiveType } from "../models/Level";
 
 export default function LevelBlockBlast() {
     const game = useBlockBlast("level");
@@ -20,6 +21,7 @@ export default function LevelBlockBlast() {
     const drag = useDrag();
 
     const boardRef = useRef<HTMLDivElement>(null);
+
     const [levelIndex, setLevelIndex] = useState(0);
 
     useEffect(() => {
@@ -40,6 +42,34 @@ export default function LevelBlockBlast() {
         game.startLevel(levels[nextIndex]);
     }
 
+    function getObjectiveInfo(type: ObjectiveType, color?: string) {
+        switch (type) {
+            case "score":
+                return {
+                    label: "Score",
+                    icon: FiAward,
+                };
+
+            case "clear_rows":
+                return {
+                    label: "Clear rows",
+                    icon: FiGrid,
+                };
+
+            case "clear_columns":
+                return {
+                    label: "Clear columns",
+                    icon: FiGrid,
+                };
+
+            case "clear_blocks":
+                return {
+                    label: color ? `Place ${color} blocks` : "Place blocks",
+                    icon: FiBox,
+                };
+        }
+    }
+
     return (
         <Layout>
             <main
@@ -57,7 +87,6 @@ export default function LevelBlockBlast() {
                     pb-2
                     sm:px-6
                 "
-
                 onPointerMove={(event) => {
                     if (game.gameOver || game.levelPassed) {
                         return;
@@ -86,7 +115,6 @@ export default function LevelBlockBlast() {
 
                     game.preview(drag.state.pieceIndex, position.row, position.col);
                 }}
-
                 onPointerUp={(event) => {
                     if (game.gameOver || game.levelPassed) {
                         return;
@@ -107,46 +135,60 @@ export default function LevelBlockBlast() {
                         drag.state.piece
                     );
 
-                    const result = game.play(drag.state.pieceIndex, position.row, position.col);
+                    game.play(drag.state.pieceIndex, position.row, position.col);
 
                     game.clearPreview();
 
                     drag.end();
-
-                    if (result.gameOver) {
-                        // Game Over
-                    }
                 }}
             >
-                <div className="mb-3 flex w-full flex-col items-center">
+                <div className="mb-4 flex w-full flex-col items-center">
                     <div className="text-lg font-bold tracking-wide text-white">LEVEL {game.level?.id ?? ""}</div>
 
-                    <div className="mt-1.5 flex max-w-full flex-wrap items-center justify-center gap-x-4 gap-y-1 text-sm">
-                        {game.objectiveProgress.map((objective, index) => (
-                            <div key={index} className="flex items-center gap-1.5 whitespace-nowrap">
-                                <span className="text-white/55">
-                                    {objective.type === "score"
-                                        ? "Score"
-                                        : objective.type === "clear_rows"
-                                          ? "Rows"
-                                          : "Columns"}
-                                </span>
+                    <div className="mt-2 flex flex-wrap justify-center gap-2">
+                        {game.objectiveProgress.map((objective, index) => {
+                            const { label, icon: ObjectiveIcon } = getObjectiveInfo(objective.type, objective.color);
 
-                                <span className="font-semibold text-white">
-                                    {objective.current}/{objective.target}
-                                </span>
-                            </div>
-                        ))}
+                            return (
+                                <div
+                                    key={index}
+                                    className={`
+                        flex
+                        items-center
+                        gap-2
+                        rounded-xl
+                        border
+                        px-3
+                        py-2
+                        text-sm
+                        ${
+                            objective.completed
+                                ? "border-emerald-400/30 bg-emerald-400/10"
+                                : "border-white/10 bg-white/5"
+                        }
+                    `}
+                                >
+                                    {objective.completed ? (
+                                        <FiCheck className="h-4 w-4 text-emerald-400" />
+                                    ) : (
+                                        <ObjectiveIcon className="h-4 w-4 text-white/50" />
+                                    )}
+
+                                    <span className="text-white/70">{label}</span>
+
+                                    <span className="font-semibold text-white">
+                                        {objective.current}/{objective.target}
+                                    </span>
+                                </div>
+                            );
+                        })}
                     </div>
                 </div>
-
-                {/* <ScoreBoard score={game.score} /> */}
 
                 <Board board={game.board} boardRef={boardRef} />
 
                 <PieceTray
                     pieces={game.pieces}
-
                     onDragStart={(piece, index, event) => {
                         if (game.gameOver || game.levelPassed) {
                             return;
@@ -176,16 +218,16 @@ export default function LevelBlockBlast() {
                     >
                         <div
                             className="
-                            w-full
-                            max-w-sm
-                            rounded-2xl
-                            bg-slate-900
-                            p-6
-                            text-center
-                            shadow-2xl
-                            ring-1
-                            ring-white/10
-                        "
+                                w-full
+                                max-w-sm
+                                rounded-2xl
+                                bg-slate-900
+                                p-6
+                                text-center
+                                shadow-2xl
+                                ring-1
+                                ring-white/10
+                            "
                         >
                             <div className="text-sm font-medium tracking-widest text-white/50">
                                 LEVEL {game.level?.id}
@@ -201,6 +243,7 @@ export default function LevelBlockBlast() {
 
                             {levelIndex < levels.length - 1 ? (
                                 <button
+                                    type="button"
                                     className="
                                         mt-6
                                         w-full
@@ -220,6 +263,7 @@ export default function LevelBlockBlast() {
                                 </button>
                             ) : (
                                 <button
+                                    type="button"
                                     className="
                                         mt-6
                                         w-full
@@ -235,7 +279,10 @@ export default function LevelBlockBlast() {
                                     "
                                     onClick={() => {
                                         drag.end();
-                                        game.restart();
+
+                                        setLevelIndex(0);
+
+                                        game.startLevel(levels[0]);
                                     }}
                                 >
                                     Play Again
