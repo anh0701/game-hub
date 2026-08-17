@@ -1,6 +1,6 @@
 import type { Piece } from "../models/Piece";
 
-import { CELL_GAP } from "../constants";
+import { CELL_GAP } from "../constants/constants";
 
 interface Props {
     piece: Piece;

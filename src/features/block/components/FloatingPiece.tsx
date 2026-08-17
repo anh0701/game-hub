@@ -1,7 +1,7 @@
 import type { Piece } from "../models/Piece";
 import PieceView from "./PieceView";
 
-import { CELL_GAP, getBoardCellSize } from "../constants";
+import { CELL_GAP, getBoardCellSize } from "../constants/constants";
 import { DragPositionCalculator } from "../utils/DragPositionCalculator";
 
 interface Props {

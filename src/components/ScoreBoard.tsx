@@ -1,33 +1,9 @@
-interface ScoreBoardProps {
-    score: number;
-}
-
-export function ScoreBoard({ score }: ScoreBoardProps) {
+export function ScoreBoard({ score }: { score: number }) {
     return (
-        <div
-            className="
-            flex flex-col items-center
-            gap-1
-            "
-        >
-            <h2
-                className="
-                text-sm
-                text-gray-500
-                uppercase
-                tracking-wider
-                "
-            >
-                Score
-            </h2>
-            <p
-                className="
-                text-3xl
-                font-bold
-                "
-            >
-                {score}
-            </p>
+        <div className="mb-2 flex flex-col items-center">
+            <span className="text-xs tracking-widest">SCORE</span>
+
+            <span className="text-3xl font-bold leading-none text-green-500">{score}</span>
         </div>
     );
 }

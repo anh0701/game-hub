@@ -2,7 +2,7 @@ import type { PointerEvent } from "react";
 
 import PieceView from "./PieceView";
 
-import { TRAY_CELL_SIZE } from "../constants";
+import { TRAY_CELL_SIZE } from "../constants/constants";
 
 import type { Piece as PieceModel } from "../models/Piece";
 

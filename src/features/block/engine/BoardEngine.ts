@@ -1,10 +1,14 @@
 import type { Board } from "../models/Board";
+import type { InitialBlock } from "../models/Level";
 import type { Piece } from "../models/Piece";
 
 export class BoardEngine {
     public readonly board: Board;
+    private initialBlocks: InitialBlock[];
 
-    constructor(rows = 8, cols = 8) {
+    constructor(rows = 8, cols = 8, initialBlocks: InitialBlock[] = []) {
+        this.initialBlocks = initialBlocks;
+
         this.board = {
             rows,
             cols,
@@ -14,8 +18,22 @@ export class BoardEngine {
                 }))
             ),
         };
+
+        this.initializeBlocks(initialBlocks);
     }
 
+    initializeBlocks(blocks: InitialBlock[]) {
+        for (const block of blocks) {
+            if (block.row < 0 || block.row >= this.board.rows || block.col < 0 || block.col >= this.board.cols) {
+                continue;
+            }
+
+            this.setCell(block.row, block.col, block.color);
+        }
+    }
+    setInitialBlocks(blocks: InitialBlock[]) {
+        this.initialBlocks = blocks;
+    }
     getCell(row: number, col: number) {
         return this.board.cells[row][col];
     }
@@ -43,6 +61,8 @@ export class BoardEngine {
                 this.clearCell(row, col);
             }
         }
+
+        this.initializeBlocks(this.initialBlocks);
     }
 
     canPlace(piece: Piece, startRow: number, startCol: number): boolean {

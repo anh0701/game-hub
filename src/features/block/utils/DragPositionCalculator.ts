@@ -1,4 +1,4 @@
-import { getDragOffset } from "../constants";
+import { getDragOffset } from "../constants/constants";
 
 export interface DragPosition {
     x: number;

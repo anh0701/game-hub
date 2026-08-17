@@ -29,15 +29,16 @@ export default function BlockBlast() {
                 className="
                     mx-auto
                     flex
+                    h-[100dvh]
                     w-full
                     max-w-4xl
                     flex-col
                     items-center
-                    px-4
-                    py-6
+                    overflow-hidden
+                    px-3
+                    pt-3
+                    pb-2
                     sm:px-6
-                    sm:py-8
-                    lg:py-10
                 "
 
                 onPointerMove={(event) => {

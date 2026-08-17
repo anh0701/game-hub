@@ -2,7 +2,7 @@ import type { PointerEvent } from "react";
 
 import Piece from "./Piece";
 
-import { TRAY_CELL_SIZE, CELL_GAP } from "../constants";
+import { TRAY_CELL_SIZE, CELL_GAP } from "../constants/constants";
 
 import type { Piece as PieceModel } from "../models/Piece";
 
