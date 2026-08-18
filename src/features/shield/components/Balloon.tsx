@@ -1,22 +1,10 @@
+import { BALLOON_HEIGHT, BALLOON_WIDTH, FLOWERS } from "../constants/balloon";
 import type { Balloon as BalloonModel } from "../models/Balloon";
 import Sunflower from "./Sunflower";
 
 interface BalloonProps {
     balloon: BalloonModel;
 }
-
-const FLOWERS = [
-    // Hàng sau
-    { x: 55, y: 0 },
-
-    // Hai bên
-    { x: 0, y: 18 },
-    { x: 110, y: 18 },
-
-    // Hàng trước
-    { x: 30, y: 42 },
-    { x: 80, y: 42 },
-];
 
 function Balloon({ balloon }: BalloonProps) {
     return (
@@ -25,8 +13,8 @@ function Balloon({ balloon }: BalloonProps) {
             style={{
                 left: balloon.x,
                 top: balloon.y,
-                width: 192,
-                height: 160,
+                width: BALLOON_WIDTH,
+                height: BALLOON_HEIGHT,
                 transform: "translate(-50%, -50%)",
             }}
         >

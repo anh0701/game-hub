@@ -134,7 +134,6 @@ function RiseUpPage({ setup }: RiseUpPageProps) {
                 bg-sky-300
             "
         >
-
             {game.zones.map((zone) => zone.clouds.map((cloud) => <Cloud key={cloud.id} cloud={cloud} />))}
 
             {game.zones.map((zone) =>

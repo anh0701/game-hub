@@ -1,3 +1,4 @@
+import { FLOWER_RADIUS, FLOWERS } from "../constants/balloon";
 import type { GameState } from "../models/GameState";
 
 import { updateObstacle } from "../systems/ObstacleSystem";
@@ -25,7 +26,18 @@ export function updateGame(prev: GameState, deltaTime: number, pointer: PointerP
 
     // CAMERA
 
-    const nextCameraY = prev.camera.y + prev.camera.speed * deltaTime;
+    const REFERENCE_HEIGHT = 800;
+
+    const speedScale = Math.max(
+        0.7,
+        Math.min(size.height / REFERENCE_HEIGHT, 1)
+    );
+
+    const nextCameraY =
+        prev.camera.y +
+        prev.camera.speed *
+        speedScale *
+        deltaTime;
 
     // GENERATE ZONES
 
@@ -122,30 +134,42 @@ export function updateGame(prev: GameState, deltaTime: number, pointer: PointerP
 
     zones.forEach((zone) => {
         zone.obstacles.forEach((obstacle) => {
-            // Shield is currently blocking this obstacle.
             if (shieldBlockedObstacles.has(obstacle.id)) {
                 return;
             }
 
             const obstacleScreenY = obstacle.y + nextCameraY;
 
-            const collision = checkCircleCollision(
-                {
-                    x: prev.balloon.x,
-                    y: prev.balloon.y,
+            // Balloon center
+            const balloonX = prev.balloon.x;
+            const balloonY = prev.balloon.y;
 
-                    // Temporary Balloon radius.
-                    radius: 30,
-                },
-                {
-                    x: obstacle.x,
-                    y: obstacleScreenY,
-                    radius: obstacle.radius,
+            for (const flower of FLOWERS) {
+                // FLOWERS are positioned relative to the Balloon container.
+                const flowerX = balloonX + (flower.x - 96);
+                const flowerY = balloonY + (flower.y - 80);
+
+                const collision = checkCircleCollision(
+                    {
+                        x: flowerX,
+                        y: flowerY,
+                        radius: FLOWER_RADIUS,
+                    },
+                    {
+                        x: obstacle.x,
+                        y: obstacleScreenY,
+                        radius: obstacle.radius,
+                    }
+                );
+
+                if (collision.collided) {
+                    balloonHit = true;
+                    break;
                 }
-            );
+            }
 
-            if (collision.collided) {
-                balloonHit = true;
+            if (balloonHit) {
+                return;
             }
         });
     });

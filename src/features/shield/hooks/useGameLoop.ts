@@ -9,7 +9,15 @@ export function useGameLoop(update: UpdateFunction) {
         let animationId: number;
 
         const loop = (currentTime: number) => {
-            const deltaTime = (currentTime - lastTime.current) / 1000;
+            if (lastTime.current === 0) {
+                lastTime.current = currentTime;
+            }
+
+            const deltaTime = Math.min(
+                (currentTime - lastTime.current) / 1000,
+                0.033
+            );
+
             lastTime.current = currentTime;
 
             update(deltaTime);
