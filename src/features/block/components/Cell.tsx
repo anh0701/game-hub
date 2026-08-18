@@ -18,6 +18,7 @@ export default function Cell({ cell }: Props) {
         return (
             <div
                 className={`
+                    touch-none select-none
                     relative
                     aspect-square
                     w-full

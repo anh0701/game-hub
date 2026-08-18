@@ -34,6 +34,7 @@ export default function PieceSlot({ piece, index, onDragStart }: Props) {
                 border-slate-700
                 bg-slate-800/40
                 transition-all
+                touch-none select-none
             "
             style={{
                 width,

@@ -27,6 +27,7 @@ export default function PieceTray({ pieces, onDragStart }: Props) {
                 sm:mt-8
                 sm:gap-5
                 sm:p-5
+                touch-none select-none
             "
         >
             {pieces.map((piece, index) => (

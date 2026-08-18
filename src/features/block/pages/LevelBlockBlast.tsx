@@ -141,6 +141,13 @@ export default function LevelBlockBlast() {
 
                     drag.end();
                 }}
+
+                onPointerCancel={() => {
+                    if (drag.state.dragging) {
+                        game.clearPreview();
+                        drag.end();
+                    }
+                }}
             >
                 <div className="mb-4 flex w-full flex-col items-center">
                     <div className="text-lg font-bold tracking-wide text-white">LEVEL {game.level?.id ?? ""}</div>
