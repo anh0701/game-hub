@@ -4,15 +4,7 @@ import type { Zone } from "../models/Zone";
 
 const ZONE_HEIGHT = 800;
 
-const BUG_COLORS = [
-    "red",
-    "blue",
-    "green",
-    "yellow",
-    "purple",
-    "orange",
-    "pink",
-] as const;
+const BUG_COLORS = ["red", "blue", "green", "yellow", "purple", "orange", "pink"] as const;
 
 function randomBugColor() {
     return BUG_COLORS[Math.floor(Math.random() * BUG_COLORS.length)];

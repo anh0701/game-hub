@@ -4,10 +4,10 @@ import App from "../App";
 import Home from "../pages/Home";
 import BlockBlast from "../features/block/pages/BlockBlast";
 import { SudokuPage } from "../features/sudoku/pages/SudokuPage";
-import RiseUpPage from "../features/shield/RiseUpPage";
 import LevelBlockBlast from "../features/block/pages/LevelBlockBlast";
 import BlockBlastModePage from "../features/block/pages/BlockBlastModePage";
 import { BLOCK_ROUTES } from "../features/block/constants/routes";
+import RiseUpModePage from "../features/shield/RiseUpModePage";
 
 export const router = createHashRouter([
     {
@@ -36,7 +36,7 @@ export const router = createHashRouter([
             },
             {
                 path: "shield",
-                element: <RiseUpPage />,
+                element: <RiseUpModePage />,
             },
         ],
     },

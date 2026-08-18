@@ -1,11 +1,4 @@
-export type BugColor =
-    | "red"
-    | "blue"
-    | "green"
-    | "yellow"
-    | "purple"
-    | "orange"
-    | "pink";
+export type BugColor = "red" | "blue" | "green" | "yellow" | "purple" | "orange" | "pink";
 
 export interface Obstacle {
     id: string;
