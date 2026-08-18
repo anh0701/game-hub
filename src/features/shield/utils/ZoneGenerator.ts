@@ -4,6 +4,20 @@ import type { Zone } from "../models/Zone";
 
 const ZONE_HEIGHT = 800;
 
+const BUG_COLORS = [
+    "red",
+    "blue",
+    "green",
+    "yellow",
+    "purple",
+    "orange",
+    "pink",
+] as const;
+
+function randomBugColor() {
+    return BUG_COLORS[Math.floor(Math.random() * BUG_COLORS.length)];
+}
+
 function random(min: number, max: number) {
     return Math.random() * (max - min) + min;
 }
@@ -79,6 +93,8 @@ function generateObstacles(zoneId: number, startY: number, screenWidth: number):
             vy: random(60, 100),
 
             rotation: random(0, 360),
+
+            color: randomBugColor(),
         });
     }
 

@@ -1,3 +1,12 @@
+export type BugColor =
+    | "red"
+    | "blue"
+    | "green"
+    | "yellow"
+    | "purple"
+    | "orange"
+    | "pink";
+
 export interface Obstacle {
     id: string;
 
@@ -10,4 +19,5 @@ export interface Obstacle {
     vy: number;
 
     rotation: number;
+    color: BugColor;
 }
