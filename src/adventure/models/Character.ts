@@ -5,5 +5,5 @@ export interface Character {
 
     role: "player" | "friend";
 
-    avatar: string;
+    image: string;
 }

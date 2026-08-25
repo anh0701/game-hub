@@ -1,16 +1,19 @@
-export type StoryNodeType = "dialogue" | "narration";
+export type StoryLineType = "dialogue" | "narration";
 
 export interface StoryLine {
+    type: StoryLineType;
+
     characterId?: string;
+
     text: string;
 }
 
 export interface StoryNode {
     id: string;
 
-    mapId: string;
+    // version: number;
 
-    type: StoryNodeType;
+    mapId: string;
 
     trigger: "beforeMission" | "afterMission";
 

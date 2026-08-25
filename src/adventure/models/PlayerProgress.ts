@@ -24,4 +24,6 @@ export interface PlayerProgress {
     lastVisit: string;
 
     seenStoryIds: string[];
+
+    // storyVersion: number;
 }

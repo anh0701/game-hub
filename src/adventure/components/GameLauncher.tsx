@@ -20,13 +20,13 @@ export function GameLauncher({ gameMode, target, onComplete }: GameLauncherProps
             return <BlockBlast targetScore={target} onComplete={onComplete} />;
 
         case "block-level":
-            return <LevelBlockBlast />;
+            return <LevelBlockBlast targetLevel={target} onComplete={onComplete} />;
 
         case "sudoku":
-            return <SudokuPage />;
+            return <SudokuPage targetBoards={target} onComplete={onComplete} />;
 
         case "shield":
-            return <RiseUpModePage />;
+            return <RiseUpModePage targetScore={target} onComplete={onComplete} />;
 
         default:
             return <div>Unsupported game mode.</div>;

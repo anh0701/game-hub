@@ -19,22 +19,7 @@ import type { ObjectiveType } from "../models/Level";
 import type { GameResult } from "../../../adventure/models/GameResult";
 
 interface LevelBlockBlastProps {
-    /**
-     * Mission yêu cầu người chơi
-     * vượt qua level nào.
-     *
-     * Ví dụ:
-     *
-     * targetLevel = 5
-     *
-     * => phải hoàn thành Level 5.
-     */
     targetLevel?: number;
-
-    /**
-     * Báo kết quả về Adventure System
-     * khi mission hoàn thành.
-     */
     onComplete?: (result: GameResult) => void;
 }
 
@@ -47,31 +32,10 @@ export default function LevelBlockBlast({ targetLevel, onComplete }: LevelBlockB
 
     const [levelIndex, setLevelIndex] = useState(0);
 
-    /**
-     * Đảm bảo Adventure chỉ nhận
-     * completion một lần.
-     */
     const completionReportedRef = useRef(false);
 
-    /**
-     * Level hiện tại đã hoàn thành
-     * đúng level mission yêu cầu chưa?
-     *
-     * Ví dụ:
-     *
-     * targetLevel = 5
-     *
-     * game.level.id = 5
-     * game.levelPassed = true
-     *
-     * => missionCompleted = true
-     */
     const missionCompleted = targetLevel !== undefined && game.levelPassed && game.level?.id === targetLevel;
 
-    /**
-     * Khi mission hoàn thành,
-     * gửi GameResult về Adventure System.
-     */
     useEffect(() => {
         if (!missionCompleted) {
             return;
@@ -91,9 +55,6 @@ export default function LevelBlockBlast({ targetLevel, onComplete }: LevelBlockB
         });
     }, [missionCompleted, game.score, game.level, onComplete]);
 
-    /**
-     * Start level hiện tại.
-     */
     useEffect(() => {
         const level = levels[levelIndex];
 
@@ -104,9 +65,6 @@ export default function LevelBlockBlast({ targetLevel, onComplete }: LevelBlockB
         game.startLevel(level);
     }, [levelIndex]);
 
-    /**
-     * Chuyển level tiếp theo.
-     */
     function nextLevel() {
         const nextIndex = levelIndex + 1;
 
@@ -119,9 +77,6 @@ export default function LevelBlockBlast({ targetLevel, onComplete }: LevelBlockB
         setLevelIndex(nextIndex);
     }
 
-    /**
-     * Objective UI.
-     */
     function getObjectiveInfo(type: ObjectiveType, color?: string) {
         switch (type) {
             case "score":
@@ -169,13 +124,6 @@ export default function LevelBlockBlast({ targetLevel, onComplete }: LevelBlockB
                 "
 
                 onPointerMove={(event) => {
-                    /**
-                     * Không cho kéo khi:
-                     *
-                     * - Game Over
-                     * - Level đã hoàn thành
-                     * - Mission đã hoàn thành
-                     */
                     if (game.gameOver || game.levelPassed || missionCompleted) {
                         return;
                     }
@@ -239,10 +187,6 @@ export default function LevelBlockBlast({ targetLevel, onComplete }: LevelBlockB
                     }
                 }}
             >
-                {/* =========================
-                    LEVEL HEADER
-                ========================= */}
-
                 <div className="mb-4 flex w-full flex-col items-center">
                     <div className="text-lg font-bold tracking-wide text-white">LEVEL {game.level?.id ?? ""}</div>
 
@@ -313,15 +257,7 @@ export default function LevelBlockBlast({ targetLevel, onComplete }: LevelBlockB
                     </div>
                 </div>
 
-                {/* =========================
-                    BOARD
-                ========================= */}
-
                 <Board board={game.board} boardRef={boardRef} />
-
-                {/* =========================
-                    PIECES
-                ========================= */}
 
                 <PieceTray
                     pieces={game.pieces}
@@ -335,17 +271,9 @@ export default function LevelBlockBlast({ targetLevel, onComplete }: LevelBlockB
                     }}
                 />
 
-                {/* =========================
-                    FLOATING PIECE
-                ========================= */}
-
                 {drag.state.dragging && drag.state.piece && (
                     <FloatingPiece piece={drag.state.piece} x={drag.state.x} y={drag.state.y} />
                 )}
-
-                {/* =========================
-                    LEVEL COMPLETE
-                ========================= */}
 
                 {game.levelPassed && !missionCompleted && (
                     <div
@@ -476,10 +404,6 @@ export default function LevelBlockBlast({ targetLevel, onComplete }: LevelBlockB
                         </div>
                     </div>
                 )}
-
-                {/* =========================
-                    MISSION COMPLETE
-                ========================= */}
 
                 {missionCompleted && (
                     <div
