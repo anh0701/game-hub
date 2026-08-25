@@ -9,78 +9,34 @@ export const stories: StoryNode[] = [
         lines: [
             {
                 type: "narration",
-                text: "The first world was made entirely of blocks.",
-            },
-
-            {
-                type: "narration",
-                text: "But something was terribly wrong.",
+                text: "Cat's friend Milo has disappeared into a strange world made entirely of blocks.",
             },
 
             {
                 type: "dialogue",
                 characterId: "cat",
-                text: "Where am I?",
-            },
-
-            {
-                type: "narration",
-                text: "Cat looked around. The familiar world had disappeared.",
-            },
-
-            {
-                type: "dialogue",
-                characterId: "cat",
-                text: "Milo should have arrived here before me.",
+                text: "Milo! Where are you?",
             },
 
             {
                 type: "dialogue",
                 characterId: "milo",
-                text: "Cat! Over here!",
+                text: "Cat! I'm trapped somewhere beyond these blocks!",
             },
 
             {
                 type: "dialogue",
                 characterId: "cat",
-                text: "Milo?! Where are you?",
-            },
-
-            {
-                type: "dialogue",
-                characterId: "milo",
-                text: "I'm trapped! These blocks collapsed around me!",
-            },
-
-            {
-                type: "narration",
-                text: "A faint voice echoed from somewhere beyond the blocks.",
-            },
-
-            {
-                type: "dialogue",
-                characterId: "cat",
-                text: "Hold on. I'm coming.",
-            },
-
-            {
-                type: "narration",
-                text: "Cat stepped forward into the strange world.",
+                text: "Don't worry. I'll find you.",
             },
         ],
     },
-
     {
-        id: "block-world-rescue",
+        id: "block-world-ending",
         mapId: "block-world",
         trigger: "afterMission",
 
         lines: [
-            {
-                type: "narration",
-                text: "After pushing through the blocks, Cat finally found Milo.",
-            },
-
             {
                 type: "dialogue",
                 characterId: "milo",
@@ -96,24 +52,7 @@ export const stories: StoryNode[] = [
             {
                 type: "dialogue",
                 characterId: "milo",
-                text: "I thought I was never going to get out.",
-            },
-
-            {
-                type: "dialogue",
-                characterId: "cat",
-                text: "What happened here?",
-            },
-
-            {
-                type: "narration",
-                text: "Milo's expression suddenly became serious.",
-            },
-
-            {
-                type: "dialogue",
-                characterId: "milo",
-                text: "I'm not the only one who disappeared.",
+                text: "But I'm not the only one who disappeared.",
             },
 
             {
@@ -125,18 +64,53 @@ export const stories: StoryNode[] = [
             {
                 type: "dialogue",
                 characterId: "milo",
-                text: "There are others. I saw them being pulled into another world.",
+                text: "I saw Luna being taken somewhere else. There was a strange light...",
             },
 
             {
                 type: "narration",
-                text: "Far away, a strange light appeared in the distance.",
+                text: "Milo had barely escaped, but there was no time to rest.",
             },
 
             {
                 type: "dialogue",
                 characterId: "cat",
-                text: "Then that's where we're going next.",
+                text: "Then we're going to find Luna.",
+            },
+        ],
+    },
+    {
+        id: "sudoku-world-intro",
+        mapId: "sudoku-world",
+        trigger: "beforeMission",
+
+        lines: [
+            {
+                type: "narration",
+                text: "After rescuing Milo from the Block World, Cat and Milo followed the strange light.",
+            },
+
+            {
+                type: "narration",
+                text: "It led them to a mysterious world filled with numbers.",
+            },
+
+            {
+                type: "dialogue",
+                characterId: "cat",
+                text: "This place is completely different.",
+            },
+
+            {
+                type: "dialogue",
+                characterId: "milo",
+                text: "This must be where Luna was taken.",
+            },
+
+            {
+                type: "dialogue",
+                characterId: "cat",
+                text: "Then let's find her.",
             },
         ],
     },

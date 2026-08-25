@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import type { StoryNode } from "../models/StoryNode";
 import { getCharacter } from "../managers/CharacterManager";
+import { StoryBackground } from "./StoryBackground";
 
 interface StoryDialogProps {
     story: StoryNode;
@@ -32,55 +33,84 @@ export function StoryDialog({ story, onComplete }: StoryDialogProps) {
     }
 
     return (
-        <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/60 p-4">
+        <div className="fixed inset-0 z-50 overflow-hidden">
+            <StoryBackground mapId={story.mapId} />
+
+            {/* Dark overlay */}
+
             <div
                 className="
+                absolute
+                inset-0
+                bg-black/40
+                backdrop-blur-[2px]
+            "
+            />
+
+            {/* Story dialog */}
+
+            <div
+                className="
+                relative
+                z-10
+                flex
+                min-h-full
+                items-end
+                justify-center
+                p-4
+            "
+            >
+                <div
+                    className="
                     w-full
                     max-w-2xl
                     overflow-hidden
                     rounded-3xl
-                    bg-white
+                    border
+                    border-white/10
+                    bg-slate-950/90
                     shadow-2xl
+                    backdrop-blur-xl
                 "
-            >
-                {isNarration ? (
-                    <div className="px-6 pb-6 pt-7 sm:px-8">
-                        <div className="flex items-center gap-3">
-                            <div className="h-px flex-1 bg-gray-200" />
+                >
+                    {isNarration ? (
+                        <div className="px-6 pb-6 pt-7 sm:px-8">
+                            <div className="flex items-center gap-3">
+                                <div className="h-px flex-1 bg-white/10" />
 
-                            <span
-                                className="
+                                <span
+                                    className="
                                     text-[11px]
                                     font-bold
                                     uppercase
                                     tracking-[0.25em]
-                                    text-gray-400
+                                    text-white/40
                                 "
-                            >
-                                Narrator
-                            </span>
+                                >
+                                    Narrator
+                                </span>
 
-                            <div className="h-px flex-1 bg-gray-200" />
-                        </div>
+                                <div className="h-px flex-1 bg-white/10" />
+                            </div>
 
-                        <p
-                            className="
+                            <p
+                                className="
                                 mt-5
                                 min-h-20
                                 text-center
                                 text-lg
                                 leading-8
-                                text-gray-600
+                                text-white/70
                             "
-                        >
-                            {line.text}
-                        </p>
-                    </div>
-                ) : (
-                    <div className="px-6 pb-6 pt-6 sm:px-8">
-                        <div className="flex items-center gap-3">
-                            <div
-                                className="
+                            >
+                                {line.text}
+                            </p>
+                        </div>
+                    ) : (
+                        <div className="px-6 pb-6 pt-6 sm:px-8">
+                            <div className="flex items-center gap-3">
+                                <div
+                                    className="
                                     flex
                                     h-11
                                     w-11
@@ -88,65 +118,69 @@ export function StoryDialog({ story, onComplete }: StoryDialogProps) {
                                     items-center
                                     justify-center
                                     rounded-full
-                                    bg-gray-100
+                                    bg-white/10
                                     text-2xl
+                                    ring-1
+                                    ring-white/10
                                 "
-                            >
-                                {character?.avatar ?? "?"}
+                                >
+                                    {character?.avatar ?? "?"}
+                                </div>
+
+                                <div>
+                                    <div className="font-bold text-white">{character?.name ?? "Unknown"}</div>
+
+                                    <div className="text-xs text-white/30">speaking</div>
+                                </div>
                             </div>
 
-                            <div>
-                                <div className="font-bold text-gray-900">{character?.name ?? "Unknown"}</div>
-
-                                <div className="text-xs text-gray-400">speaking</div>
-                            </div>
-                        </div>
-
-                        <p
-                            className="
+                            <p
+                                className="
                                 mt-5
                                 min-h-20
                                 text-lg
                                 leading-8
-                                text-gray-800
+                                text-white/90
                             "
-                        >
-                            {line.text}
-                        </p>
-                    </div>
-                )}
+                            >
+                                {line.text}
+                            </p>
+                        </div>
+                    )}
 
-                <div
-                    className="
+                    {/* Action */}
+
+                    <div
+                        className="
                         flex
-                        items-center
                         justify-end
                         border-t
-                        border-gray-100
-                        bg-gray-50
+                        border-white/5
+                        bg-white/[0.03]
                         px-6
                         py-4
                         sm:px-8
                     "
-                >
-                    <button
-                        type="button"
-                        onClick={handleNext}
-                        className="
+                    >
+                        <button
+                            type="button"
+                            onClick={handleNext}
+                            className="
                             rounded-xl
-                            bg-black
+                            bg-white
                             px-5
                             py-2.5
                             text-sm
                             font-semibold
-                            text-white
+                            text-slate-900
                             transition
-                            hover:bg-gray-800
+                            hover:bg-white/90
                             active:scale-[0.98]
                         "
-                    >
-                        {isLastLine ? "Continue" : "Next"}
-                    </button>
+                        >
+                            {isLastLine ? "Continue" : "Next"}
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

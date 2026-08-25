@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { gameMaps } from "../adventure/data/maps";
@@ -28,13 +28,24 @@ export default function AdventurePage() {
 
     const [adventureResult, setAdventureResult] = useState<ReturnType<typeof finishGame> | null>(null);
 
-    const [activeStory, setActiveStory] = useState<StoryNode | null>(() => {
+    const [activeStory, setActiveStory] = useState<StoryNode | null>(null);
+
+    /*
+     * Load story whenever the map changes.
+     *
+     * This is important because useState's initializer
+     * only runs once when the component is mounted.
+     */
+    useEffect(() => {
         if (!mapId) {
-            return null;
+            setActiveStory(null);
+            return;
         }
 
-        return getStory(mapId, "beforeMission");
-    });
+        const beforeStory = getStory(mapId, "beforeMission");
+
+        setActiveStory(beforeStory);
+    }, [mapId]);
 
     const map = gameMaps.find((item) => item.id === mapId);
 
@@ -467,7 +478,7 @@ export default function AdventurePage() {
 }
 
 /*
- * Find story for current map.
+ * Find story for a map and trigger.
  */
 function getStory(mapId: string, trigger: "beforeMission" | "afterMission"): StoryNode | null {
     return stories.find((story) => story.mapId === mapId && story.trigger === trigger) ?? null;
