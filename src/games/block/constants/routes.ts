@@ -1,5 +1,5 @@
 export const BLOCK_ROUTES = {
     root: "/block",
-    classic: "/block/classic",
-    levels: "/block/levels",
+    classic: "/block-free",
+    levels: "/block-level",
 } as const;

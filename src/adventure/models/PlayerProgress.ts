@@ -1,4 +1,5 @@
 import type { GameId } from "../../types/MissionType";
+import type { Mission } from "./Mission";
 
 export interface GameStats {
     gamesPlayed: number;
@@ -14,9 +15,13 @@ export interface PlayerProgress {
 
     completedMissionIds: string[];
 
+    currentMission?: Mission;
+
     stats: Record<GameId, GameStats>;
 
     firstVisit: string;
 
     lastVisit: string;
+
+    seenStoryIds: string[];
 }

@@ -8,6 +8,8 @@ import LevelBlockBlast from "../games/block/pages/LevelBlockBlast";
 import BlockBlastModePage from "../games/block/pages/BlockBlastModePage";
 import { BLOCK_ROUTES } from "../games/block/constants/routes";
 import RiseUpModePage from "../games/shield/RiseUpModePage";
+import WorldMapPage from "../pages/WorldMapPage";
+import AdventurePage from "../pages/AdventurePage";
 
 export const router = createHashRouter([
     {
@@ -17,6 +19,15 @@ export const router = createHashRouter([
             {
                 index: true,
                 element: <Home />,
+            },
+            {
+                path: "world",
+                element: <WorldMapPage />,
+            },
+
+            {
+                path: "adventure/:mapId",
+                element: <AdventurePage />,
             },
             {
                 path: BLOCK_ROUTES.root,

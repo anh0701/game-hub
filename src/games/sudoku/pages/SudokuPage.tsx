@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { FaHeart, FaHeartBroken } from "react-icons/fa";
 
 import { NumberPad } from "../components/NumberPad";
@@ -7,7 +7,14 @@ import { SudokuBoard } from "../components/SudokuBoard";
 import { useSudoku } from "../hooks/useSudoku";
 import { GameOverModal } from "../../../components/GameOverModal";
 
-export function SudokuPage() {
+import type { GameResult } from "../../../adventure/models/GameResult";
+
+interface SudokuPageProps {
+    targetBoards?: number;
+    onComplete?: (result: GameResult) => void;
+}
+
+export function SudokuPage({ targetBoards, onComplete }: SudokuPageProps) {
     const {
         board,
         score,
@@ -20,7 +27,32 @@ export function SudokuPage() {
         inputNumber,
         gameOver,
         restart,
+
+        boardsCompleted,
     } = useSudoku();
+
+    const completionReportedRef = useRef(false);
+
+    const missionCompleted = targetBoards !== undefined && boardsCompleted >= targetBoards;
+
+    useEffect(() => {
+        if (!missionCompleted) {
+            return;
+        }
+
+        if (completionReportedRef.current) {
+            return;
+        }
+
+        completionReportedRef.current = true;
+
+        onComplete?.({
+            gameId: "sudoku",
+            gameMode: "sudoku",
+            score,
+            boardsCompleted,
+        });
+    }, [missionCompleted, boardsCompleted, score, onComplete]);
 
     useEffect(() => {
         startGame();
@@ -29,9 +61,8 @@ export function SudokuPage() {
     return (
         <main className="min-h-screen bg-slate-100 p-4">
             <div className="mx-auto flex max-w-md flex-col items-center gap-6">
-                {/* <h1 className="text-3xl font-bold text-slate-800">Sudoku</h1> */}
-
                 {/* Score + Lives */}
+
                 <div className="flex w-full items-center justify-between rounded-xl bg-white px-5 py-3 shadow-sm">
                     <ScoreBoard score={score} />
 
@@ -71,7 +102,16 @@ export function SudokuPage() {
 
                 <NumberPad onNumberClick={inputNumber} />
 
-                {gameOver && <GameOverModal score={score} onRestart={restart} />}
+                {gameOver && !missionCompleted && (
+                    <GameOverModal
+                        score={score}
+                        onRestart={() => {
+                            completionReportedRef.current = false;
+
+                            restart();
+                        }}
+                    />
+                )}
             </div>
         </main>
     );

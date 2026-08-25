@@ -1,4 +1,4 @@
-import type { Difficulty, GameId, MissionType } from "../../types/MissionType";
+import type { Difficulty, GameId, GameMode, MissionType } from "../../types/MissionType";
 
 export interface Mission {
     id: string;
@@ -14,4 +14,6 @@ export interface Mission {
     title: string;
 
     description: string;
+
+    gameMode: GameMode;
 }

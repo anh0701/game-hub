@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
 // import Header from "../../../components/Header";
 import Layout from "../../../components/Layout";
@@ -14,12 +14,41 @@ import { BoardPositionCalculator } from "../utils/BoardPositionCalculator";
 import { ScoreBoard } from "../../../components/ScoreBoard";
 import { GameOverModal } from "../../../components/GameOverModal";
 
-export default function BlockBlast() {
+import type { GameResult } from "../../../adventure/models/GameResult";
+
+interface BlockBlastProps {
+    targetScore?: number;
+    onComplete?: (result: GameResult) => void;
+}
+
+export default function BlockBlast({ targetScore, onComplete }: BlockBlastProps) {
     const game = useBlockBlast();
 
     const drag = useDrag();
 
     const boardRef = useRef<HTMLDivElement>(null);
+
+    const completionReportedRef = useRef(false);
+
+    const missionCompleted = targetScore !== undefined && game.score >= targetScore;
+
+    useEffect(() => {
+        if (!missionCompleted) {
+            return;
+        }
+
+        if (completionReportedRef.current) {
+            return;
+        }
+
+        completionReportedRef.current = true;
+
+        onComplete?.({
+            gameId: "block",
+            gameMode: "block-free",
+            score: game.score,
+        });
+    }, [missionCompleted, game.score, onComplete]);
 
     return (
         <Layout>
@@ -42,7 +71,7 @@ export default function BlockBlast() {
                 "
 
                 onPointerMove={(event) => {
-                    if (game.gameOver) {
+                    if (game.gameOver || missionCompleted) {
                         return;
                     }
 
@@ -71,7 +100,7 @@ export default function BlockBlast() {
                 }}
 
                 onPointerUp={(event) => {
-                    if (game.gameOver) {
+                    if (game.gameOver || missionCompleted) {
                         return;
                     }
 
@@ -97,7 +126,7 @@ export default function BlockBlast() {
                     drag.end();
 
                     if (result.gameOver) {
-                        // console.log("Game Over");
+                        // Game Over được xử lý bên dưới.
                     }
                 }}
             >
@@ -109,7 +138,7 @@ export default function BlockBlast() {
                     pieces={game.pieces}
 
                     onDragStart={(piece, index, event) => {
-                        if (game.gameOver) {
+                        if (game.gameOver || missionCompleted) {
                             return;
                         }
 
@@ -120,7 +149,8 @@ export default function BlockBlast() {
                 {drag.state.dragging && drag.state.piece && (
                     <FloatingPiece piece={drag.state.piece} x={drag.state.x} y={drag.state.y} />
                 )}
-                {game.gameOver && (
+
+                {game.gameOver && !missionCompleted && (
                     <GameOverModal
                         score={game.score}
 
@@ -128,6 +158,8 @@ export default function BlockBlast() {
                             drag.end();
 
                             game.restart();
+
+                            completionReportedRef.current = false;
                         }}
                     />
                 )}
