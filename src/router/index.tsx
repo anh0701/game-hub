@@ -2,12 +2,12 @@ import { createHashRouter } from "react-router-dom";
 
 import App from "../App";
 import Home from "../pages/Home";
-import BlockBlast from "../features/block/pages/BlockBlast";
-import { SudokuPage } from "../features/sudoku/pages/SudokuPage";
-import LevelBlockBlast from "../features/block/pages/LevelBlockBlast";
-import BlockBlastModePage from "../features/block/pages/BlockBlastModePage";
-import { BLOCK_ROUTES } from "../features/block/constants/routes";
-import RiseUpModePage from "../features/shield/RiseUpModePage";
+import BlockBlast from "../games/block/pages/BlockBlast";
+import { SudokuPage } from "../games/sudoku/pages/SudokuPage";
+import LevelBlockBlast from "../games/block/pages/LevelBlockBlast";
+import BlockBlastModePage from "../games/block/pages/BlockBlastModePage";
+import { BLOCK_ROUTES } from "../games/block/constants/routes";
+import RiseUpModePage from "../games/shield/RiseUpModePage";
 
 export const router = createHashRouter([
     {
