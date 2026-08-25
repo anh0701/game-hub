@@ -14,6 +14,7 @@ import { GameLauncher } from "./GameLauncher";
 import { FaArrowLeft, FaPlay, FaTrophy } from "react-icons/fa6";
 
 import { gameMaps } from "../data/maps";
+import { FaStar } from "react-icons/fa";
 
 type AdventurePhase = "story" | "mission" | "game" | "complete";
 
@@ -29,6 +30,10 @@ export function AdventureScreen({ session, onExit }: AdventureScreenProps) {
     const [activeStory, setActiveStory] = useState(session.story);
 
     const [rescuedFriend, setRescuedFriend] = useState<Character | undefined>();
+
+    const map = getMap(session.mapId);
+
+    const targetFriend = map?.friendId ? getCharacter(map.friendId) : undefined;
 
     function handleStoryComplete() {
         if (!activeStory) {
@@ -248,7 +253,7 @@ export function AdventureScreen({ session, onExit }: AdventureScreenProps) {
                                 ring-amber-400/20
                             "
                         >
-                            ★
+                            <FaStar />
                         </div>
 
                         <h2 className="mt-4 text-2xl font-bold">{getMapName(session.mapId)}</h2>
@@ -334,6 +339,50 @@ export function AdventureScreen({ session, onExit }: AdventureScreenProps) {
                     <h1 className="mt-2 text-4xl font-bold">{getMapName(session.mapId)}</h1>
 
                     <p className="mt-3 leading-7 text-white/50">{getMapDescription(session.mapId)}</p>
+
+                    {targetFriend && (
+                        <section
+                            className="
+                            mt-6
+                            rounded-2xl
+                            bg-white/5
+                            p-5
+                            ring-1
+                            ring-white/10
+                        "
+                                        >
+                                            <div className="flex items-center gap-4">
+                                                <img
+                                                    src={`${import.meta.env.BASE_URL}${targetFriend.image.replace(/^\/+/, "")}`}
+                                                    alt={targetFriend.name}
+                                                    className="
+                                    h-20
+                                    w-20
+                                    shrink-0
+                                    object-contain
+                                "
+                                                />
+
+                                                <div>
+                                                    <p
+                                                        className="
+                                        text-xs
+                                        font-semibold
+                                        uppercase
+                                        tracking-widest
+                                        text-red-400
+                                    "
+                                    >
+                                        Friend in Danger
+                                    </p>
+
+                                    <h2 className="mt-1 text-xl font-bold">{targetFriend.name}</h2>
+
+                                    <p className="mt-1 text-sm text-white/50">Rescue your friend from this world.</p>
+                                </div>
+                            </div>
+                        </section>
+                    )}
                 </section>
 
                 {/* MISSION */}
