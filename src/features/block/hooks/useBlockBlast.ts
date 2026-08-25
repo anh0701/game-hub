@@ -1,13 +1,12 @@
 import { useRef, useState } from "react";
-
 import { GameController } from "../engine/GameController";
-
 import type { GameMode } from "../models/GameMode";
 import type { Level } from "../models/Level";
 
 export function useBlockBlast(mode: GameMode = "classic") {
     const controller = useRef(new GameController(8, 8, mode));
 
+    // 2. Tạo một trigger state để buộc re-render
     const [, setVersion] = useState(0);
 
     function refresh() {
@@ -16,33 +15,27 @@ export function useBlockBlast(mode: GameMode = "classic") {
 
     function play(pieceIndex: number, row: number, col: number) {
         const result = controller.current.play(pieceIndex, row, col);
-
         refresh();
-
         return result;
     }
 
     function preview(pieceIndex: number, row: number, col: number) {
         controller.current.preview(pieceIndex, row, col);
-
         refresh();
     }
 
     function clearPreview() {
         controller.current.clearPreview();
-
         refresh();
     }
 
     function restart() {
         controller.current.restart();
-
         refresh();
     }
 
     function startLevel(level: Level) {
         controller.current.startLevel(level);
-
         refresh();
     }
 

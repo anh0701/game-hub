@@ -39,16 +39,15 @@ export class GameController {
         this.boardEngine = new BoardEngine(rows, cols, level?.initialBlocks ?? []);
 
         this.pieceManager = new PieceManager();
-
         this.scoreManager = new ScoreManager();
-
-        if (mode === "level" && level) {
-            this.boardEngine.setInitialBlocks(level.initialBlocks);
-        }
     }
 
     getBoard(): Board {
-        return this.boardEngine.board;
+        return {
+            ...this.boardEngine.board,
+            // Clone mảng 2D cells để React phát hiện sự thay đổi reference
+            cells: this.boardEngine.board.cells.map((row) => [...row]),
+        };
     }
 
     getLevel(): Level | undefined {
@@ -185,41 +184,26 @@ export class GameController {
         this.boardEngine.reset();
 
         this.pieceManager.reset();
-
         this.scoreManager.reset();
 
         this.resetProgress();
 
         this.gameOver = false;
-
         this.levelPassed = false;
-
-        if (this.mode === "level" && this.level) {
-            this.boardEngine.setInitialBlocks(this.level.initialBlocks);
-
-            this.boardEngine.reset();
-        }
     }
 
     startLevel(level: Level): void {
         this.mode = "level";
-
         this.level = level;
 
-        this.boardEngine.reset();
-
-        this.boardEngine.setInitialBlocks(level.initialBlocks);
-
-        this.boardEngine.reset();
+        this.boardEngine.setInitialBlocks(level.initialBlocks ?? []);
 
         this.pieceManager.reset();
-
         this.scoreManager.reset();
 
         this.resetProgress();
 
         this.gameOver = false;
-
         this.levelPassed = false;
     }
 

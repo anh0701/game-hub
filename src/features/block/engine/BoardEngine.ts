@@ -33,7 +33,10 @@ export class BoardEngine {
     }
     setInitialBlocks(blocks: InitialBlock[]) {
         this.initialBlocks = blocks;
+
+        this.reset();
     }
+
     getCell(row: number, col: number) {
         return this.board.cells[row][col];
     }
@@ -56,11 +59,11 @@ export class BoardEngine {
     }
 
     reset() {
-        for (let row = 0; row < this.board.rows; row++) {
-            for (let col = 0; col < this.board.cols; col++) {
-                this.clearCell(row, col);
-            }
-        }
+        this.board.cells = Array.from({ length: this.board.rows }, () =>
+            Array.from({ length: this.board.cols }, () => ({
+                occupied: false,
+            }))
+        );
 
         this.initializeBlocks(this.initialBlocks);
     }
