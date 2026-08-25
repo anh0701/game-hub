@@ -2,17 +2,20 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { gameMaps } from "../adventure/data/maps";
+import { stories } from "../adventure/data/stories";
 
 import { loadProgress } from "../adventure/managers/ProgressManager";
-
 import { finishGame, startMap } from "../adventure/managers/AdventureManager";
+
+import type { GameResult } from "../adventure/models/GameResult";
+import type { StoryNode } from "../adventure/models/StoryNode";
 
 import BlockBlast from "../games/block/pages/BlockBlast";
 import LevelBlockBlast from "../games/block/pages/LevelBlockBlast";
-
-import type { GameResult } from "../adventure/models/GameResult";
 import RiseUpModePage from "../games/shield/RiseUpModePage";
 import { SudokuPage } from "../games/sudoku/pages/SudokuPage";
+
+import { StoryDialog } from "../adventure/components/StoryDialog";
 
 export default function AdventurePage() {
     const { mapId } = useParams();
@@ -24,6 +27,14 @@ export default function AdventurePage() {
     const [playing, setPlaying] = useState(false);
 
     const [adventureResult, setAdventureResult] = useState<ReturnType<typeof finishGame> | null>(null);
+
+    const [activeStory, setActiveStory] = useState<StoryNode | null>(() => {
+        if (!mapId) {
+            return null;
+        }
+
+        return getStory(mapId, "beforeMission");
+    });
 
     const map = gameMaps.find((item) => item.id === mapId);
 
@@ -53,21 +64,24 @@ export default function AdventurePage() {
         );
     }
 
+    if (activeStory) {
+        return (
+            <StoryDialog
+                story={activeStory}
+                onComplete={() => {
+                    setActiveStory(null);
+                }}
+            />
+        );
+    }
+
     if (adventureResult?.missionCompleted) {
         const nextMap = adventureResult.unlockedMapId
             ? gameMaps.find((item) => item.id === adventureResult.unlockedMapId)
             : undefined;
 
         return (
-            <main
-                className="
-                    min-h-screen
-                    bg-slate-950
-                    px-4
-                    py-8
-                    text-white
-                "
-            >
+            <main className="min-h-screen bg-slate-950 px-4 py-8 text-white">
                 <div className="mx-auto max-w-2xl">
                     {/* Success */}
 
@@ -246,7 +260,15 @@ export default function AdventurePage() {
 
             setProgress(resultData.progress);
 
+            setPlaying(false);
+
             setAdventureResult(resultData);
+
+            const afterStory = getStory(map.id, "afterMission");
+
+            if (afterStory) {
+                setActiveStory(afterStory);
+            }
         };
 
         if (mission.gameId === "block" && mission.gameMode === "block-free") {
@@ -266,14 +288,7 @@ export default function AdventurePage() {
         }
 
         return (
-            <main
-                className="
-                    min-h-screen
-                    bg-slate-950
-                    p-6
-                    text-white
-                "
-            >
+            <main className="min-h-screen bg-slate-950 p-6 text-white">
                 <h1 className="text-2xl font-bold">Game mode not connected</h1>
 
                 <p className="mt-2 text-white/50">{mission.gameMode}</p>
@@ -449,6 +464,13 @@ export default function AdventurePage() {
             </div>
         </main>
     );
+}
+
+/*
+ * Find story for current map.
+ */
+function getStory(mapId: string, trigger: "beforeMission" | "afterMission"): StoryNode | null {
+    return stories.find((story) => story.mapId === mapId && story.trigger === trigger) ?? null;
 }
 
 function getMissionTargetText(mission: { target: number; gameMode: string }): string {
