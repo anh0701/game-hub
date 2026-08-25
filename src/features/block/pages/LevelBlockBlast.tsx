@@ -16,6 +16,8 @@ import { levels } from "../constants/levels";
 import type { ObjectiveType } from "../models/Level";
 
 export default function LevelBlockBlast() {
+    console.log("🔵 RENDER LevelBlockBlast");
+
     const game = useBlockBlast("level");
 
     const drag = useDrag();
@@ -36,11 +38,8 @@ export default function LevelBlockBlast() {
             return;
         }
 
-        setLevelIndex(nextIndex);
-
         drag.end();
-
-        game.startLevel(levels[nextIndex]);
+        setLevelIndex(nextIndex);
     }
 
     function getObjectiveInfo(type: ObjectiveType, color?: string) {
@@ -290,7 +289,7 @@ export default function LevelBlockBlast() {
 
                                         setLevelIndex(0);
 
-                                        game.startLevel(levels[0]);
+                                        // game.startLevel(levels[0]);
                                     }}
                                 >
                                     Play Again
