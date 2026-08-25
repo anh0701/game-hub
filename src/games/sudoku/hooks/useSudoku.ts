@@ -23,6 +23,8 @@ export function useSudoku() {
 
     const [lives, setLives] = useState(3);
 
+    const [boardsCompleted, setBoardsCompleted] = useState(0);
+
     // Board dùng để hiển thị
     const displayBoard = showAnswer
         ? board.map((row, rowIndex) =>
@@ -111,6 +113,7 @@ export function useSudoku() {
         if (isBoardCompleted(newBoard)) {
             if (!usedHint) {
                 setScore((prev) => prev + 1);
+                setBoardsCompleted((prev) => prev + 1);
             }
 
             setTimeout(() => {
@@ -140,6 +143,7 @@ export function useSudoku() {
         gameOver,
         selectedCell,
         showAnswer,
+        boardsCompleted,
 
         startGame,
         selectCell,
