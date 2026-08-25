@@ -64,10 +64,17 @@ export function finishAdventureSession(result: GameResult) {
 
     const adventureResult = finishGame(progress, result);
 
+    console.log("=== FINISH ADVENTURE ===");
+    console.log("session.mapId:", session.mapId);
+    console.log("missionCompleted:", adventureResult.missionCompleted);
+    console.log("progress:", adventureResult.progress);
+
     let story: StoryNode | undefined;
 
     if (adventureResult.missionCompleted) {
         story = getUnseenStory(session.mapId, "afterMission", adventureResult.progress);
+
+        console.log("AFTER MISSION STORY:", story);
     }
 
     session = null;

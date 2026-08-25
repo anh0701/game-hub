@@ -5,27 +5,27 @@ export const characters: Character[] = [
         id: "cat",
         name: "Mochi",
         role: "player",
-        avatar: "🐱",
+        image: "/characters/mochi.png",
     },
 
     {
         id: "milo",
         name: "Milo",
         role: "friend",
-        avatar: "🐶",
+        image: "/characters/milo.png",
     },
 
     {
         id: "luna",
         name: "Luna",
         role: "friend",
-        avatar: "🐰",
+        image: "/characters/luna.png",
     },
 
     {
         id: "max",
         name: "Max",
         role: "friend",
-        avatar: "🐻",
+        image: "/characters/max.png",
     },
 ];

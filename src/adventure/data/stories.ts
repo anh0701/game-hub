@@ -6,6 +6,8 @@ export const stories: StoryNode[] = [
         mapId: "block-world",
         trigger: "beforeMission",
 
+        // rescuedCharacterId: "milo",
+
         lines: [
             {
                 type: "narration",
@@ -46,6 +48,8 @@ export const stories: StoryNode[] = [
         id: "block-world-ending",
         mapId: "block-world",
         trigger: "afterMission",
+
+        // rescuedCharacterId: "milo",
 
         lines: [
             {
@@ -296,6 +300,8 @@ export const stories: StoryNode[] = [
         id: "shield-sky-ending",
         mapId: "shield-sky",
         trigger: "afterMission",
+
+        // rescuedCharacterId: "luna",
 
         lines: [
             {

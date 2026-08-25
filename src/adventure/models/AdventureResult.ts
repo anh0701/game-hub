@@ -8,6 +8,8 @@ export interface AdventureResult {
 
     unlockedMapId?: string;
 
+    rescuedFriendId?: string;
+
     progress: PlayerProgress;
 
     story?: StoryNode;

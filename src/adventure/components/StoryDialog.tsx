@@ -19,6 +19,7 @@ export function StoryDialog({ story, onComplete }: StoryDialogProps) {
     }
 
     const isLastLine = currentIndex === story.lines.length - 1;
+
     const isNarration = line.type === "narration";
 
     const character = line.characterId ? getCharacter(line.characterId) : undefined;
@@ -40,38 +41,38 @@ export function StoryDialog({ story, onComplete }: StoryDialogProps) {
 
             <div
                 className="
-                absolute
-                inset-0
-                bg-black/40
-                backdrop-blur-[2px]
-            "
+                    absolute
+                    inset-0
+                    bg-black/40
+                    backdrop-blur-[2px]
+                "
             />
 
             {/* Story dialog */}
 
             <div
                 className="
-                relative
-                z-10
-                flex
-                min-h-full
-                items-end
-                justify-center
-                p-4
-            "
+                    relative
+                    z-10
+                    flex
+                    min-h-full
+                    items-end
+                    justify-center
+                    p-4
+                "
             >
                 <div
                     className="
-                    w-full
-                    max-w-2xl
-                    overflow-hidden
-                    rounded-3xl
-                    border
-                    border-white/10
-                    bg-slate-950/90
-                    shadow-2xl
-                    backdrop-blur-xl
-                "
+                        w-full
+                        max-w-2xl
+                        overflow-hidden
+                        rounded-3xl
+                        border
+                        border-white/10
+                        bg-slate-950/90
+                        shadow-2xl
+                        backdrop-blur-xl
+                    "
                 >
                     {isNarration ? (
                         <div className="px-6 pb-6 pt-7 sm:px-8">
@@ -80,12 +81,12 @@ export function StoryDialog({ story, onComplete }: StoryDialogProps) {
 
                                 <span
                                     className="
-                                    text-[11px]
-                                    font-bold
-                                    uppercase
-                                    tracking-[0.25em]
-                                    text-white/40
-                                "
+                                        text-[11px]
+                                        font-bold
+                                        uppercase
+                                        tracking-[0.25em]
+                                        text-white/40
+                                    "
                                 >
                                     Narrator
                                 </span>
@@ -95,13 +96,13 @@ export function StoryDialog({ story, onComplete }: StoryDialogProps) {
 
                             <p
                                 className="
-                                mt-5
-                                min-h-20
-                                text-center
-                                text-lg
-                                leading-8
-                                text-white/70
-                            "
+                                    mt-5
+                                    min-h-20
+                                    text-center
+                                    text-lg
+                                    leading-8
+                                    text-white/70
+                                "
                             >
                                 {line.text}
                             </p>
@@ -109,23 +110,48 @@ export function StoryDialog({ story, onComplete }: StoryDialogProps) {
                     ) : (
                         <div className="px-6 pb-6 pt-6 sm:px-8">
                             <div className="flex items-center gap-3">
+                                {/* Character image */}
+
                                 <div
                                     className="
-                                    flex
-                                    h-11
-                                    w-11
-                                    shrink-0
-                                    items-center
-                                    justify-center
-                                    rounded-full
-                                    bg-white/10
-                                    text-2xl
-                                    ring-1
-                                    ring-white/10
-                                "
+                                        h-14
+                                        w-14
+                                        shrink-0
+                                        overflow-hidden
+                                        rounded-full
+                                        bg-white/10
+                                        ring-1
+                                        ring-white/10
+                                    "
                                 >
-                                    {character?.avatar ?? "?"}
+                                    {character?.image ? (
+                                        <img
+                                            src={`${import.meta.env.BASE_URL}${character.image.replace(/^\/+/, "")}`}
+                                            alt={character.name}
+                                            className="
+                                                h-full
+                                                w-full
+                                                object-cover
+                                            "
+                                        />
+                                    ) : (
+                                        <div
+                                            className="
+                                                flex
+                                                h-full
+                                                w-full
+                                                items-center
+                                                justify-center
+                                                text-xl
+                                                text-white/40
+                                            "
+                                        >
+                                            ?
+                                        </div>
+                                    )}
                                 </div>
+
+                                {/* Character info */}
 
                                 <div>
                                     <div className="font-bold text-white">{character?.name ?? "Unknown"}</div>
@@ -136,12 +162,12 @@ export function StoryDialog({ story, onComplete }: StoryDialogProps) {
 
                             <p
                                 className="
-                                mt-5
-                                min-h-20
-                                text-lg
-                                leading-8
-                                text-white/90
-                            "
+                                    mt-5
+                                    min-h-20
+                                    text-lg
+                                    leading-8
+                                    text-white/90
+                                "
                             >
                                 {line.text}
                             </p>
@@ -152,31 +178,31 @@ export function StoryDialog({ story, onComplete }: StoryDialogProps) {
 
                     <div
                         className="
-                        flex
-                        justify-end
-                        border-t
-                        border-white/5
-                        bg-white/[0.03]
-                        px-6
-                        py-4
-                        sm:px-8
-                    "
+                            flex
+                            justify-end
+                            border-t
+                            border-white/5
+                            bg-white/[0.03]
+                            px-6
+                            py-4
+                            sm:px-8
+                        "
                     >
                         <button
                             type="button"
                             onClick={handleNext}
                             className="
-                            rounded-xl
-                            bg-white
-                            px-5
-                            py-2.5
-                            text-sm
-                            font-semibold
-                            text-slate-900
-                            transition
-                            hover:bg-white/90
-                            active:scale-[0.98]
-                        "
+                                rounded-xl
+                                bg-white
+                                px-5
+                                py-2.5
+                                text-sm
+                                font-semibold
+                                text-slate-900
+                                transition
+                                hover:bg-white/90
+                                active:scale-[0.98]
+                            "
                         >
                             {isLastLine ? "Continue" : "Next"}
                         </button>

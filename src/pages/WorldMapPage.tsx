@@ -204,8 +204,8 @@ export default function WorldMapPage() {
                                                     current
                                                         ? "bg-cyan-400/10 text-cyan-400 ring-1 ring-cyan-400/20"
                                                         : unlocked
-                                                        ? "bg-emerald-400/10 text-emerald-400 ring-1 ring-emerald-400/10"
-                                                        : "bg-white/5 text-white/30"
+                                                          ? "bg-emerald-400/10 text-emerald-400 ring-1 ring-emerald-400/10"
+                                                          : "bg-white/5 text-white/30"
                                                 }
                                             `}
                                             >

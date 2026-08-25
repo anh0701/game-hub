@@ -1,14 +1,19 @@
 import { useState } from "react";
 
+import type { Character } from "../models/Character";
 import type { GameResult } from "../models/GameResult";
 import type { AdventureSessionState } from "../managers/AdventureSession";
 
 import { completeStory, finishAdventureSession } from "../managers/AdventureSession";
 
+import { getCharacter } from "../managers/CharacterManager";
+
 import { StoryDialog } from "./StoryDialog";
 import { GameLauncher } from "./GameLauncher";
 
-import { FaArrowLeft, FaCat, FaPlay, FaTrophy } from "react-icons/fa6";
+import { FaArrowLeft, FaPlay, FaTrophy } from "react-icons/fa6";
+
+import { gameMaps } from "../data/maps";
 
 type AdventurePhase = "story" | "mission" | "game" | "complete";
 
@@ -23,6 +28,8 @@ export function AdventureScreen({ session, onExit }: AdventureScreenProps) {
 
     const [activeStory, setActiveStory] = useState(session.story);
 
+    const [rescuedFriend, setRescuedFriend] = useState<Character | undefined>();
+
     function handleStoryComplete() {
         if (!activeStory) {
             setPhase("mission");
@@ -31,16 +38,24 @@ export function AdventureScreen({ session, onExit }: AdventureScreenProps) {
 
         completeStory(activeStory.id);
 
-        setActiveStory(undefined);
+        const completedStory = activeStory;
 
-        if (phase === "story") {
-            if (!session.story || activeStory.id === session.story.id) {
-                setPhase("mission");
-                return;
-            }
+        if (completedStory.trigger === "beforeMission") {
+            setActiveStory(undefined);
+            setPhase("mission");
+
+            return;
         }
 
-        setPhase("complete");
+        if (completedStory.trigger === "afterMission") {
+            setActiveStory(undefined);
+            setPhase("complete");
+
+            return;
+        }
+
+        setActiveStory(undefined);
+        setPhase("mission");
     }
 
     function handleMissionStart() {
@@ -48,20 +63,31 @@ export function AdventureScreen({ session, onExit }: AdventureScreenProps) {
     }
 
     function handleGameComplete(result: GameResult) {
-        console.log("GAME RESULT:", result);
+        console.log("🔥 HANDLE GAME COMPLETE CALLED");
+        console.log("RESULT:", result);
 
         const adventureResult = finishAdventureSession(result);
 
-        console.log("ADVENTURE RESULT:", adventureResult);
+        console.log("🔥 ADVENTURE RESULT:", adventureResult);
 
         if (!adventureResult.missionCompleted) {
             setPhase("mission");
+
             return;
+        }
+
+        if (adventureResult.rescuedFriendId) {
+            const friend = getCharacter(adventureResult.rescuedFriendId);
+
+            console.log("🔥 RESCUED FRIEND ID:", adventureResult.rescuedFriendId);
+
+            console.log("🔥 RESCUED FRIEND:", friend);
+
+            setRescuedFriend(friend);
         }
 
         if (adventureResult.story) {
             setActiveStory(adventureResult.story);
-
             setPhase("story");
 
             return;
@@ -149,7 +175,51 @@ export function AdventureScreen({ session, onExit }: AdventureScreenProps) {
                         <p className="mt-3 text-white/50">You completed the mission and rescued your friend.</p>
                     </section>
 
-                    {/* Friend rescued */}
+                    {/* Rescued Friend */}
+
+                    {rescuedFriend && (
+                        <section
+                            className="
+                                mt-8
+                                rounded-2xl
+                                bg-white/5
+                                p-6
+                                text-center
+                                ring-1
+                                ring-white/10
+                            "
+                        >
+                            <img
+                                src={`${import.meta.env.BASE_URL}${rescuedFriend.image.replace(/^\/+/, "")}`}
+                                alt={rescuedFriend.name}
+                                className="
+                                    mx-auto
+                                    h-28
+                                    w-28
+                                    object-contain
+                                "
+                            />
+
+                            <p
+                                className="
+                                    mt-4
+                                    text-xs
+                                    font-semibold
+                                    uppercase
+                                    tracking-widest
+                                    text-emerald-400
+                                "
+                            >
+                                Friend Rescued
+                            </p>
+
+                            <h2 className="mt-2 text-2xl font-bold">{rescuedFriend.name}</h2>
+
+                            <p className="mt-2 text-white/50">{rescuedFriend.name} is safe now.</p>
+                        </section>
+                    )}
+
+                    {/* Result */}
 
                     <section
                         className="
@@ -164,6 +234,7 @@ export function AdventureScreen({ session, onExit }: AdventureScreenProps) {
                     >
                         <div
                             className="
+                                mx-auto
                                 flex
                                 h-16
                                 w-16
@@ -177,12 +248,12 @@ export function AdventureScreen({ session, onExit }: AdventureScreenProps) {
                                 ring-amber-400/20
                             "
                         >
-                            <FaCat />
+                            ★
                         </div>
 
-                        <h2 className="mt-4 text-2xl font-bold">{session.mapId}</h2>
+                        <h2 className="mt-4 text-2xl font-bold">{getMapName(session.mapId)}</h2>
 
-                        <p className="mt-2 text-white/50">Another friend has been rescued.</p>
+                        <p className="mt-2 text-white/50">The adventure continues.</p>
                     </section>
 
                     {/* Back */}
@@ -265,48 +336,9 @@ export function AdventureScreen({ session, onExit }: AdventureScreenProps) {
                     <p className="mt-3 leading-7 text-white/50">{getMapDescription(session.mapId)}</p>
                 </section>
 
-                {/* FRIEND */}
-
-                <section
-                    className="
-                        mt-8
-                        rounded-2xl
-                        bg-white/5
-                        p-6
-                        ring-1
-                        ring-white/10
-                    "
-                >
-                    <div
-                        className="
-                            flex
-                            h-16
-                            w-16
-                            items-center
-                            justify-center
-                            rounded-2xl
-                            bg-amber-400/10
-                            text-3xl
-                            text-amber-400
-                            ring-1
-                            ring-amber-400/20
-                        "
-                    >
-                        <FaCat />
-                    </div>
-
-                    <div className="mt-4">
-                        <p className="text-sm text-white/40">Your friend</p>
-
-                        <h2 className="mt-1 text-2xl font-bold">Rescue {getFriendId(session.mapId)}</h2>
-
-                        <p className="mt-2 text-white/50">Complete the mission to rescue your friend.</p>
-                    </div>
-                </section>
-
                 {/* MISSION */}
 
-                <section className="mt-6">
+                <section className="mt-8">
                     <p
                         className="
                             text-xs
@@ -410,8 +442,6 @@ export function AdventureScreen({ session, onExit }: AdventureScreenProps) {
     );
 }
 
-import { gameMaps } from "../data/maps";
-
 function getMap(mapId: string) {
     return gameMaps.find((map) => map.id === mapId);
 }
@@ -422,10 +452,6 @@ function getMapName(mapId: string): string {
 
 function getMapDescription(mapId: string): string {
     return getMap(mapId)?.description ?? "Explore this mysterious world and rescue your friend.";
-}
-
-function getFriendId(mapId: string): string {
-    return getMap(mapId)?.friendId ?? "your friend";
 }
 
 function getMissionTargetText(mission: { target: number; gameMode: string }): string {

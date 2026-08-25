@@ -17,6 +17,7 @@ import {
 
 import { gameMaps } from "../data/maps";
 import { generateMission } from "./MissionGenerator";
+import type { AdventureResult } from "../models/AdventureResult";
 
 export function startMap(progress: PlayerProgress, mapId: string): PlayerProgress {
     const map = gameMaps.find((item) => item.id === mapId);
@@ -44,16 +45,6 @@ export function startMap(progress: PlayerProgress, mapId: string): PlayerProgres
     saveProgress(updatedProgress);
 
     return updatedProgress;
-}
-
-export interface AdventureResult {
-    missionCompleted: boolean;
-
-    rescuedFriend: boolean;
-
-    unlockedMapId?: string;
-
-    progress: PlayerProgress;
 }
 
 export function finishGame(progress: PlayerProgress, result: GameResult): AdventureResult {
@@ -103,6 +94,8 @@ export function finishGame(progress: PlayerProgress, result: GameResult): Advent
         rescuedFriend: true,
 
         unlockedMapId: nextMap?.id,
+
+        rescuedFriendId: map.friendId,
 
         progress: updatedProgress,
     };
