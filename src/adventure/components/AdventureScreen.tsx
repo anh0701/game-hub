@@ -8,6 +8,8 @@ import { completeStory, finishAdventureSession } from "../managers/AdventureSess
 import { StoryDialog } from "./StoryDialog";
 import { GameLauncher } from "./GameLauncher";
 
+import { FaArrowLeft, FaCat, FaPlay, FaTrophy } from "react-icons/fa6";
+
 type AdventurePhase = "story" | "mission" | "game" | "complete";
 
 interface AdventureScreenProps {
@@ -93,20 +95,41 @@ export function AdventureScreen({ session, onExit }: AdventureScreenProps) {
                             type="button"
                             onClick={onExit}
                             className="
+                                flex
+                                items-center
+                                gap-2
                                 text-sm
                                 text-white/40
                                 transition
-                                hover:text-white
+                                hover:text-cyan-400
                             "
                         >
-                            ← Adventure Map
+                            <FaArrowLeft className="text-cyan-400" />
+                            Adventure Map
                         </button>
                     )}
 
                     {/* Success */}
 
                     <section className="pt-10 text-center">
-                        <div className="text-6xl">🎉</div>
+                        <div
+                            className="
+                                mx-auto
+                                flex
+                                h-20
+                                w-20
+                                items-center
+                                justify-center
+                                rounded-2xl
+                                bg-emerald-400/10
+                                text-4xl
+                                text-emerald-400
+                                ring-1
+                                ring-emerald-400/20
+                            "
+                        >
+                            <FaTrophy />
+                        </div>
 
                         <p
                             className="
@@ -139,7 +162,23 @@ export function AdventureScreen({ session, onExit }: AdventureScreenProps) {
                             ring-white/10
                         "
                     >
-                        <div className="text-6xl">🐱</div>
+                        <div
+                            className="
+                                flex
+                                h-16
+                                w-16
+                                items-center
+                                justify-center
+                                rounded-2xl
+                                bg-amber-400/10
+                                text-3xl
+                                text-amber-400
+                                ring-1
+                                ring-amber-400/20
+                            "
+                        >
+                            <FaCat />
+                        </div>
 
                         <h2 className="mt-4 text-2xl font-bold">{session.mapId}</h2>
 
@@ -192,13 +231,17 @@ export function AdventureScreen({ session, onExit }: AdventureScreenProps) {
                         type="button"
                         onClick={onExit}
                         className="
+                            flex
+                            items-center
+                            gap-2
                             text-sm
                             text-white/40
                             transition
-                            hover:text-white
+                            hover:text-cyan-400
                         "
                     >
-                        ← Adventure Map
+                        <FaArrowLeft className="text-cyan-400" />
+                        Adventure Map
                     </button>
                 )}
 
@@ -234,7 +277,23 @@ export function AdventureScreen({ session, onExit }: AdventureScreenProps) {
                         ring-white/10
                     "
                 >
-                    <div className="text-5xl">🐱</div>
+                    <div
+                        className="
+                            flex
+                            h-16
+                            w-16
+                            items-center
+                            justify-center
+                            rounded-2xl
+                            bg-amber-400/10
+                            text-3xl
+                            text-amber-400
+                            ring-1
+                            ring-amber-400/20
+                        "
+                    >
+                        <FaCat />
+                    </div>
 
                     <div className="mt-4">
                         <p className="text-sm text-white/40">Your friend</p>
@@ -325,7 +384,11 @@ export function AdventureScreen({ session, onExit }: AdventureScreenProps) {
                             onClick={handleMissionStart}
                             className="
                                 mt-6
+                                flex
                                 w-full
+                                items-center
+                                justify-center
+                                gap-2
                                 rounded-xl
                                 bg-slate-950
                                 px-5
@@ -337,6 +400,7 @@ export function AdventureScreen({ session, onExit }: AdventureScreenProps) {
                                 active:scale-[0.98]
                             "
                         >
+                            <FaPlay className="text-blue-400" />
                             Start Mission
                         </button>
                     </div>

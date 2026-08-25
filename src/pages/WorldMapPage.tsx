@@ -6,6 +6,8 @@ import { loadProgress } from "../adventure/managers/ProgressManager";
 
 import { startMap } from "../adventure/managers/AdventureManager";
 
+import { FaArrowLeft, FaLock, FaTree } from "react-icons/fa6";
+
 export default function WorldMapPage() {
     const navigate = useNavigate();
 
@@ -29,13 +31,17 @@ export default function WorldMapPage() {
                         type="button"
                         onClick={() => navigate("/")}
                         className="
-                            text-sm
-                            text-white/40
-                            transition
-                            hover:text-white
-                        "
+                        flex
+                        items-center
+                        gap-2
+                        text-sm
+                        text-white/40
+                        transition
+                        hover:text-white
+                    "
                     >
-                        ← Home
+                        <FaArrowLeft className="text-xs" />
+                        Home
                     </button>
 
                     <h1 className="mt-6 text-3xl font-bold">Adventure Map</h1>
@@ -138,7 +144,11 @@ export default function WorldMapPage() {
                                                     }
                                                 `}
                                             >
-                                                {unlocked ? "🌲" : "🔒"}
+                                                {unlocked ? (
+                                                    <FaTree className="text-emerald-400" />
+                                                ) : (
+                                                    <FaLock className="text-white/30" />
+                                                )}
                                             </div>
 
                                             {/* Info */}
@@ -179,7 +189,28 @@ export default function WorldMapPage() {
 
                                             {/* Arrow */}
 
-                                            <div className="text-xl">{unlocked ? "→" : "🔒"}</div>
+                                            <div
+                                                className={`
+                                                flex
+                                                h-12
+                                                w-12
+                                                shrink-0
+                                                items-center
+                                                justify-center
+                                                rounded-xl
+                                                text-xl
+
+                                                ${
+                                                    current
+                                                        ? "bg-cyan-400/10 text-cyan-400 ring-1 ring-cyan-400/20"
+                                                        : unlocked
+                                                        ? "bg-emerald-400/10 text-emerald-400 ring-1 ring-emerald-400/10"
+                                                        : "bg-white/5 text-white/30"
+                                                }
+                                            `}
+                                            >
+                                                {unlocked ? <FaTree /> : <FaLock />}
+                                            </div>
                                         </div>
                                     </button>
                                 </div>

@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { gameMaps } from "../adventure/data/maps";
 import { loadProgress } from "../adventure/managers/ProgressManager";
 
+import { FaArrowRight, FaCheck, FaHashtag, FaLock, FaPuzzlePiece } from "react-icons/fa";
+import { FaShieldHalved } from "react-icons/fa6";
+
 export default function Home() {
     const navigate = useNavigate();
 
@@ -170,12 +173,17 @@ export default function Home() {
                             type="button"
                             onClick={() => navigate("/world")}
                             className="
-                                text-sm
-                                text-white/40
-                                hover:text-white
-                            "
+                            flex
+                            items-center
+                            gap-1
+                            text-sm
+                            text-white/40
+                            transition
+                            hover:text-white
+                        "
                         >
-                            View Map →
+                            View Map
+                            <FaArrowRight className="text-xs" />
                         </button>
                     </div>
 
@@ -230,7 +238,7 @@ export default function Home() {
                                                     }
                                                 `}
                                         >
-                                            {current ? "→" : unlocked ? "✓" : "🔒"}
+                                            {current ? <FaArrowRight /> : unlocked ? <FaCheck /> : <FaLock />}
                                         </div>
 
                                         {index < gameMaps.length - 1 && (
@@ -265,11 +273,23 @@ export default function Home() {
                     <p className="mt-1 text-sm text-white/40">Complete challenges to progress.</p>
 
                     <div className="mt-4 grid gap-3 sm:grid-cols-3">
-                        <GameCard emoji="🧩" title="Block Blast" onClick={() => navigate("/block")} />
+                        <GameCard
+                            icon={<FaPuzzlePiece className="text-violet-400" />}
+                            title="Block Blast"
+                            onClick={() => navigate("/block")}
+                        />
 
-                        <GameCard emoji="🔢" title="Sudoku" onClick={() => navigate("/sudoku")} />
+                        <GameCard
+                            icon={<FaHashtag className="text-blue-400" />}
+                            title="Sudoku"
+                            onClick={() => navigate("/sudoku")}
+                        />
 
-                        <GameCard emoji="🛡️" title="Shield" onClick={() => navigate("/shield")} />
+                        <GameCard
+                            icon={<FaShieldHalved className="text-emerald-400" />}
+                            title="Shield"
+                            onClick={() => navigate("/shield")}
+                        />
                     </div>
                 </section>
             </div>
@@ -295,12 +315,13 @@ function ProgressCard({ label, value }: { label: string; value: number }) {
     );
 }
 
-function GameCard({ emoji, title, onClick }: { emoji: string; title: string; onClick: () => void }) {
+function GameCard({ icon, title, onClick }: { icon: React.ReactNode; title: string; onClick: () => void }) {
     return (
         <button
             type="button"
             onClick={onClick}
             className="
+                group
                 rounded-xl
                 bg-white/5
                 p-5
@@ -308,13 +329,32 @@ function GameCard({ emoji, title, onClick }: { emoji: string; title: string; onC
                 ring-1
                 ring-white/10
                 transition
+                hover:-translate-y-0.5
                 hover:bg-white/10
+                hover:ring-white/20
                 active:scale-[0.98]
             "
         >
-            <div className="text-2xl">{emoji}</div>
+            <div
+                className="
+                    flex
+                    h-11
+                    w-11
+                    items-center
+                    justify-center
+                    rounded-xl
+                    bg-white/5
+                    text-xl
+                    ring-1
+                    ring-white/10
+                    transition
+                    group-hover:bg-white/10
+                "
+            >
+                {icon}
+            </div>
 
-            <div className="mt-3 font-semibold">{title}</div>
+            <div className="mt-4 font-semibold">{title}</div>
 
             <div className="mt-1 text-sm text-white/40">Play challenge</div>
         </button>
