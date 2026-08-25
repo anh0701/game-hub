@@ -8,6 +8,7 @@ const BLOCK_COLORS: Record<string, string> = {
     cyan: "#00d9ff",
     blue: "#5865f2",
     green: "#00d084",
+    yellow: "#ffd43b",
     orange: "#ff9f1c",
     red: "#ff4d67",
     purple: "#b455ff",
@@ -46,7 +47,7 @@ export default function Cell({ cell }: Props) {
         );
     }
 
-    const color = BLOCK_COLORS[cell.color ?? ""];
+    const color = BLOCK_COLORS[cell.color ?? "#ffffff"];
 
     return (
         <div

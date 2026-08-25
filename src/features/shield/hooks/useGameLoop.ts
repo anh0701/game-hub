@@ -13,10 +13,7 @@ export function useGameLoop(update: UpdateFunction) {
                 lastTime.current = currentTime;
             }
 
-            const deltaTime = Math.min(
-                (currentTime - lastTime.current) / 1000,
-                0.033
-            );
+            const deltaTime = Math.min((currentTime - lastTime.current) / 1000, 0.033);
 
             lastTime.current = currentTime;
 

@@ -28,16 +28,9 @@ export function updateGame(prev: GameState, deltaTime: number, pointer: PointerP
 
     const REFERENCE_HEIGHT = 800;
 
-    const speedScale = Math.max(
-        0.7,
-        Math.min(size.height / REFERENCE_HEIGHT, 1)
-    );
+    const speedScale = Math.max(0.7, Math.min(size.height / REFERENCE_HEIGHT, 1));
 
-    const nextCameraY =
-        prev.camera.y +
-        prev.camera.speed *
-        speedScale *
-        deltaTime;
+    const nextCameraY = prev.camera.y + prev.camera.speed * speedScale * deltaTime;
 
     // GENERATE ZONES
 

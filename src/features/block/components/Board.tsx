@@ -1,12 +1,9 @@
 import type { RefObject } from "react";
-
 import Cell from "./Cell";
-
 import type { Board as BoardModel } from "../models/Board";
 
 interface Props {
     board: BoardModel;
-
     boardRef: RefObject<HTMLDivElement | null>;
 }
 
@@ -14,6 +11,7 @@ export default function Board({ board, boardRef }: Props) {
     return (
         <div
             ref={boardRef}
+            data-board="true"
             className="
                 grid
                 w-full
@@ -29,9 +27,10 @@ export default function Board({ board, boardRef }: Props) {
                 gridTemplateColumns: `repeat(${board.cols}, minmax(0, 1fr))`,
             }}
         >
-            {board.cells.flat().map((cell, index) => (
-                <Cell key={index} cell={cell} />
-            ))}
+            {/* Duyệt theo Row trước, Col sau để khớp chính xác với Engine */}
+            {board.cells.map((rowCells, rowIndex) =>
+                rowCells.map((cell, colIndex) => <Cell key={`${rowIndex}-${colIndex}`} cell={cell} />)
+            )}
         </div>
     );
 }

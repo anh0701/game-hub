@@ -25,8 +25,9 @@ export default function LevelBlockBlast() {
     const [levelIndex, setLevelIndex] = useState(0);
 
     useEffect(() => {
-        game.startLevel(levels[0]);
-    }, []);
+        // Luôn start đúng levelIndex hiện tại
+        game.startLevel(levels[levelIndex]);
+    }, [levelIndex]);
 
     function nextLevel() {
         const nextIndex = levelIndex + 1;
