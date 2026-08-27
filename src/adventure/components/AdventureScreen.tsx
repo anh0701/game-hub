@@ -12,15 +12,14 @@ import { StoryDialog } from "./StoryDialog";
 import { GameLauncher } from "./GameLauncher";
 
 import { FaArrowLeft, FaPlay, FaTrophy } from "react-icons/fa6";
+import { FaStar } from "react-icons/fa";
 
 import { gameMaps } from "../data/maps";
-import { FaStar } from "react-icons/fa";
 
 type AdventurePhase = "story" | "mission" | "game" | "complete";
 
 interface AdventureScreenProps {
     session: AdventureSessionState;
-
     onExit?: () => void;
 }
 
@@ -30,6 +29,8 @@ export function AdventureScreen({ session, onExit }: AdventureScreenProps) {
     const [activeStory, setActiveStory] = useState(session.story);
 
     const [rescuedFriend, setRescuedFriend] = useState<Character | undefined>();
+
+    const [isReplay, setIsReplay] = useState(false);
 
     const map = getMap(session.mapId);
 
@@ -48,14 +49,12 @@ export function AdventureScreen({ session, onExit }: AdventureScreenProps) {
         if (completedStory.trigger === "beforeMission") {
             setActiveStory(undefined);
             setPhase("mission");
-
             return;
         }
 
         if (completedStory.trigger === "afterMission") {
             setActiveStory(undefined);
             setPhase("complete");
-
             return;
         }
 
@@ -77,7 +76,6 @@ export function AdventureScreen({ session, onExit }: AdventureScreenProps) {
 
         if (!adventureResult.missionCompleted) {
             setPhase("mission");
-
             return;
         }
 
@@ -89,12 +87,18 @@ export function AdventureScreen({ session, onExit }: AdventureScreenProps) {
             console.log("🔥 RESCUED FRIEND:", friend);
 
             setRescuedFriend(friend);
+
+            // First-time rescue
+            setIsReplay(false);
+        } else {
+            setRescuedFriend(undefined);
+
+            setIsReplay(true);
         }
 
         if (adventureResult.story) {
             setActiveStory(adventureResult.story);
             setPhase("story");
-
             return;
         }
 
@@ -120,7 +124,6 @@ export function AdventureScreen({ session, onExit }: AdventureScreenProps) {
             <main className="min-h-screen bg-slate-950 px-4 py-8 text-white">
                 <div className="mx-auto max-w-2xl">
                     {/* Back */}
-
                     {onExit && (
                         <button
                             type="button"
@@ -140,129 +143,250 @@ export function AdventureScreen({ session, onExit }: AdventureScreenProps) {
                         </button>
                     )}
 
-                    {/* Success */}
+                    {isReplay ? (
+                        <>
+                            {/* Success */}
+                            <section className="pt-10 text-center">
+                                <div
+                                    className="
+                                        mx-auto
+                                        flex
+                                        h-20
+                                        w-20
+                                        items-center
+                                        justify-center
+                                        rounded-2xl
+                                        bg-cyan-400/10
+                                        text-4xl
+                                        text-cyan-400
+                                        ring-1
+                                        ring-cyan-400/20
+                                    "
+                                >
+                                    <FaStar />
+                                </div>
 
-                    <section className="pt-10 text-center">
-                        <div
-                            className="
-                                mx-auto
-                                flex
-                                h-20
-                                w-20
-                                items-center
-                                justify-center
-                                rounded-2xl
-                                bg-emerald-400/10
-                                text-4xl
-                                text-emerald-400
-                                ring-1
-                                ring-emerald-400/20
-                            "
-                        >
-                            <FaTrophy />
-                        </div>
+                                <p
+                                    className="
+                                        mt-6
+                                        text-xs
+                                        font-semibold
+                                        uppercase
+                                        tracking-widest
+                                        text-white/40
+                                    "
+                                >
+                                    Great Job
+                                </p>
 
-                        <p
-                            className="
-                                mt-6
-                                text-xs
-                                font-semibold
-                                uppercase
-                                tracking-widest
-                                text-white/40
-                            "
-                        >
-                            Mission Complete
-                        </p>
+                                <h1 className="mt-2 text-4xl font-bold">You're Getting Better!</h1>
 
-                        <h1 className="mt-2 text-4xl font-bold">Adventure Complete</h1>
+                                <p className="mx-auto mt-3 max-w-lg leading-7 text-white/50">
+                                    You have already rescued your friend, but every challenge makes you smarter, faster,
+                                    and more prepared.
+                                </p>
+                            </section>
 
-                        <p className="mt-3 text-white/50">You completed the mission and rescued your friend.</p>
-                    </section>
-
-                    {/* Rescued Friend */}
-
-                    {rescuedFriend && (
-                        <section
-                            className="
-                                mt-8
-                                rounded-2xl
-                                bg-white/5
-                                p-6
-                                text-center
-                                ring-1
-                                ring-white/10
-                            "
-                        >
-                            <img
-                                src={`${import.meta.env.BASE_URL}${rescuedFriend.image.replace(/^\/+/, "")}`}
-                                alt={rescuedFriend.name}
+                            {/* Encouragement */}
+                            <section
                                 className="
-                                    mx-auto
-                                    h-28
-                                    w-28
-                                    object-contain
-                                "
-                            />
-
-                            <p
-                                className="
-                                    mt-4
-                                    text-xs
-                                    font-semibold
-                                    uppercase
-                                    tracking-widest
-                                    text-emerald-400
+                                    mt-8
+                                    rounded-2xl
+                                    bg-white/5
+                                    p-6
+                                    text-center
+                                    ring-1
+                                    ring-white/10
                                 "
                             >
-                                Friend Rescued
-                            </p>
+                                <div
+                                    className="
+                                        mx-auto
+                                        flex
+                                        h-16
+                                        w-16
+                                        items-center
+                                        justify-center
+                                        rounded-2xl
+                                        bg-amber-400/10
+                                        text-3xl
+                                        text-amber-400
+                                        ring-1
+                                        ring-amber-400/20
+                                    "
+                                >
+                                    <FaStar />
+                                </div>
 
-                            <h2 className="mt-2 text-2xl font-bold">{rescuedFriend.name}</h2>
+                                <h2 className="mt-4 text-2xl font-bold">Keep Training</h2>
 
-                            <p className="mt-2 text-white/50">{rescuedFriend.name} is safe now.</p>
-                        </section>
+                                <p className="mt-3 leading-7 text-white/50">
+                                    The next time a friend needs your help, you'll be ready to rescue them even faster.
+                                </p>
+
+                                <p className="mt-3 leading-7 text-cyan-400/80">
+                                    Every game makes you a better adventurer.
+                                </p>
+                            </section>
+
+                            {/* Current World */}
+                            <section
+                                className="
+                                    mt-8
+                                    rounded-2xl
+                                    bg-white/5
+                                    p-6
+                                    text-center
+                                    ring-1
+                                    ring-white/10
+                                "
+                            >
+                                <div
+                                    className="
+                                        mx-auto
+                                        flex
+                                        h-16
+                                        w-16
+                                        items-center
+                                        justify-center
+                                        rounded-2xl
+                                        bg-emerald-400/10
+                                        text-3xl
+                                        text-emerald-400
+                                        ring-1
+                                        ring-emerald-400/20
+                                    "
+                                >
+                                    <FaTrophy />
+                                </div>
+
+                                <h2 className="mt-4 text-2xl font-bold">{getMapName(session.mapId)}</h2>
+
+                                <p className="mt-2 text-white/50">Keep exploring. Your next adventure is waiting.</p>
+                            </section>
+                        </>
+                    ) : (
+                        <>
+                            <section className="pt-10 text-center">
+                                <div
+                                    className="
+                                        mx-auto
+                                        flex
+                                        h-20
+                                        w-20
+                                        items-center
+                                        justify-center
+                                        rounded-2xl
+                                        bg-emerald-400/10
+                                        text-4xl
+                                        text-emerald-400
+                                        ring-1
+                                        ring-emerald-400/20
+                                    "
+                                >
+                                    <FaTrophy />
+                                </div>
+
+                                <p
+                                    className="
+                                        mt-6
+                                        text-xs
+                                        font-semibold
+                                        uppercase
+                                        tracking-widest
+                                        text-white/40
+                                    "
+                                >
+                                    Mission Complete
+                                </p>
+
+                                <h1 className="mt-2 text-4xl font-bold">Adventure Complete</h1>
+
+                                <p className="mt-3 text-white/50">You completed the mission and rescued your friend.</p>
+                            </section>
+
+                            {/* Rescued Friend */}
+                            {rescuedFriend && (
+                                <section
+                                    className="
+                                        mt-8
+                                        rounded-2xl
+                                        bg-white/5
+                                        p-6
+                                        text-center
+                                        ring-1
+                                        ring-white/10
+                                    "
+                                >
+                                    <img
+                                        src={`${import.meta.env.BASE_URL}${rescuedFriend.image.replace(/^\/+/, "")}`}
+                                        alt={rescuedFriend.name}
+                                        className="
+                                            mx-auto
+                                            h-28
+                                            w-28
+                                            object-contain
+                                        "
+                                    />
+
+                                    <p
+                                        className="
+                                            mt-4
+                                            text-xs
+                                            font-semibold
+                                            uppercase
+                                            tracking-widest
+                                            text-emerald-400
+                                        "
+                                    >
+                                        Friend Rescued
+                                    </p>
+
+                                    <h2 className="mt-2 text-2xl font-bold">{rescuedFriend.name}</h2>
+
+                                    <p className="mt-2 text-white/50">{rescuedFriend.name} is safe now.</p>
+                                </section>
+                            )}
+
+                            {/* Result */}
+                            <section
+                                className="
+                                    mt-8
+                                    rounded-2xl
+                                    bg-white/5
+                                    p-6
+                                    text-center
+                                    ring-1
+                                    ring-white/10
+                                "
+                            >
+                                <div
+                                    className="
+                                        mx-auto
+                                        flex
+                                        h-16
+                                        w-16
+                                        items-center
+                                        justify-center
+                                        rounded-2xl
+                                        bg-amber-400/10
+                                        text-3xl
+                                        text-amber-400
+                                        ring-1
+                                        ring-amber-400/20
+                                    "
+                                >
+                                    <FaStar />
+                                </div>
+
+                                <h2 className="mt-4 text-2xl font-bold">{getMapName(session.mapId)}</h2>
+
+                                <p className="mt-2 text-white/50">The adventure continues.</p>
+                            </section>
+                        </>
                     )}
 
-                    {/* Result */}
-
-                    <section
-                        className="
-                            mt-8
-                            rounded-2xl
-                            bg-white/5
-                            p-6
-                            text-center
-                            ring-1
-                            ring-white/10
-                        "
-                    >
-                        <div
-                            className="
-                                mx-auto
-                                flex
-                                h-16
-                                w-16
-                                items-center
-                                justify-center
-                                rounded-2xl
-                                bg-amber-400/10
-                                text-3xl
-                                text-amber-400
-                                ring-1
-                                ring-amber-400/20
-                            "
-                        >
-                            <FaStar />
-                        </div>
-
-                        <h2 className="mt-4 text-2xl font-bold">{getMapName(session.mapId)}</h2>
-
-                        <p className="mt-2 text-white/50">The adventure continues.</p>
-                    </section>
-
-                    {/* Back */}
-
+                    {/* Back to Map */}
                     {onExit && (
                         <button
                             type="button"
@@ -301,7 +425,6 @@ export function AdventureScreen({ session, onExit }: AdventureScreenProps) {
         >
             <div className="mx-auto max-w-2xl">
                 {/* Back */}
-
                 {onExit && (
                     <button
                         type="button"
@@ -322,7 +445,6 @@ export function AdventureScreen({ session, onExit }: AdventureScreenProps) {
                 )}
 
                 {/* MAP */}
-
                 <section className="mt-8">
                     <p
                         className="
@@ -343,35 +465,35 @@ export function AdventureScreen({ session, onExit }: AdventureScreenProps) {
                     {targetFriend && (
                         <section
                             className="
-                            mt-6
-                            rounded-2xl
-                            bg-white/5
-                            p-5
-                            ring-1
-                            ring-white/10
-                        "
+                                mt-6
+                                rounded-2xl
+                                bg-white/5
+                                p-5
+                                ring-1
+                                ring-white/10
+                            "
                         >
                             <div className="flex items-center gap-4">
                                 <img
                                     src={`${import.meta.env.BASE_URL}${targetFriend.image.replace(/^\/+/, "")}`}
                                     alt={targetFriend.name}
                                     className="
-                                    h-20
-                                    w-20
-                                    shrink-0
-                                    object-contain
-                                "
+                                        h-20
+                                        w-20
+                                        shrink-0
+                                        object-contain
+                                    "
                                 />
 
                                 <div>
                                     <p
                                         className="
-                                        text-xs
-                                        font-semibold
-                                        uppercase
-                                        tracking-widest
-                                        text-red-400
-                                    "
+                                            text-xs
+                                            font-semibold
+                                            uppercase
+                                            tracking-widest
+                                            text-red-400
+                                        "
                                     >
                                         Friend in Danger
                                     </p>
@@ -386,7 +508,6 @@ export function AdventureScreen({ session, onExit }: AdventureScreenProps) {
                 </section>
 
                 {/* MISSION */}
-
                 <section className="mt-8">
                     <p
                         className="
@@ -414,7 +535,6 @@ export function AdventureScreen({ session, onExit }: AdventureScreenProps) {
                         <p className="mt-2 text-slate-500">{session.mission.description}</p>
 
                         {/* OBJECTIVE */}
-
                         <div
                             className="
                                 mt-6
@@ -429,7 +549,6 @@ export function AdventureScreen({ session, onExit }: AdventureScreenProps) {
                         </div>
 
                         {/* TAGS */}
-
                         <div className="mt-4 flex flex-wrap gap-2">
                             <span
                                 className="
@@ -459,7 +578,6 @@ export function AdventureScreen({ session, onExit }: AdventureScreenProps) {
                         </div>
 
                         {/* START */}
-
                         <button
                             type="button"
                             onClick={handleMissionStart}

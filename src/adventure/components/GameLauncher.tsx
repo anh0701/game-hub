@@ -28,7 +28,7 @@ export function GameLauncher({ gameMode, target, onComplete }: GameLauncherProps
 
         case "shield":
             return <RiseUpModePage targetScore={target} onComplete={onComplete} />;
-        
+
         case "block-match3":
             return <Match3BlockBlast targetScore={target} onComplete={onComplete} />;
 

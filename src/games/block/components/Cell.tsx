@@ -51,8 +51,8 @@ export default function Cell({ cell }: Props) {
     const color = BLOCK_COLORS[cell.color ?? ""] ?? "#ffffff";
 
     return (
-    <div
-        className="
+        <div
+            className="
             block-cell
             relative
             aspect-square
@@ -62,8 +62,8 @@ export default function Cell({ cell }: Props) {
             border
             border-white/15
         "
-        style={{
-            background: `
+            style={{
+                background: `
                 linear-gradient(
                     145deg,
                     rgba(255,255,255,0.18) 0%,
@@ -71,14 +71,14 @@ export default function Cell({ cell }: Props) {
                 ),
                 ${color}
             `,
-            boxShadow: `
+                boxShadow: `
                 inset 0 1px 1px rgba(255,255,255,0.35),
                 inset 0 -2px 4px rgba(0,0,0,0.2),
                 0 2px 5px ${color}66
             `,
-        }}
-    >
-        <span className="block-shine" />
-    </div>
-);
+            }}
+        >
+            <span className="block-shine" />
+        </div>
+    );
 }
