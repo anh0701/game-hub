@@ -25,7 +25,7 @@ export const levels: Level[] = [
         objectives: [
             {
                 type: "score",
-                target: 50,
+                target: 100,
             },
         ],
     },
@@ -59,11 +59,11 @@ export const levels: Level[] = [
         objectives: [
             {
                 type: "score",
-                target: 70,
+                target: 150,
             },
             {
                 type: "clear_rows",
-                target: 2,
+                target: 5,
             },
         ],
     },
@@ -92,7 +92,7 @@ export const levels: Level[] = [
         objectives: [
             {
                 type: "clear_columns",
-                target: 2,
+                target: 5,
             },
         ],
     },
@@ -116,7 +116,7 @@ export const levels: Level[] = [
         objectives: [
             {
                 type: "clear_blocks",
-                target: 10,
+                target: 50,
             },
         ],
     },
@@ -141,7 +141,7 @@ export const levels: Level[] = [
             {
                 type: "clear_blocks",
                 color: "red",
-                target: 10,
+                target: 50,
             },
         ],
     },
@@ -160,7 +160,7 @@ export const levels: Level[] = [
             {
                 type: "clear_blocks",
                 color: "blue",
-                target: 8,
+                target: 30,
             },
         ],
     },
@@ -187,7 +187,7 @@ export const levels: Level[] = [
             },
             {
                 type: "score",
-                target: 80,
+                target: 150,
             },
         ],
     },
@@ -210,7 +210,7 @@ export const levels: Level[] = [
         objectives: [
             {
                 type: "clear_columns",
-                target: 2,
+                target: 60,
             },
         ],
     },
@@ -234,12 +234,12 @@ export const levels: Level[] = [
         objectives: [
             {
                 type: "clear_rows",
-                target: 2,
+                target: 10,
             },
             {
                 type: "clear_blocks",
                 color: "green",
-                target: 6,
+                target: 30,
             },
         ],
     },
@@ -295,7 +295,7 @@ export const levels: Level[] = [
         objectives: [
             {
                 type: "clear_columns",
-                target: 3,
+                target: 30,
             },
             {
                 type: "clear_blocks",
@@ -526,12 +526,12 @@ export const levels: Level[] = [
             {
                 type: "clear_blocks",
                 color: "green",
-                target: 8,
+                target: 10,
             },
             {
                 type: "clear_blocks",
                 color: "red",
-                target: 8,
+                target: 50,
             },
         ],
     },
@@ -557,11 +557,11 @@ export const levels: Level[] = [
         objectives: [
             {
                 type: "clear_columns",
-                target: 3,
+                target: 5,
             },
             {
                 type: "clear_rows",
-                target: 2,
+                target: 10,
             },
         ],
     },
@@ -695,7 +695,7 @@ export const levels: Level[] = [
         objectives: [
             {
                 type: "clear_rows",
-                target: 4,
+                target: 40,
             },
             {
                 type: "score",
@@ -728,7 +728,7 @@ export const levels: Level[] = [
         objectives: [
             {
                 type: "clear_columns",
-                target: 4,
+                target: 40,
             },
             {
                 type: "clear_blocks",
@@ -804,7 +804,7 @@ export const levels: Level[] = [
         objectives: [
             {
                 type: "clear_columns",
-                target: 4,
+                target: 40,
             },
             {
                 type: "clear_blocks",
@@ -839,7 +839,7 @@ export const levels: Level[] = [
         objectives: [
             {
                 type: "clear_rows",
-                target: 4,
+                target: 40,
             },
             {
                 type: "clear_columns",
@@ -880,7 +880,7 @@ export const levels: Level[] = [
             {
                 type: "clear_blocks",
                 color: "purple",
-                target: 12,
+                target: 120,
             },
             {
                 type: "clear_blocks",
@@ -915,17 +915,17 @@ export const levels: Level[] = [
             { row: 7, col: 0, color: "red" },
             { row: 7, col: 1, color: "red" },
 
-            { row: 7, col: 7, color: "purple" },
+            { row: 7, col: 70, color: "purple" },
         ],
 
         objectives: [
             {
                 type: "clear_rows",
-                target: 5,
+                target: 50,
             },
             {
                 type: "clear_columns",
-                target: 4,
+                target: 40,
             },
             {
                 type: "clear_blocks",
@@ -977,7 +977,7 @@ export const levels: Level[] = [
             },
             {
                 type: "clear_rows",
-                target: 5,
+                target: 50,
             },
             {
                 type: "score",

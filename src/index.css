@@ -25,3 +25,68 @@
     pointer-events: none;
     opacity: 0.65;
 }
+
+@keyframes match3-clear {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+        filter: brightness(1);
+    }
+
+    35% {
+        transform: scale(1.12);
+        opacity: 1;
+        filter: brightness(1.8);
+    }
+
+    70% {
+        transform: scale(0.7);
+        opacity: 0.5;
+        filter: brightness(1.5);
+    }
+
+    100% {
+        transform: scale(0);
+        opacity: 0;
+        filter: brightness(2);
+    }
+}
+
+@keyframes match3-fall {
+    0% {
+        transform: translateY(-35%);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@keyframes match3-spawn {
+    0% {
+        transform: translateY(-120%);
+        opacity: 0;
+    }
+
+    60% {
+        transform: translateY(15%);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.animate-match-clear {
+    animation: match3-clear 250ms ease-in forwards;
+}
+
+.animate-block-fall {
+    animation: match3-fall 350ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.animate-block-spawn {
+    animation: match3-spawn 350ms cubic-bezier(0.22, 1, 0.36, 1);
+}

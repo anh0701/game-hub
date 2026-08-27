@@ -68,19 +68,23 @@ export function finishGame(progress: PlayerProgress, result: GameResult): Advent
         };
     }
 
-    updatedProgress = completeMission(updatedProgress, mission.id);
-
     const map = gameMaps.find((item) => item.id === progress.currentMapId);
 
     if (!map) {
         throw new Error(`Map not found: ${progress.currentMapId}`);
     }
 
-    updatedProgress = rescueFriend(updatedProgress, map.friendId);
+    const alreadyRescued = progress.rescuedFriendIds.includes(map.friendId);
+
+    updatedProgress = completeMission(updatedProgress, mission.id);
+
+    if (!alreadyRescued) {
+        updatedProgress = rescueFriend(updatedProgress, map.friendId);
+    }
 
     const nextMap = getNextMap(map.id);
 
-    if (nextMap) {
+    if (!alreadyRescued && nextMap) {
         updatedProgress = unlockMap(updatedProgress, nextMap.id);
     }
 
@@ -91,11 +95,11 @@ export function finishGame(progress: PlayerProgress, result: GameResult): Advent
     return {
         missionCompleted: true,
 
-        rescuedFriend: true,
+        rescuedFriend: !alreadyRescued,
 
-        unlockedMapId: nextMap?.id,
+        unlockedMapId: !alreadyRescued ? nextMap?.id : undefined,
 
-        rescuedFriendId: map.friendId,
+        rescuedFriendId: !alreadyRescued ? map.friendId : undefined,
 
         progress: updatedProgress,
     };
