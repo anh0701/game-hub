@@ -350,22 +350,22 @@ export function AdventureScreen({ session, onExit }: AdventureScreenProps) {
                             ring-1
                             ring-white/10
                         "
-                                        >
-                                            <div className="flex items-center gap-4">
-                                                <img
-                                                    src={`${import.meta.env.BASE_URL}${targetFriend.image.replace(/^\/+/, "")}`}
-                                                    alt={targetFriend.name}
-                                                    className="
+                        >
+                            <div className="flex items-center gap-4">
+                                <img
+                                    src={`${import.meta.env.BASE_URL}${targetFriend.image.replace(/^\/+/, "")}`}
+                                    alt={targetFriend.name}
+                                    className="
                                     h-20
                                     w-20
                                     shrink-0
                                     object-contain
                                 "
-                                                />
+                                />
 
-                                                <div>
-                                                    <p
-                                                        className="
+                                <div>
+                                    <p
+                                        className="
                                         text-xs
                                         font-semibold
                                         uppercase

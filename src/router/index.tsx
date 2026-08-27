@@ -10,6 +10,7 @@ import { BLOCK_ROUTES } from "../games/block/constants/routes";
 import RiseUpModePage from "../games/shield/RiseUpModePage";
 import WorldMapPage from "../pages/WorldMapPage";
 import AdventurePage from "../pages/AdventurePage";
+import Match3BlockBlast from "../games/block/pages/Match3BlockBlast";
 
 export const router = createHashRouter([
     {
@@ -40,6 +41,10 @@ export const router = createHashRouter([
             {
                 path: BLOCK_ROUTES.levels,
                 element: <LevelBlockBlast />,
+            },
+            {
+                path: BLOCK_ROUTES.match3board,
+                element: <Match3BlockBlast />,
             },
             {
                 path: "sudoku",
