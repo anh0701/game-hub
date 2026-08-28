@@ -12,10 +12,7 @@ interface Match3BlockBlastProps {
     onComplete?: (result: GameResult) => void;
 }
 
-export default function Match3BlockBlast({
-    targetScore,
-    onComplete,
-}: Match3BlockBlastProps) {
+export default function Match3BlockBlast({ targetScore, onComplete }: Match3BlockBlastProps) {
     const {
         board,
         score,
@@ -86,12 +83,7 @@ export default function Match3BlockBlast({
                     Match 3 or more blocks of the same color
                 </div>
 
-                {gameOver && !missionCompleted && (
-                    <GameOverModal
-                        score={score}
-                        onRestart={restart}
-                    />
-                )}
+                {gameOver && !missionCompleted && <GameOverModal score={score} onRestart={restart} />}
             </main>
         </Layout>
     );

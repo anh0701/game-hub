@@ -248,9 +248,8 @@ export class Match3GameController {
 
         const positions = this.clearingPositions;
 
-
         // Phải lưu màu TRƯỚC khi clear cell.
-        
+
         for (const position of positions) {
             const cell = this.boardEngine.getCell(position.row, position.col);
 
@@ -259,7 +258,6 @@ export class Match3GameController {
             }
         }
 
-      
         // Sau khi đã lưu màu mới xóa.
 
         for (const position of positions) {
@@ -563,7 +561,49 @@ export class Match3GameController {
     }
 
     private randomColor(): string {
-        return this.colors[Math.floor(Math.random() * this.colors.length)];
+        const targetColors = this.getTargetColors();
+
+        // Classic mode hoặc level không có target color
+        if (targetColors.length === 0) {
+            return this.colors[Math.floor(Math.random() * this.colors.length)];
+        }
+
+        /*
+         * Level mode:
+         *
+         * Target color: weight 3
+         * Normal color: weight 1
+         *
+         * Ví dụ có 1 target:
+         *
+         * red    = 3
+         * blue   = 1
+         * green  = 1
+         * yellow = 1
+         * orange = 1
+         * purple = 1
+         * cyan   = 1
+         *
+         * => red ~30%
+         */
+        const weightedColors = this.colors.flatMap((color) => {
+            const weight = targetColors.includes(color) ? 3 : 1;
+
+            return Array(weight).fill(color);
+        });
+
+        return weightedColors[Math.floor(Math.random() * weightedColors.length)];
+    }
+
+    private getTargetColors(): string[] {
+        if (!this.level) {
+            return [];
+        }
+
+        return this.level.objectives
+            .filter((objective) => objective.type === "clear_blocks" && objective.color)
+            .map((objective) => objective.color!)
+            .filter((color, index, array) => array.indexOf(color) === index);
     }
 
     private generateInitialBoard(rows: number, cols: number): InitialBlock[] {

@@ -14,12 +14,7 @@ interface UseMatch3Options {
     onComplete?: (result: GameResult) => void;
 }
 
-export function useMatch3({
-    level,
-    levelKey,
-    targetScore,
-    onComplete,
-}: UseMatch3Options = {}) {
+export function useMatch3({ level, levelKey, targetScore, onComplete }: UseMatch3Options = {}) {
     const gameRef = useRef<{
         key: string | number | undefined;
         game: Match3GameController;
@@ -35,18 +30,11 @@ export function useMatch3({
      *     -> đổi level sẽ tạo controller mới
      */
 
-    if (
-        !gameRef.current ||
-        gameRef.current.key !== levelKey
-    ) {
+    if (!gameRef.current || gameRef.current.key !== levelKey) {
         gameRef.current = {
             key: levelKey,
 
-            game: new Match3GameController(
-                8,
-                8,
-                level
-            ),
+            game: new Match3GameController(8, 8, level),
         };
     }
 
@@ -58,11 +46,7 @@ export function useMatch3({
         forceUpdate((value) => value + 1);
     }, []);
 
-
-    const missionCompleted =
-        targetScore !== undefined &&
-        game.getScore() >= targetScore;
-
+    const missionCompleted = targetScore !== undefined && game.getScore() >= targetScore;
 
     const currentLevel = game.getLevel();
 
@@ -73,7 +57,6 @@ export function useMatch3({
     const timeRemaining = game.getTimeRemaining();
 
     const objectives = game.getObjectiveProgress();
-
 
     useEffect(() => {
         if (!game.isAnimating()) {
@@ -120,23 +103,14 @@ export function useMatch3({
         return () => {
             window.clearTimeout(timer);
         };
-    }, [
-        game.getAnimation(),
-        game.isAnimating(),
-        refresh,
-    ]);
-
+    }, [game.getAnimation(), game.isAnimating(), refresh]);
 
     useEffect(() => {
         if (!currentLevel) {
             return;
         }
 
-        if (
-            levelPassed ||
-            levelFailed ||
-            game.isGameOver()
-        ) {
+        if (levelPassed || levelFailed || game.isGameOver()) {
             return;
         }
 
@@ -149,19 +123,11 @@ export function useMatch3({
         return () => {
             window.clearInterval(timer);
         };
-    }, [
-        currentLevel,
-        levelPassed,
-        levelFailed,
-        game,
-        refresh,
-    ]);
-
+    }, [currentLevel, levelPassed, levelFailed, game, refresh]);
 
     const completionReportedRef = useRef(false);
 
     useEffect(() => {
-
         if (level) {
             return;
         }
@@ -181,23 +147,11 @@ export function useMatch3({
             gameMode: "block-match3",
             score: game.getScore(),
         });
-    }, [
-        level,
-        missionCompleted,
-        game,
-        onComplete,
-    ]);
-
+    }, [level, missionCompleted, game, onComplete]);
 
     const handleCellClick = useCallback(
         (row: number, col: number) => {
-            if (
-                game.isGameOver() ||
-                game.isAnimating() ||
-                missionCompleted ||
-                levelPassed ||
-                levelFailed
-            ) {
+            if (game.isGameOver() || game.isAnimating() || missionCompleted || levelPassed || levelFailed) {
                 return;
             }
 
@@ -205,13 +159,7 @@ export function useMatch3({
 
             refresh();
         },
-        [
-            game,
-            missionCompleted,
-            levelPassed,
-            levelFailed,
-            refresh,
-        ]
+        [game, missionCompleted, levelPassed, levelFailed, refresh]
     );
 
     const restart = useCallback(() => {
@@ -220,37 +168,26 @@ export function useMatch3({
         completionReportedRef.current = false;
 
         refresh();
-    }, [
-        game,
-        refresh,
-    ]);
-
+    }, [game, refresh]);
 
     return {
         board: game.getBoard(),
 
         score: game.getScore(),
 
-        selectedPosition:
-            game.getSelectedPosition(),
+        selectedPosition: game.getSelectedPosition(),
 
-        animation:
-            game.getAnimation(),
+        animation: game.getAnimation(),
 
-        clearingPositions:
-            game.getClearingPositions(),
+        clearingPositions: game.getClearingPositions(),
 
-        fallingPositions:
-            game.getFallingPositions(),
+        fallingPositions: game.getFallingPositions(),
 
-        spawningPositions:
-            game.getSpawningPositions(),
+        spawningPositions: game.getSpawningPositions(),
 
-        gameOver:
-            game.isGameOver(),
+        gameOver: game.isGameOver(),
 
-        animating:
-            game.isAnimating(),
+        animating: game.isAnimating(),
 
         missionCompleted,
 

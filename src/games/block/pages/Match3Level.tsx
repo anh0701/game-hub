@@ -1,16 +1,11 @@
 import { useEffect, useState } from "react";
-import {
-    FiCheck,
-    FiClock,
-    FiTarget,
-} from "react-icons/fi";
+import { FiCheck, FiClock, FiTarget } from "react-icons/fi";
 
 import Layout from "../../../components/Layout";
 import { GameOverModal } from "../../../components/GameOverModal";
 
 import Match3Board from "../components/Match3Board";
 import { useMatch3 } from "../hooks/useMatch3";
-
 
 import type { GameResult } from "../../../adventure/models/GameResult";
 import { MATCH3_LEVELS } from "../constants/match3Levels";
@@ -19,15 +14,12 @@ interface Match3LevelProps {
     onComplete?: (result: GameResult) => void;
 }
 
-export default function Match3Level({
-    onComplete,
-}: Match3LevelProps) {
+export default function Match3Level({ onComplete }: Match3LevelProps) {
     const [currentLevelIndex, setCurrentLevelIndex] = useState(0);
 
     const level = MATCH3_LEVELS[currentLevelIndex];
 
-    const isLastLevel =
-        currentLevelIndex === MATCH3_LEVELS.length - 1;
+    const isLastLevel = currentLevelIndex === MATCH3_LEVELS.length - 1;
 
     const {
         board,
@@ -63,12 +55,7 @@ export default function Match3Level({
             gameMode: "block-match3",
             score,
         });
-    }, [
-        levelPassed,
-        isLastLevel,
-        score,
-        onComplete,
-    ]);
+    }, [levelPassed, isLastLevel, score, onComplete]);
 
     const handleNextLevel = () => {
         if (isLastLevel) {
@@ -96,7 +83,6 @@ export default function Match3Level({
                     sm:px-6
                 "
             >
-
                 <div className="mb-3 text-center">
                     <div
                         className="
@@ -190,10 +176,7 @@ export default function Match3Level({
                                     "
                                 >
                                     Clear {objective.target}
-                                    {objective.color
-                                        ? ` ${objective.color}`
-                                        : ""}{" "}
-                                    blocks
+                                    {objective.color ? ` ${objective.color}` : ""} blocks
                                 </div>
                             ))}
 
@@ -206,11 +189,8 @@ export default function Match3Level({
                                 "
                             >
                                 {objectives.map((objective, index) => (
-                                    <span
-                                        key={`${objective.type}-progress-${index}`}
-                                    >
-                                        {objective.current} /{" "}
-                                        {objective.target}
+                                    <span key={`${objective.type}-progress-${index}`}>
+                                        {objective.current} / {objective.target}
                                     </span>
                                 ))}
                             </div>
@@ -234,14 +214,7 @@ export default function Match3Level({
                             shadow-lg
                         "
                     >
-                        <FiClock
-                            size={20}
-                            className={
-                                timeRemaining <= 10
-                                    ? "text-red-400"
-                                    : "text-slate-400"
-                            }
-                        />
+                        <FiClock size={20} className={timeRemaining <= 10 ? "text-red-400" : "text-slate-400"} />
 
                         <div>
                             <div
@@ -260,11 +233,7 @@ export default function Match3Level({
                                 className={`
                                     text-sm
                                     font-bold
-                                    ${
-                                        timeRemaining <= 10
-                                            ? "text-red-400"
-                                            : "text-slate-200"
-                                    }
+                                    ${timeRemaining <= 10 ? "text-red-400" : "text-slate-200"}
                                 `}
                             >
                                 {timeRemaining}s
@@ -328,7 +297,6 @@ export default function Match3Level({
                     Select two adjacent blocks to swap
                 </div>
 
-
                 <Match3Board
                     board={board}
                     selectedPosition={selectedPosition}
@@ -338,7 +306,6 @@ export default function Match3Level({
                     spawningPositions={spawningPositions}
                     onCellClick={handleCellClick}
                 />
-
 
                 <div
                     className="
@@ -450,19 +417,9 @@ export default function Match3Level({
                     </div>
                 )}
 
-                {gameOver && !levelPassed && (
-                    <GameOverModal
-                        score={score}
-                        onRestart={restart}
-                    />
-                )}
+                {gameOver && !levelPassed && <GameOverModal score={score} onRestart={restart} />}
 
-                {levelFailed && !levelPassed && !gameOver && (
-                    <GameOverModal
-                        score={score}
-                        onRestart={restart}
-                    />
-                )}
+                {levelFailed && !levelPassed && !gameOver && <GameOverModal score={score} onRestart={restart} />}
             </main>
         </Layout>
     );

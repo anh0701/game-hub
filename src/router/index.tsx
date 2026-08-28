@@ -49,7 +49,7 @@ export const router = createHashRouter([
             },
             {
                 path: BLOCK_ROUTES.match3level,
-                element: <Match3Level/>,
+                element: <Match3Level />,
             },
             {
                 path: "sudoku",
