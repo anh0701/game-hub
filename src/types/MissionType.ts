@@ -18,4 +18,4 @@ export interface Mission {
 
 export type GameId = "block" | "sudoku" | "shield";
 
-export type GameMode = "block-free" | "block-level" | "sudoku" | "shield" | "block-match3";
+export type GameMode = "block-free" | "block-level" | "sudoku" | "shield" | "block-match3" | "block-match3-level";

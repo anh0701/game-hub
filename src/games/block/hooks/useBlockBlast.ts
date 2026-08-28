@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
-import { GameController } from "../engine/GameController";
 import type { GameMode } from "../models/GameMode";
 import type { Level } from "../models/Level";
+import { GameController } from "../controllers/GameController";
 
 export function useBlockBlast(mode: GameMode = "classic") {
     const controller = useRef(new GameController(8, 8, mode));

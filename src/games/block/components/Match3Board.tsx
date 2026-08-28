@@ -4,7 +4,7 @@ import Cell from "./Cell";
 
 import type { Board as BoardModel } from "../models/Board";
 
-import type { Match3Animation, Match3Position } from "../match3/Match3Types";
+import type { Match3Animation, Match3Position } from "../models/Match3Types";
 
 interface Props {
     board: BoardModel;

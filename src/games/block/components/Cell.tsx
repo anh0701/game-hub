@@ -10,7 +10,7 @@ const BLOCK_COLORS: Record<string, string> = {
     green: "#18B96E",
     yellow: "#FFD21F",
     orange: "#FF7A18",
-    red: "#FF4B5F",
+    red: "#EF3340",
     purple: "#A855F7",
 };
 

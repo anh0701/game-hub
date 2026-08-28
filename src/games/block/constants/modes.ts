@@ -34,4 +34,11 @@ export const BLOCK_GAME_MODES: BlockGameMode[] = [
         route: BLOCK_ROUTES.match3board,
         icon: FaTableCellsLarge,
     },
+    {
+        id: "match3-level",
+        title: "Match 3 Level",
+        description: "Match 3 or more blocks of the same color.",
+        route: BLOCK_ROUTES.match3level,
+        icon: FaLayerGroup,
+    },
 ];
