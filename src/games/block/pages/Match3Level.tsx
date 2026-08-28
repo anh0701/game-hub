@@ -273,7 +273,7 @@ export default function Match3Level({
                     </div>
                 </div>
 
-                <div
+                {/* <div
                     className="
                         mb-3
                         flex
@@ -314,7 +314,7 @@ export default function Match3Level({
                             </span>
                         </div>
                     ))}
-                </div>
+                </div> */}
 
                 <div
                     className="
