@@ -1,13 +1,12 @@
-import { BoardEngine } from "./BoardEngine";
-import { PieceManager } from "./PieceManager";
-import { ScoreManager } from "./ScoreManager";
-
 import type { Board } from "../models/Board";
 import type { Piece } from "../models/Piece";
 import type { PlayResult } from "../models/PlayResult";
-import { GameRule } from "./GameRule";
 import type { Level, LevelObjective } from "../models/Level";
 import type { GameMode } from "../models/GameMode";
+import { BoardEngine } from "../engine/BoardEngine";
+import { PieceManager } from "../engine/PieceManager";
+import { ScoreManager } from "../engine/ScoreManager";
+import { GameRule } from "../engine/GameRule";
 
 export class GameController {
     private readonly boardEngine: BoardEngine;

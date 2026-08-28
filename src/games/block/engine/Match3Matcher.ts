@@ -1,6 +1,6 @@
 import type { Board } from "../models/Board";
 
-import type { Match3Group, Match3Position } from "./Match3Types";
+import type { Match3Group, Match3Position } from "../models/Match3Types";
 
 export class Match3Matcher {
     private static readonly DIRECTIONS: Match3Position[] = [

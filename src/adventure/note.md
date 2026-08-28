@@ -1,3 +1,5 @@
+```sh
+
                     ADVENTURE SYSTEM
 
                      AdventureManager
@@ -24,3 +26,36 @@
               │
               ▼
          GameResult
+
+```
+
+## Match 3
+
+```sh
+
+                    Match3
+                      │
+             ┌────────┴────────┐
+             │                 │
+            Free             Level
+             │                 │
+      không objective      Level data
+             │                 │
+             │          ┌──────┴──────┐
+             │          │             │
+             │        Timer        Objective
+             │          │             │
+             │          │        clear blocks
+             │          │             │
+             │          │       color optional
+             │          │             │
+             │          └──────┬──────┘
+             │                 │
+             │             Complete
+             │                 │
+             │             Next Level
+             │
+        No more moves
+             │
+          Game Over
+```

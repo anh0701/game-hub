@@ -1,114 +1,37 @@
-import { useEffect, useRef, useState } from "react";
-
 import Layout from "../../../components/Layout";
 import { ScoreBoard } from "../../../components/ScoreBoard";
 import { GameOverModal } from "../../../components/GameOverModal";
 
 import Match3Board from "../components/Match3Board";
 
-import { Match3GameController } from "../match3/Match3GameController";
-
 import type { GameResult } from "../../../adventure/models/GameResult";
+import { useMatch3 } from "../hooks/useMatch3";
 
 interface Match3BlockBlastProps {
     targetScore?: number;
     onComplete?: (result: GameResult) => void;
 }
 
-export default function Match3BlockBlast({ targetScore, onComplete }: Match3BlockBlastProps) {
-    const gameRef = useRef<Match3GameController | null>(null);
-
-    if (!gameRef.current) {
-        gameRef.current = new Match3GameController();
-    }
-
-    const game = gameRef.current;
-
-    const [, forceUpdate] = useState(0);
-
-    const missionCompleted = targetScore !== undefined && game.getScore() >= targetScore;
-
-    const refresh = () => {
-        forceUpdate((value) => value + 1);
-    };
-
-    useEffect(() => {
-        if (!game.isAnimating()) {
-            return;
-        }
-
-        const animation = game.getAnimation();
-
-        let timeout = 0;
-
-        if (animation === "clearing") {
-            timeout = 250;
-        }
-
-        if (animation === "falling") {
-            timeout = 350;
-        }
-
-        if (animation === "spawning") {
-            timeout = 350;
-        }
-
-        const timer = window.setTimeout(() => {
-            if (animation === "clearing") {
-                game.resolveClearPhase();
-            }
-
-            if (animation === "falling") {
-                game.resolveFallPhase();
-            }
-
-            if (animation === "spawning") {
-                game.resolveSpawnPhase();
-            }
-
-            refresh();
-        }, timeout);
-
-        return () => window.clearTimeout(timer);
-    }, [game.getAnimation(), game.isAnimating()]);
-
-    const completionReportedRef = useRef(false);
-
-    useEffect(() => {
-        if (!missionCompleted) {
-            return;
-        }
-
-        if (completionReportedRef.current) {
-            return;
-        }
-
-        completionReportedRef.current = true;
-
-        onComplete?.({
-            gameId: "block",
-            gameMode: "block-match3",
-            score: game.getScore(),
-        });
-    }, [missionCompleted, game, onComplete]);
-
-    const handleCellClick = (row: number, col: number) => {
-        if (game.isGameOver() || game.isAnimating() || missionCompleted) {
-            return;
-        }
-
-        game.select(row, col);
-
-        refresh();
-    };
-
-    const handleRestart = () => {
-        game.restart();
-
-        completionReportedRef.current = false;
-
-        refresh();
-    };
+export default function Match3BlockBlast({
+    targetScore,
+    onComplete,
+}: Match3BlockBlastProps) {
+    const {
+        board,
+        score,
+        selectedPosition,
+        animation,
+        clearingPositions,
+        fallingPositions,
+        spawningPositions,
+        gameOver,
+        missionCompleted,
+        handleCellClick,
+        restart,
+    } = useMatch3({
+        targetScore,
+        onComplete,
+    });
 
     return (
         <Layout>
@@ -128,7 +51,7 @@ export default function Match3BlockBlast({ targetScore, onComplete }: Match3Bloc
                     sm:px-6
                 "
             >
-                <ScoreBoard score={game.getScore()} />
+                <ScoreBoard score={score} />
 
                 <div
                     className="
@@ -143,12 +66,12 @@ export default function Match3BlockBlast({ targetScore, onComplete }: Match3Bloc
                 </div>
 
                 <Match3Board
-                    board={game.getBoard()}
-                    selectedPosition={game.getSelectedPosition()}
-                    animation={game.getAnimation()}
-                    clearingPositions={game.getClearingPositions()}
-                    fallingPositions={game.getFallingPositions()}
-                    spawningPositions={game.getSpawningPositions()}
+                    board={board}
+                    selectedPosition={selectedPosition}
+                    animation={animation}
+                    clearingPositions={clearingPositions}
+                    fallingPositions={fallingPositions}
+                    spawningPositions={spawningPositions}
                     onCellClick={handleCellClick}
                 />
 
@@ -163,8 +86,11 @@ export default function Match3BlockBlast({ targetScore, onComplete }: Match3Bloc
                     Match 3 or more blocks of the same color
                 </div>
 
-                {game.isGameOver() && !missionCompleted && (
-                    <GameOverModal score={game.getScore()} onRestart={handleRestart} />
+                {gameOver && !missionCompleted && (
+                    <GameOverModal
+                        score={score}
+                        onRestart={restart}
+                    />
                 )}
             </main>
         </Layout>

@@ -1,11 +1,10 @@
 import { BoardEngine } from "../engine/BoardEngine";
+import { Match3Matcher } from "../engine/Match3Matcher";
 
 import type { Board } from "../models/Board";
 import type { InitialBlock } from "../models/Level";
-
-import { Match3Matcher } from "./Match3Matcher";
-
-import type { Match3Animation, Match3MoveResult, Match3Position } from "./Match3Types";
+import type { Match3Level } from "../models/Match3Level";
+import type { Match3Animation, Match3MoveResult, Match3Position } from "../models/Match3Types";
 
 export class Match3GameController {
     private readonly boardEngine: BoardEngine;
@@ -22,6 +21,18 @@ export class Match3GameController {
 
     private animating = false;
 
+    private level?: Match3Level;
+
+    private levelPassed = false;
+
+    private levelFailed = false;
+
+    private timeRemaining = 0;
+
+    private clearedBlocks = 0;
+
+    private clearedBlocksByColor: Record<string, number> = {};
+
     private animation: Match3Animation = "idle";
 
     private clearingPositions: Match3Position[] = [];
@@ -30,12 +41,72 @@ export class Match3GameController {
 
     private spawningPositions: Match3Position[] = [];
 
-    constructor(rows = 8, cols = 8) {
+    constructor(rows = 8, cols = 8, level?: Match3Level) {
+        this.level = level;
+
+        this.timeRemaining = level?.timeLimit ?? 0;
+
         this.initialBlocks = this.generateInitialBoard(rows, cols);
 
         this.boardEngine = new BoardEngine(rows, cols, this.initialBlocks);
 
         this.gameOver = !this.hasAvailableMove();
+    }
+
+    getLevel(): Match3Level | undefined {
+        return this.level;
+    }
+
+    isLevelMode(): boolean {
+        return this.level !== undefined;
+    }
+
+    isLevelPassed(): boolean {
+        return this.levelPassed;
+    }
+
+    isLevelFailed(): boolean {
+        return this.levelFailed;
+    }
+
+    getTimeRemaining(): number {
+        return this.timeRemaining;
+    }
+
+    getClearedBlocks(): number {
+        return this.clearedBlocks;
+    }
+
+    getClearedBlocksByColor(): Record<string, number> {
+        return {
+            ...this.clearedBlocksByColor,
+        };
+    }
+
+    getObjectiveProgress() {
+        if (!this.level) {
+            return [];
+        }
+
+        return this.level.objectives.map((objective) => {
+            let current = 0;
+
+            if (objective.type === "clear_blocks") {
+                if (objective.color) {
+                    current = this.clearedBlocksByColor[objective.color] ?? 0;
+                } else {
+                    current = this.clearedBlocks;
+                }
+            }
+
+            return {
+                ...objective,
+
+                current,
+
+                completed: current >= objective.target,
+            };
+        });
     }
 
     getBoard(): Board {
@@ -177,6 +248,20 @@ export class Match3GameController {
 
         const positions = this.clearingPositions;
 
+
+        // Phải lưu màu TRƯỚC khi clear cell.
+        
+        for (const position of positions) {
+            const cell = this.boardEngine.getCell(position.row, position.col);
+
+            if (cell.color) {
+                this.clearedBlocksByColor[cell.color] = (this.clearedBlocksByColor[cell.color] ?? 0) + 1;
+            }
+        }
+
+      
+        // Sau khi đã lưu màu mới xóa.
+
         for (const position of positions) {
             this.boardEngine.clearCell(position.row, position.col);
         }
@@ -185,12 +270,34 @@ export class Match3GameController {
 
         this.score += clearedCount;
 
+        this.clearedBlocks += clearedCount;
+
         this.clearingPositions = [];
 
-        // Xác định block nào sẽ rơi
+        /*
+         * Xác định block sẽ rơi.
+         */
         this.fallingPositions = this.getFallingPositions();
 
         this.animation = "falling";
+    }
+
+    private checkLevelComplete(): boolean {
+        if (!this.level) {
+            return false;
+        }
+
+        return this.level.objectives.every((objective) => {
+            if (objective.type === "clear_blocks") {
+                if (objective.color) {
+                    return (this.clearedBlocksByColor[objective.color] ?? 0) >= objective.target;
+                }
+
+                return this.clearedBlocks >= objective.target;
+            }
+
+            return false;
+        });
     }
 
     resolveFallPhase(): void {
@@ -219,6 +326,16 @@ export class Match3GameController {
 
         this.spawningPositions = [];
 
+        if (this.checkLevelComplete()) {
+            this.levelPassed = true;
+
+            this.animation = "idle";
+
+            this.animating = false;
+
+            return;
+        }
+
         // Kiểm tra chain reaction
         const matches = Match3Matcher.findMatches(this.boardEngine.board);
 
@@ -238,10 +355,38 @@ export class Match3GameController {
         this.gameOver = !this.hasAvailableMove();
     }
 
-    restart(): void {
-        this.initialBlocks = this.generateInitialBoard(this.boardEngine.board.rows, this.boardEngine.board.cols);
+    tick(): void {
+        if (!this.level || this.levelPassed || this.levelFailed || this.gameOver) {
+            return;
+        }
 
-        this.boardEngine.setInitialBlocks(this.initialBlocks);
+        if (this.timeRemaining <= 0) {
+            this.timeRemaining = 0;
+
+            this.levelFailed = true;
+
+            this.gameOver = true;
+
+            return;
+        }
+
+        this.timeRemaining--;
+
+        if (this.timeRemaining <= 0) {
+            this.timeRemaining = 0;
+
+            if (!this.checkLevelComplete()) {
+                this.levelFailed = true;
+
+                this.gameOver = true;
+            }
+        }
+    }
+
+    restart(): void {
+        this.boardEngine.setInitialBlocks(
+            this.generateInitialBoard(this.boardEngine.board.rows, this.boardEngine.board.cols)
+        );
 
         this.selectedPosition = null;
 
@@ -252,6 +397,16 @@ export class Match3GameController {
         this.animating = false;
 
         this.animation = "idle";
+
+        this.levelPassed = false;
+
+        this.levelFailed = false;
+
+        this.timeRemaining = this.level?.timeLimit ?? 0;
+
+        this.clearedBlocks = 0;
+
+        this.clearedBlocksByColor = {};
 
         this.clearingPositions = [];
 
