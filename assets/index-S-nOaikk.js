@@ -1209,23 +1209,6 @@ Please change the parent <Route path="${e}"> to <Route path="${e===`/`?`*`:`${e}
                                     font-bold
                                     ${h<=10?`text-red-400`:`text-slate-200`}
                                 `,children:[h,`s`]})]})]})]}),(0,B.jsx)(`div`,{className:`
-                        mb-3
-                        flex
-                        flex-wrap
-                        justify-center
-                        gap-2
-                    `,children:g.map((e,t)=>(0,B.jsxs)(`div`,{className:`
-                                flex
-                                items-center
-                                gap-2
-                                rounded-full
-                                border
-                                px-3
-                                py-1.5
-                                text-xs
-                                font-semibold
-                                ${e.completed?`border-emerald-500/30 bg-emerald-500/10 text-emerald-400`:`border-slate-700 bg-slate-900/60 text-slate-400`}
-                            `,children:[e.completed?(0,B.jsx)(Lo,{size:13}):(0,B.jsx)(No,{size:13}),(0,B.jsxs)(`span`,{children:[e.current,` /`,` `,e.target]})]},`${e.type}-${t}`))}),(0,B.jsx)(`div`,{className:`
                         mb-2
                         text-center
                         text-sm
