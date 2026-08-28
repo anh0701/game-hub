@@ -571,12 +571,12 @@ export class Match3GameController {
         /*
          * Level mode:
          *
-         * Target color: weight 3
+         * Target color: weight 2
          * Normal color: weight 1
          *
          * Ví dụ có 1 target:
          *
-         * red    = 3
+         * red    = 2
          * blue   = 1
          * green  = 1
          * yellow = 1
@@ -584,10 +584,10 @@ export class Match3GameController {
          * purple = 1
          * cyan   = 1
          *
-         * => red ~30%
+         * => red ~22%
          */
         const weightedColors = this.colors.flatMap((color) => {
-            const weight = targetColors.includes(color) ? 3 : 1;
+            const weight = targetColors.includes(color) ? 2 : 1;
 
             return Array(weight).fill(color);
         });
