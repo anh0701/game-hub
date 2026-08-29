@@ -31,6 +31,8 @@ export class Match3GameController {
 
     private clearedBlocks = 0;
 
+    private timeUp = false;
+
     private clearedBlocksByColor: Record<string, number> = {};
 
     private animation: Match3Animation = "idle";
@@ -149,8 +151,12 @@ export class Match3GameController {
         return [...this.spawningPositions];
     }
 
+    isTimeUp(): boolean {
+        return this.timeUp;
+    }
+
     select(row: number, col: number): Match3MoveResult | null {
-        if (this.gameOver || this.animating) {
+        if (this.gameOver || this.animating || this.timeUp) {
             return null;
         }
 
@@ -324,17 +330,13 @@ export class Match3GameController {
 
         this.spawningPositions = [];
 
-        if (this.checkLevelComplete()) {
-            this.levelPassed = true;
-
-            this.animation = "idle";
-
-            this.animating = false;
-
-            return;
-        }
-
-        // Kiểm tra chain reaction
+        /*
+         * Luôn tìm chain trước.
+         *
+         * Đặc biệt khi hết thời gian:
+         * phải resolve hết toàn bộ chain trước khi
+         * quyết định PASS / FAIL.
+         */
         const matches = Match3Matcher.findMatches(this.boardEngine.board);
 
         if (matches.length > 0) {
@@ -345,25 +347,50 @@ export class Match3GameController {
             return;
         }
 
-        // Không còn chain
-        this.animation = "idle";
+        /*
+         * Board đã ổn định.
+         * Bây giờ mới kiểm tra objective.
+         */
+        if (this.checkLevelComplete()) {
+            this.levelPassed = true;
 
+            this.animation = "idle";
+            this.animating = false;
+
+            return;
+        }
+
+        /*
+         * Hết thời gian nhưng không đạt objective.
+         */
+        if (this.timeUp) {
+            this.animation = "idle";
+            this.animating = false;
+
+            this.finishAfterTimeUp();
+
+            return;
+        }
+
+        /*
+         * Còn thời gian nhưng không còn nước đi.
+         */
+        this.animation = "idle";
         this.animating = false;
 
         this.gameOver = !this.hasAvailableMove();
     }
 
     tick(): void {
-        if (!this.level || this.levelPassed || this.levelFailed || this.gameOver) {
+        if (!this.level || this.levelPassed || this.levelFailed || this.gameOver || this.timeUp) {
             return;
         }
 
         if (this.timeRemaining <= 0) {
             this.timeRemaining = 0;
+            this.timeUp = true;
 
-            this.levelFailed = true;
-
-            this.gameOver = true;
+            this.finishAfterTimeUp();
 
             return;
         }
@@ -372,13 +399,32 @@ export class Match3GameController {
 
         if (this.timeRemaining <= 0) {
             this.timeRemaining = 0;
+            this.timeUp = true;
 
-            if (!this.checkLevelComplete()) {
-                this.levelFailed = true;
-
-                this.gameOver = true;
+            /*
+             * Không kết thúc game ngay.
+             *
+             * Nếu đang animation thì để animation/chain chạy hết.
+             * Nếu đang idle thì có thể kết thúc ngay vì board đã ổn định.
+             */
+            if (!this.animating) {
+                this.finishAfterTimeUp();
             }
         }
+    }
+
+    private finishAfterTimeUp(): void {
+        if (!this.timeUp || this.animating || this.levelPassed || this.levelFailed || this.gameOver) {
+            return;
+        }
+
+        if (this.checkLevelComplete()) {
+            this.levelPassed = true;
+            return;
+        }
+
+        this.levelFailed = true;
+        this.gameOver = true;
     }
 
     restart(): void {
@@ -399,6 +445,8 @@ export class Match3GameController {
         this.levelPassed = false;
 
         this.levelFailed = false;
+
+        this.timeUp = false;
 
         this.timeRemaining = this.level?.timeLimit ?? 0;
 
