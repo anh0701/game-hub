@@ -58,6 +58,8 @@ export function useMatch3({ level, levelKey, targetScore, onComplete }: UseMatch
 
     const objectives = game.getObjectiveProgress();
 
+    const timeUp = game.isTimeUp();
+
     useEffect(() => {
         if (!game.isAnimating()) {
             return;
@@ -151,7 +153,14 @@ export function useMatch3({ level, levelKey, targetScore, onComplete }: UseMatch
 
     const handleCellClick = useCallback(
         (row: number, col: number) => {
-            if (game.isGameOver() || game.isAnimating() || missionCompleted || levelPassed || levelFailed) {
+            if (
+                game.isGameOver() ||
+                game.isAnimating() ||
+                game.isTimeUp() ||
+                missionCompleted ||
+                levelPassed ||
+                levelFailed
+            ) {
                 return;
             }
 
@@ -200,6 +209,7 @@ export function useMatch3({ level, levelKey, targetScore, onComplete }: UseMatch
         timeRemaining,
 
         objectives,
+        timeUp,
 
         restart,
 

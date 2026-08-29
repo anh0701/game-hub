@@ -165,34 +165,27 @@ export default function Match3Level({ onComplete }: Match3LevelProps) {
                                 Target
                             </div>
 
-                            {objectives.map((objective, index) => (
-                                <div
-                                    key={`${objective.type}-${index}`}
-                                    className="
-                                        truncate
-                                        text-sm
-                                        font-semibold
-                                        text-slate-200
-                                    "
-                                >
-                                    Clear {objective.target}
-                                    {objective.color ? ` ${objective.color}` : ""} blocks
-                                </div>
-                            ))}
+                            <div className="flex flex-col gap-2">
+                                {objectives.map((objective, index) => {
+                                    const label =
+                                        objective.type === "clear_blocks"
+                                            ? `Clear ${objective.target} ${objective.color ?? ""} blocks`
+                                            : "";
 
-                            <div
-                                className="
-                                    mt-0.5
-                                    text-xs
-                                    font-medium
-                                    text-slate-400
-                                "
-                            >
-                                {objectives.map((objective, index) => (
-                                    <span key={`${objective.type}-progress-${index}`}>
-                                        {objective.current} / {objective.target}
-                                    </span>
-                                ))}
+                                    return (
+                                        <div key={index} className="flex items-center justify-between gap-3">
+                                            <span className="text-sm text-slate-300">{label}</span>
+
+                                            <span
+                                                className={`shrink-0 text-sm font-semibold ${
+                                                    objective.completed ? "text-emerald-400" : "text-slate-400"
+                                                }`}
+                                            >
+                                                {objective.current} / {objective.target}
+                                            </span>
+                                        </div>
+                                    );
+                                })}
                             </div>
                         </div>
                     </div>
