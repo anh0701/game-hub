@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FiCheck, FiClock, FiTarget } from "react-icons/fi";
 
 import Layout from "../../../components/Layout";
@@ -12,14 +12,15 @@ import { MATCH3_LEVELS } from "../constants/match3Levels";
 
 interface Match3LevelProps {
     onComplete?: (result: GameResult) => void;
+    targetLevel?: number;
 }
 
-export default function Match3Level({ onComplete }: Match3LevelProps) {
+export default function Match3Level({ onComplete, targetLevel }: Match3LevelProps) {
     const [currentLevelIndex, setCurrentLevelIndex] = useState(0);
 
     const level = MATCH3_LEVELS[currentLevelIndex];
 
-    const isLastLevel = currentLevelIndex === MATCH3_LEVELS.length - 1;
+    const completionReportedRef = useRef(false);
 
     const {
         board,
@@ -45,17 +46,29 @@ export default function Match3Level({ onComplete }: Match3LevelProps) {
         levelKey: level.id,
     });
 
+    const missionCompleted = targetLevel !== undefined && levelPassed && level.id === targetLevel;
+
+    const isLastLevel =
+        targetLevel !== undefined ? level.id === targetLevel : currentLevelIndex === MATCH3_LEVELS.length - 1;
+
     useEffect(() => {
-        if (!levelPassed || !isLastLevel) {
+        if (!missionCompleted) {
             return;
         }
 
+        if (completionReportedRef.current) {
+            return;
+        }
+
+        completionReportedRef.current = true;
+
         onComplete?.({
             gameId: "block",
-            gameMode: "block-match3",
+            gameMode: "block-match3-level",
             score,
+            level: level.id,
         });
-    }, [levelPassed, isLastLevel, score, onComplete]);
+    }, [missionCompleted, score, level, onComplete]);
 
     const handleNextLevel = () => {
         if (isLastLevel) {

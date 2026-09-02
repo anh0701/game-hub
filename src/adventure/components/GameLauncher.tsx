@@ -6,6 +6,7 @@ import { SudokuPage } from "../../games/sudoku/pages/SudokuPage";
 import type { GameMode } from "../../types/MissionType";
 import RiseUpModePage from "../../games/shield/RiseUpModePage";
 import Match3BlockBlast from "../../games/block/pages/Match3BlockBlast";
+import Match3Level from "../../games/block/pages/Match3Level";
 
 interface GameLauncherProps {
     gameMode: GameMode;
@@ -31,6 +32,9 @@ export function GameLauncher({ gameMode, target, onComplete }: GameLauncherProps
 
         case "block-match3":
             return <Match3BlockBlast targetScore={target} onComplete={onComplete} />;
+
+        case "block-match3-level":
+            return <Match3Level targetLevel={target} onComplete={onComplete} />;
 
         default:
             return <div>Unsupported game mode.</div>;

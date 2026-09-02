@@ -113,6 +113,42 @@ export const missionTemplates: MissionTemplate[] = [
         gameMode: "block-match3",
     },
 
+    {
+        id: "block-match3-level-easy",
+        gameId: "block",
+        type: "level",
+        difficulty: "normal",
+        minTarget: 1,
+        maxTarget: 3,
+        title: "Break the Seal",
+        description: "Reach level {target}",
+        gameMode: "block-match3-level",
+    },
+
+    {
+        id: "block-match3-level-normal",
+        gameId: "block",
+        type: "level",
+        difficulty: "normal",
+        minTarget: 4,
+        maxTarget: 6,
+        title: "Break the Strong Seal",
+        description: "Reach level {target}",
+        gameMode: "block-match3-level",
+    },
+
+    {
+        id: "block-match3-level-hard",
+        gameId: "block",
+        type: "level",
+        difficulty: "normal",
+        minTarget: 7,
+        maxTarget: 10,
+        title: "Break the Ancient Seal",
+        description: "Reach level {target}",
+        gameMode: "block-match3-level",
+    },
+
     // =========================
     // SUDOKU
     // =========================
