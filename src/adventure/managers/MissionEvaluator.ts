@@ -5,10 +5,14 @@ export function evaluateMission(mission: Mission, result: GameResult): boolean {
     switch (mission.gameMode) {
         case "block-free":
             return (result.score ?? 0) >= mission.target;
+
         case "block-match3":
             return (result.score ?? 0) >= mission.target;
 
         case "block-level":
+            return (result.level ?? 0) >= mission.target;
+
+        case "block-match3-level":
             return (result.level ?? 0) >= mission.target;
 
         case "sudoku":
