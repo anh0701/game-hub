@@ -386,6 +386,19 @@ export class Match3GameController {
             return;
         }
 
+        /*
+         * Đang có animation:
+         *
+         * - clearing
+         * - falling
+         * - spawning
+         *
+         * => Đóng băng thời gian.
+         */
+        if (this.animating) {
+            return;
+        }
+
         if (this.timeRemaining <= 0) {
             this.timeRemaining = 0;
             this.timeUp = true;
@@ -401,15 +414,7 @@ export class Match3GameController {
             this.timeRemaining = 0;
             this.timeUp = true;
 
-            /*
-             * Không kết thúc game ngay.
-             *
-             * Nếu đang animation thì để animation/chain chạy hết.
-             * Nếu đang idle thì có thể kết thúc ngay vì board đã ổn định.
-             */
-            if (!this.animating) {
-                this.finishAfterTimeUp();
-            }
+            this.finishAfterTimeUp();
         }
     }
 
