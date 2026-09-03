@@ -10,11 +10,7 @@ interface MemoryCardProps {
     disabled?: boolean;
 }
 
-export function MemoryCard({
-    card,
-    onClick,
-    disabled = false,
-}: MemoryCardProps) {
+export function MemoryCard({ card, onClick, disabled = false }: MemoryCardProps) {
     const isVisible = card.isFlipped || card.isMatched;
 
     return (
@@ -31,7 +27,6 @@ export function MemoryCard({
                 disabled:cursor-default
             "
         >
-
             <div
                 className="
                     relative
@@ -42,9 +37,7 @@ export function MemoryCard({
                     [transform-style:preserve-3d]
                 "
                 style={{
-                    transform: isVisible
-                        ? "rotateY(180deg)"
-                        : "rotateY(0deg)",
+                    transform: isVisible ? "rotateY(180deg)" : "rotateY(0deg)",
                 }}
             >
                 {/* back */}
@@ -66,11 +59,7 @@ export function MemoryCard({
                         shadow-lg
                         transition-opacity
                         duration-150
-                        ${
-                            isVisible
-                                ? "pointer-events-none opacity-0"
-                                : "opacity-100"
-                        }
+                        ${isVisible ? "pointer-events-none opacity-0" : "opacity-100"}
                     `}
                     style={{
                         backfaceVisibility: "hidden",
@@ -87,10 +76,7 @@ export function MemoryCard({
                         "
                     />
 
-                    <FiHelpCircle
-                        size={38}
-                        className="text-white/90"
-                    />
+                    <FiHelpCircle size={38} className="text-white/90" />
                 </div>
 
                 {/* front  */}
@@ -110,11 +96,7 @@ export function MemoryCard({
                         shadow-lg
                         transition-opacity
                         duration-150
-                        ${
-                            isVisible
-                                ? "opacity-100"
-                                : "pointer-events-none opacity-0"
-                        }
+                        ${isVisible ? "opacity-100" : "pointer-events-none opacity-0"}
 
                         ${
                             card.isMatched
@@ -140,7 +122,6 @@ export function MemoryCard({
                     }}
                 >
                     <div className="flex flex-col items-center">
-                       
                         <div
                             className="
                                 mb-3
@@ -178,7 +159,6 @@ export function MemoryCard({
                                 "
                             >
                                 <FiCheck size={14} />
-
                                 MATCHED
                             </div>
                         )}

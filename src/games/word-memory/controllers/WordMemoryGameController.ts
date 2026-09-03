@@ -24,7 +24,6 @@ export class WordMemoryGameController {
         this.cards = this.createCards(vocabulary);
     }
 
-
     private createCards(vocabulary: VocabularyWord[]): WordCard[] {
         const cards: WordCard[] = [];
 
@@ -61,7 +60,6 @@ export class WordMemoryGameController {
         return this.shuffle(cards);
     }
 
-    
     private shuffle(cards: WordCard[]): WordCard[] {
         const shuffled = [...cards];
 
@@ -87,7 +85,6 @@ export class WordMemoryGameController {
             isFlipped: false,
         }));
     }
-
 
     public selectCard(cardId: string): boolean {
         if (this.phase !== "playing") {
@@ -127,11 +124,9 @@ export class WordMemoryGameController {
         return true;
     }
 
-
     public getSelectedCards(): WordCard[] {
         return this.cards.filter((card) => this.selectedCardIds.includes(card.id));
     }
-
 
     public checkMatch(): boolean | null {
         if (this.selectedCardIds.length !== 2) {

@@ -42,7 +42,6 @@ export function useWordMemory(options: UseWordMemoryOptions) {
 
     const [score, setScore] = useState(0);
 
-   
     const syncState = useCallback(() => {
         const controller = controllerRef.current;
 
@@ -69,7 +68,6 @@ export function useWordMemory(options: UseWordMemoryOptions) {
         setScore(state.score);
     }, []);
 
-    
     const createGame = useCallback(() => {
         checkingRef.current = false;
 
@@ -84,12 +82,10 @@ export function useWordMemory(options: UseWordMemoryOptions) {
         syncState();
     }, [vocabulary, memorizeTime, syncState]);
 
-    
     useEffect(() => {
         createGame();
     }, [createGame]);
 
-    
     useEffect(() => {
         if (phase !== "memorizing") {
             return;
@@ -117,7 +113,6 @@ export function useWordMemory(options: UseWordMemoryOptions) {
             window.clearTimeout(timer);
         };
     }, [phase, memorizeTimeRemaining, syncState]);
-
 
     const handleCardClick = useCallback(
         async (cardId: string) => {
@@ -177,7 +172,6 @@ export function useWordMemory(options: UseWordMemoryOptions) {
         [onComplete, syncState]
     );
 
-
     const startPlaying = useCallback(() => {
         const controller = controllerRef.current;
 
@@ -194,7 +188,6 @@ export function useWordMemory(options: UseWordMemoryOptions) {
         syncState();
     }, [syncState]);
 
-   
     const restart = useCallback(() => {
         createGame();
     }, [createGame]);

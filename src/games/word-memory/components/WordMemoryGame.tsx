@@ -156,18 +156,11 @@ export function WordMemoryGame({
                         "
                     >
                         <div className="flex flex-col items-center text-center">
-                            <FiCheckCircle
-                                size={42}
-                                className="mb-3 text-emerald-400"
-                            />
+                            <FiCheckCircle size={42} className="mb-3 text-emerald-400" />
 
-                            <h2 className="text-2xl font-bold text-white">
-                                Great job!
-                            </h2>
+                            <h2 className="text-2xl font-bold text-white">Great job!</h2>
 
-                            <p className="mt-1 text-sm text-slate-400">
-                                You matched all {totalPairs} pairs.
-                            </p>
+                            <p className="mt-1 text-sm text-slate-400">You matched all {totalPairs} pairs.</p>
                         </div>
 
                         <div

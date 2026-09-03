@@ -5,6 +5,7 @@ import { loadProgress } from "../adventure/managers/ProgressManager";
 
 import { FaArrowRight, FaCheck, FaHashtag, FaLock, FaPuzzlePiece } from "react-icons/fa";
 import { FaShieldHalved } from "react-icons/fa6";
+import { gameRegistry } from "../games/gameRegistry";
 
 export default function Home() {
     const navigate = useNavigate();
@@ -273,29 +274,18 @@ export default function Home() {
                     <p className="mt-1 text-sm text-white/40">Complete challenges to progress.</p>
 
                     <div className="mt-4 grid gap-3 sm:grid-cols-3">
-                        <GameCard
-                            icon={<FaPuzzlePiece className="text-violet-400" />}
-                            title="Block Blast"
-                            onClick={() => navigate("/block")}
-                        />
+                        {gameRegistry.map((game) => {
+                            const Icon = game.icon;
 
-                        <GameCard
-                            icon={<FaHashtag className="text-blue-400" />}
-                            title="Sudoku"
-                            onClick={() => navigate("/sudoku")}
-                        />
-
-                        <GameCard
-                            icon={<FaShieldHalved className="text-emerald-400" />}
-                            title="Shield"
-                            onClick={() => navigate("/shield")}
-                        />
-
-                        <GameCard
-                            icon={<FaShieldHalved className="text-emerald-400" />}
-                            title="Word memory"
-                            onClick={() => navigate("/word-memory")}
-                        />
+                            return (
+                                <GameCard
+                                    key={game.id}
+                                    icon={Icon ? <Icon className={game.iconClassName} /> : null}
+                                    title={game.title}
+                                    onClick={() => navigate(game.route.path)}
+                                />
+                            );
+                        })}
                     </div>
                 </section>
             </div>
