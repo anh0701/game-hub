@@ -28,4 +28,10 @@ export const characters: Character[] = [
         role: "friend",
         image: "/characters/max.png",
     },
+    {
+        id: "will",
+        name: "Will",
+        role: "friend",
+        image: "/characters/max.png",
+    },
 ];

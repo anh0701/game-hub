@@ -16,6 +16,7 @@ export interface Mission {
     description: string;
 }
 
-export type GameId = "block" | "sudoku" | "shield";
+export type GameId = "block" | "sudoku" | "shield" | "word-memory";
 
-export type GameMode = "block-free" | "block-level" | "sudoku" | "shield" | "block-match3" | "block-match3-level";
+export type GameMode =
+    "block-free" | "block-level" | "sudoku" | "shield" | "block-match3" | "block-match3-level" | "word-memory";
