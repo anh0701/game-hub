@@ -11,7 +11,7 @@ export function WordMemoryMode() {
             <main className="flex min-h-[100dvh] w-full items-center justify-center px-4">
                 <div className="w-full max-w-md">
                     <div className="mb-8 text-center">
-                        <h1 className="text-3xl font-bold tracking-tight text-white">Block</h1>
+                        <h1 className="text-3xl font-bold tracking-tight text-white">Word Memory</h1>
 
                         <p className="mt-2 text-sm text-white/50">Choose your game mode</p>
                     </div>
