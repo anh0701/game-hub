@@ -32,6 +32,6 @@ export const characters: Character[] = [
         id: "will",
         name: "Will",
         role: "friend",
-        image: "/characters/max.png",
+        image: "/characters/will.png",
     },
 ];
