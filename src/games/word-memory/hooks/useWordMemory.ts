@@ -154,7 +154,7 @@ export function useWordMemory(options: UseWordMemoryOptions) {
                 window.setTimeout(resolve, 800);
             });
 
-            const result = controller.checkMatch();
+            controller.checkMatch();
 
             syncState();
 

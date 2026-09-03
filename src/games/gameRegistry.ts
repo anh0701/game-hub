@@ -13,6 +13,9 @@ import { BLOCK_ROUTES } from "./block/constants/routes";
 
 import { SudokuPage } from "./sudoku/pages/SudokuPage";
 import RiseUpModePage from "./shield/RiseUpModePage";
+import { WORD_ROUTES } from "./word-memory/data/routes";
+import WordMemoryLevelPage from "./word-memory/pages/WordMemoryLevel";
+import { WordMemoryMode } from "./word-memory/pages/WordMemoryMode";
 import WordMemory from "./word-memory/pages/WordMemory";
 
 export interface GameRegistryEntry {
@@ -126,8 +129,29 @@ export const gameRegistry: readonly GameRegistryEntry[] = [
         iconClassName: "text-pink-400",
 
         route: {
-            path: "/word-memory",
-            component: WordMemory,
+            path: WORD_ROUTES.root,
+            component: WordMemoryMode,
         },
+        children: [
+            {
+                id: "word-classic",
+                title: "Classic",
+
+                route: {
+                    path: WORD_ROUTES.classic,
+                    component: WordMemory,
+                },
+            },
+
+            {
+                id: "word-levels",
+                title: "Levels",
+
+                route: {
+                    path: WORD_ROUTES.levelRoute,
+                    component: WordMemoryLevelPage,
+                },
+            },
+        ],
     },
 ];

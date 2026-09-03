@@ -11,6 +11,8 @@ interface WordMemoryHUDProps {
 
     moves: number;
 
+    levelId?: number;
+
     wrongMatches: number;
 
     currentCombo: number;
@@ -21,26 +23,24 @@ interface WordMemoryHUDProps {
 export function WordMemoryHUD({
     phase,
     memorizeTimeRemaining,
-    matchedPairs,
-    totalPairs,
+    // matchedPairs,
+    // totalPairs,
     moves,
     wrongMatches,
     currentCombo,
     score,
+    levelId,
 }: WordMemoryHUDProps) {
     return (
         <div className="space-y-4">
             <div className="flex items-center justify-between">
-                <div>
-                    <div className="flex items-center gap-2 text-sm font-medium text-slate-400">
-                        <FiTarget />
-                        Word Memory
-                    </div>
+                {levelId !== undefined && (
+                    <div>
+                        <div className="text-xs font-medium uppercase tracking-wider text-slate-500">Level</div>
 
-                    <div className="mt-1 text-2xl font-bold text-white">
-                        {matchedPairs} / {totalPairs}
+                        <div className="mt-1 text-2xl font-bold text-white">{levelId}</div>
                     </div>
-                </div>
+                )}
 
                 {phase === "memorizing" && (
                     <div

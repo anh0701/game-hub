@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { gameMaps } from "../adventure/data/maps";
 import { loadProgress } from "../adventure/managers/ProgressManager";
 
-import { FaArrowRight, FaCheck, FaHashtag, FaLock, FaPuzzlePiece } from "react-icons/fa";
-import { FaShieldHalved } from "react-icons/fa6";
+import { FaArrowRight, FaCheck, FaLock } from "react-icons/fa";
+
 import { gameRegistry } from "../games/gameRegistry";
 
 export default function Home() {
