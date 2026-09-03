@@ -290,6 +290,12 @@ export default function Home() {
                             title="Shield"
                             onClick={() => navigate("/shield")}
                         />
+
+                        <GameCard
+                            icon={<FaShieldHalved className="text-emerald-400" />}
+                            title="Word memory"
+                            onClick={() => navigate("/word-memory")}
+                        />
                     </div>
                 </section>
             </div>

@@ -12,6 +12,7 @@ import WorldMapPage from "../pages/WorldMapPage";
 import AdventurePage from "../pages/AdventurePage";
 import Match3BlockBlast from "../games/block/pages/Match3BlockBlast";
 import Match3Level from "../games/block/pages/Match3Level";
+import WordMemory from "../games/word-memory/pages/WordMemory";
 
 export const router = createHashRouter([
     {
@@ -58,6 +59,10 @@ export const router = createHashRouter([
             {
                 path: "shield",
                 element: <RiseUpModePage />,
+            },
+            {
+                path: "word-memory",
+                element: <WordMemory />,
             },
         ],
     },
