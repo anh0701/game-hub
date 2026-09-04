@@ -1,10 +1,3 @@
-import type { GameMode } from "../../types/MissionType";
+export type AdventureGameId = "block" | "sudoku" | "shield" | "word-memory";
 
-export const ADVENTURE_GAME_MODES: readonly GameMode[] = [
-    "block-free",
-    "block-level",
-    "block-match3",
-    "block-match3-level",
-    "sudoku",
-    "shield",
-];
+export const ADVENTURE_GAME_IDS: readonly AdventureGameId[] = ["block", "sudoku", "shield"];
