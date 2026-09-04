@@ -7,9 +7,8 @@ import { loadProgress } from "../adventure/managers/ProgressManager";
 import { startMap } from "../adventure/managers/AdventureManager";
 
 import { FaArrowLeft, FaLock, FaTree } from "react-icons/fa6";
-import type { GameMode } from "../types/MissionType";
-import { ADVENTURE_GAME_MODES } from "../adventure/data/availableGames";
 import { FaClock } from "react-icons/fa";
+import { ADVENTURE_GAME_IDS } from "../adventure/data/availableGames";
 
 export default function WorldMapPage() {
     const navigate = useNavigate();
@@ -59,7 +58,7 @@ export default function WorldMapPage() {
                         {gameMaps.map((map, index) => {
                             const unlocked = progress.unlockedMapIds.includes(map.id);
 
-                            const available = ADVENTURE_GAME_MODES.includes(map.gameId as GameMode);
+                            const available = ADVENTURE_GAME_IDS.includes(map.gameId);
 
                             const playable = unlocked && available;
 

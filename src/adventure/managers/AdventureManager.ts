@@ -18,8 +18,7 @@ import {
 import { gameMaps } from "../data/maps";
 import { generateMission } from "./MissionGenerator";
 import type { AdventureResult } from "../models/AdventureResult";
-import { ADVENTURE_GAME_MODES } from "../data/availableGames";
-import type { GameMode } from "../../types/MissionType";
+import { ADVENTURE_GAME_IDS } from "../data/availableGames";
 
 export function startMap(progress: PlayerProgress, mapId: string): PlayerProgress {
     const map = gameMaps.find((item) => item.id === mapId);
@@ -28,7 +27,7 @@ export function startMap(progress: PlayerProgress, mapId: string): PlayerProgres
         throw new Error(`Map not found: ${mapId}`);
     }
 
-    if (!ADVENTURE_GAME_MODES.includes(map.gameId as GameMode)) {
+    if (!ADVENTURE_GAME_IDS.includes(map.gameId)) {
         throw new Error(`Game is not ready: ${map.gameId}`);
     }
 
