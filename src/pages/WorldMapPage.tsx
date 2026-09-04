@@ -7,6 +7,9 @@ import { loadProgress } from "../adventure/managers/ProgressManager";
 import { startMap } from "../adventure/managers/AdventureManager";
 
 import { FaArrowLeft, FaLock, FaTree } from "react-icons/fa6";
+import type { GameMode } from "../types/MissionType";
+import { ADVENTURE_GAME_MODES } from "../adventure/data/availableGames";
+import { FaClock } from "react-icons/fa";
 
 export default function WorldMapPage() {
     const navigate = useNavigate();
@@ -56,6 +59,10 @@ export default function WorldMapPage() {
                         {gameMaps.map((map, index) => {
                             const unlocked = progress.unlockedMapIds.includes(map.id);
 
+                            const available = ADVENTURE_GAME_MODES.includes(map.gameId as GameMode);
+
+                            const playable = unlocked && available;
+
                             const current = progress.currentMapId === map.id;
 
                             return (
@@ -77,9 +84,9 @@ export default function WorldMapPage() {
 
                                     <button
                                         type="button"
-                                        disabled={!unlocked}
+                                        disabled={!playable}
                                         onClick={() => {
-                                            if (!unlocked) {
+                                            if (!playable) {
                                                 return;
                                             }
 
@@ -144,7 +151,9 @@ export default function WorldMapPage() {
                                                     }
                                                 `}
                                             >
-                                                {unlocked ? (
+                                                {!available ? (
+                                                    <FaClock className="text-amber-400" />
+                                                ) : unlocked ? (
                                                     <FaTree className="text-emerald-400" />
                                                 ) : (
                                                     <FaLock className="text-white/30" />
@@ -157,7 +166,25 @@ export default function WorldMapPage() {
                                                 <div className="flex items-center gap-2">
                                                     <h2 className="text-xl font-bold">{map.name}</h2>
 
-                                                    {current && (
+                                                    {!available && (
+                                                        <span
+                                                            className="
+                                                                rounded-full
+                                                                bg-amber-400/10
+                                                                px-2
+                                                                py-1
+                                                                text-[10px]
+                                                                font-bold
+                                                                uppercase
+                                                                tracking-wider
+                                                                text-amber-400
+                                                            "
+                                                        >
+                                                            Coming Soon
+                                                        </span>
+                                                    )}
+
+                                                    {current && available && (
                                                         <span
                                                             className="
                                                                 rounded-full

@@ -11,10 +11,12 @@ interface UseWordMemoryOptions {
     memorizeTime: number;
 
     onComplete?: () => void;
+
+    onScoreChange?: (scoreGained: number) => void;
 }
 
 export function useWordMemory(options: UseWordMemoryOptions) {
-    const { vocabulary, memorizeTime, onComplete } = options;
+    const { vocabulary, memorizeTime, onComplete, onScoreChange } = options;
 
     const controllerRef = useRef<WordMemoryGameController | null>(null);
 
@@ -154,7 +156,17 @@ export function useWordMemory(options: UseWordMemoryOptions) {
                 window.setTimeout(resolve, 800);
             });
 
+            /**
+             * Store score before checking the match.
+             *
+             * This allows us to calculate how much score
+             * was gained from this particular match.
+             */
+            const previousScore = controller.getState().score;
+
             controller.checkMatch();
+
+            const state = controller.getState();
 
             syncState();
 
@@ -163,13 +175,28 @@ export function useWordMemory(options: UseWordMemoryOptions) {
             setIsChecking(false);
 
             /**
+             * Calculate score gained from this match.
+             *
+             * Wrong match:
+             *     scoreGained = 0
+             *
+             * Correct match:
+             *     scoreGained > 0
+             */
+            const scoreGained = state.score - previousScore;
+
+            if (scoreGained > 0) {
+                onScoreChange?.(scoreGained);
+            }
+
+            /**
              * Game completed
              */
             if (controller.getPhase() === "completed") {
                 onComplete?.();
             }
         },
-        [onComplete, syncState]
+        [onComplete, onScoreChange, syncState]
     );
 
     const startPlaying = useCallback(() => {

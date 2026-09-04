@@ -1,34 +1,27 @@
 import { FiAward, FiClock, FiTarget, FiX, FiZap } from "react-icons/fi";
+import type { WordMemoryGamePhase } from "../models/WordMemoryGameState";
 
 interface WordMemoryHUDProps {
-    phase: "memorizing" | "playing" | "completed";
-
-    memorizeTimeRemaining: number;
-
-    matchedPairs: number;
-
-    totalPairs: number;
-
-    moves: number;
-
+    phase: WordMemoryGamePhase;
     levelId?: number;
-
+    memorizeTimeRemaining: number;
+    matchedPairs: number;
+    totalPairs: number;
+    moves: number;
     wrongMatches: number;
-
     currentCombo: number;
-
-    score: number;
+    score?: number;
+    totalScore?: number;
 }
 
 export function WordMemoryHUD({
     phase,
     memorizeTimeRemaining,
-    // matchedPairs,
-    // totalPairs,
     moves,
     wrongMatches,
     currentCombo,
     score,
+    totalScore,
     levelId,
 }: WordMemoryHUDProps) {
     return (
@@ -45,40 +38,28 @@ export function WordMemoryHUD({
                 {phase === "memorizing" && (
                     <div
                         className="
-                        flex
-                        items-center
-                        gap-3
-                        rounded-xl
-                        border
-                        border-indigo-400/30
-                        bg-indigo-500/10
-                        px-4
-                        py-3
-                    "
+                            flex items-center gap-3
+                            rounded-xl
+                            border border-indigo-400/30
+                            bg-indigo-500/10
+                            px-4 py-3
+                        "
                     >
                         <FiClock className="text-indigo-400" size={22} />
 
                         <div>
                             <div
                                 className="
-                                text-xs
-                                uppercase
-                                tracking-wider
-                                text-indigo-300
-                            "
+                                    text-xs
+                                    uppercase
+                                    tracking-wider
+                                    text-indigo-300
+                                "
                             >
                                 Memorize
                             </div>
 
-                            <div
-                                className="
-                                text-xl
-                                font-bold
-                                text-white
-                            "
-                            >
-                                {memorizeTimeRemaining}s
-                            </div>
+                            <div className="text-xl font-bold text-white">{memorizeTimeRemaining}s</div>
                         </div>
                     </div>
                 )}
@@ -87,12 +68,17 @@ export function WordMemoryHUD({
             {phase === "playing" && (
                 <div
                     className="
-                    grid
-                    grid-cols-4
-                    gap-2
-                "
+                        grid
+                        grid-cols-2
+                        gap-2
+                        sm:grid-cols-4
+                    "
                 >
-                    <Stat icon={<FiAward />} label="Score" value={score} />
+                    {/* Level mode */}
+                    {score !== undefined && <Stat icon={<FiAward />} label="Score" value={score} />}
+
+                    {/* Free mode */}
+                    {totalScore !== undefined && <Stat icon={<FiAward />} label="Total Score" value={totalScore} />}
 
                     <Stat icon={<FiTarget />} label="Moves" value={moves} />
 
@@ -109,40 +95,37 @@ function Stat({ icon, label, value }: { icon: React.ReactNode; label: string; va
     return (
         <div
             className="
-            rounded-xl
-            border
-            border-white/10
-            bg-white/5
-            px-3
-            py-2
-        "
+                rounded-xl
+                border border-white/10
+                bg-white/5
+                px-3 py-2
+            "
         >
             <div
                 className="
-                flex
-                items-center
-                justify-center
-                gap-1
-                text-[10px]
-                uppercase
-                tracking-wider
-                text-slate-500
-            "
+                    flex
+                    items-center
+                    justify-center
+                    gap-1
+                    text-[10px]
+                    uppercase
+                    tracking-wider
+                    text-slate-500
+                "
             >
                 {icon}
-
                 {label}
             </div>
 
             <div
                 className="
-                mt-1
-                text-center
-                text-sm
-                font-bold
-                text-white
-                sm:text-base
-            "
+                    mt-1
+                    text-center
+                    text-sm
+                    font-bold
+                    text-white
+                    sm:text-base
+                "
             >
                 {value}
             </div>

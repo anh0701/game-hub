@@ -367,4 +367,138 @@ export const stories: StoryNode[] = [
             },
         ],
     },
+
+    {
+        id: "word-memory-intro",
+        mapId: "word-memory",
+        trigger: "beforeMission",
+
+        lines: [
+            {
+                type: "narration",
+                text: "The mysterious light carried Cat, Milo, and their friends into a strange new world.",
+            },
+
+            {
+                type: "narration",
+                text: "Everything around them was quiet. Floating cards filled the air, each one hiding a forgotten memory.",
+            },
+
+            {
+                type: "dialogue",
+                characterId: "milo",
+                text: "What is this place?",
+            },
+
+            {
+                type: "dialogue",
+                characterId: "cat",
+                text: "I don't know. But these cards seem to be hiding something.",
+            },
+
+            {
+                type: "narration",
+                text: "Suddenly, one of the cards began to glow.",
+            },
+
+            {
+                type: "dialogue",
+                characterId: "will",
+                text: "Cat! Milo! Can you hear me?",
+            },
+
+            {
+                type: "dialogue",
+                characterId: "cat",
+                text: "Will?! Where are you?",
+            },
+
+            {
+                type: "dialogue",
+                characterId: "will",
+                text: "I'm trapped somewhere inside this world. You have to find the matching memories.",
+            },
+
+            {
+                type: "dialogue",
+                characterId: "milo",
+                text: "So we have to remember our way through?",
+            },
+
+            {
+                type: "dialogue",
+                characterId: "cat",
+                text: "Then let's find Will.",
+            },
+
+            {
+                type: "narration",
+                text: "Cat stepped toward the floating cards and began searching for the hidden memories.",
+            },
+        ],
+    },
+
+    {
+        id: "word-memory-ending",
+        mapId: "word-memory",
+        trigger: "afterMission",
+
+        lines: [
+            {
+                type: "narration",
+                text: "After matching the final memories, the mysterious world began to disappear.",
+            },
+
+            {
+                type: "dialogue",
+                characterId: "will",
+                text: "You found me!",
+            },
+
+            {
+                type: "dialogue",
+                characterId: "cat",
+                text: "Of course. We weren't going to leave you behind.",
+            },
+
+            {
+                type: "dialogue",
+                characterId: "will",
+                text: "But there's something you should know.",
+            },
+
+            {
+                type: "dialogue",
+                characterId: "milo",
+                text: "What is it?",
+            },
+
+            {
+                type: "narration",
+                text: "Will pointed toward a distant light that had appeared beyond the fading world.",
+            },
+
+            {
+                type: "dialogue",
+                characterId: "will",
+                text: "That light brought us here. But I think it came from somewhere even farther away.",
+            },
+
+            {
+                type: "dialogue",
+                characterId: "cat",
+                text: "Then that's where we're going next.",
+            },
+
+            {
+                type: "narration",
+                text: "The friends gathered together and followed the mysterious light once again.",
+            },
+
+            {
+                type: "narration",
+                text: "Their adventure was far from over.",
+            },
+        ],
+    },
 ];

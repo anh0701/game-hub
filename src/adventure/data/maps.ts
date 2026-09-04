@@ -27,4 +27,12 @@ export const gameMaps: GameMap[] = [
         order: 3,
         friendId: "max",
     },
+    {
+        id: "word-memory",
+        gameId: "word-memory",
+        name: "Word Memory",
+        description: "A mysterious world where memories are hidden.",
+        order: 4,
+        friendId: "will",
+    },
 ];

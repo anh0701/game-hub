@@ -19,6 +19,8 @@ function shuffle<T>(items: T[]): T[] {
 export default function WordMemory() {
     const [gameKey, setGameKey] = useState(0);
 
+    const [totalScore, setTotalScore] = useState(0);
+
     const vocabulary = useMemo(() => {
         return shuffle(VOCABULARY).slice(0, 4);
     }, [gameKey]);
@@ -29,6 +31,12 @@ export default function WordMemory() {
             mode="free"
             vocabulary={vocabulary}
             memorizeTime={10}
+            totalScore={totalScore}
+            onScoreChange={(scoreGained) => {
+                setTotalScore((previous) => {
+                    return previous + scoreGained;
+                });
+            }}
             onComplete={() => {
                 window.setTimeout(() => {
                     setGameKey((previous) => previous + 1);

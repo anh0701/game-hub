@@ -31,6 +31,10 @@ function createDefaultProgress(): PlayerProgress {
                 gamesPlayed: 0,
                 bestScore: 0,
             },
+            "word-memory": {
+                gamesPlayed: 0,
+                bestScore: 0,
+            },
         },
 
         firstVisit: now,

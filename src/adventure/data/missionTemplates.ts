@@ -276,4 +276,43 @@ export const missionTemplates: MissionTemplate[] = [
         description: "Survive for {target} seconds.",
         gameMode: "shield",
     },
+    // =========================
+    // WORD MEMORY
+    // =========================
+
+    {
+        id: "word-memory-score-easy",
+        gameId: "word-memory",
+        type: "score",
+        difficulty: "easy",
+        minTarget: 300,
+        maxTarget: 500,
+        title: "Remember the Words",
+        description: "Reach {target} points.",
+        gameMode: "word-memory",
+    },
+
+    {
+        id: "word-memory-score-normal",
+        gameId: "word-memory",
+        type: "score",
+        difficulty: "normal",
+        minTarget: 500,
+        maxTarget: 800,
+        title: "Strengthen Your Memory",
+        description: "Reach {target} points.",
+        gameMode: "word-memory",
+    },
+
+    {
+        id: "word-memory-score-hard",
+        gameId: "word-memory",
+        type: "score",
+        difficulty: "hard",
+        minTarget: 800,
+        maxTarget: 1200,
+        title: "Master the Memory",
+        description: "Reach {target} points.",
+        gameMode: "word-memory",
+    },
 ];

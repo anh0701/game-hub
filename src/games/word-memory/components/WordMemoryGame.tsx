@@ -14,50 +14,45 @@ interface WordMemoryGameProps {
     vocabulary: VocabularyWord[];
 
     memorizeTime?: number;
+
     levelId?: number;
 
+    totalScore?: number;
+
     onComplete?: () => void;
+
+    onScoreChange?: (scoreGained: number) => void;
+
+    hasNextLevel?: boolean;
 
     onNextLevel?: () => void;
 }
 
 export function WordMemoryGame({
     mode = "free",
-
     vocabulary,
-
     memorizeTime = 10,
-
     levelId,
-
+    totalScore,
     onComplete,
+    onScoreChange,
+    hasNextLevel = false,
     onNextLevel,
 }: WordMemoryGameProps) {
     const {
         cards,
-
         phase,
-
         memorizeTimeRemaining,
-
         matchedPairs,
-
         totalPairs,
-
         moves,
-
         wrongMatches,
-
         currentCombo,
-
+        bestCombo,
         score,
-
         isChecking,
-
         handleCardClick,
-
         startPlaying,
-
         restart,
     } = useWordMemory({
         vocabulary,
@@ -65,18 +60,20 @@ export function WordMemoryGame({
         memorizeTime,
 
         onComplete,
+
+        onScoreChange,
     });
 
     return (
         <div
             className="
-                min-h-screen
+                min-h-[100dvh]
                 bg-slate-950
-                px-4
-                py-6
+                px-2
+                py-3
                 text-white
                 sm:px-6
-                sm:py-10
+                sm:py-6
             "
         >
             <div
@@ -95,10 +92,11 @@ export function WordMemoryGame({
                     moves={moves}
                     wrongMatches={wrongMatches}
                     currentCombo={currentCombo}
-                    score={score}
+                    score={mode === "level" ? score : undefined}
+                    totalScore={mode === "free" ? totalScore : undefined}
                 />
 
-                <div className="mt-6">
+                <div className="mt-3 sm:mt-6">
                     <MemoryBoard
                         cards={cards}
                         disabled={phase !== "playing" || isChecking}
@@ -107,7 +105,7 @@ export function WordMemoryGame({
                 </div>
 
                 {phase === "memorizing" && (
-                    <div className="mt-6 text-center">
+                    <div className="mt-3 text-center sm:mt-6">
                         <p
                             className="
                                 mb-4
@@ -128,12 +126,16 @@ export function WordMemoryGame({
                                 gap-2
                                 rounded-xl
                                 bg-indigo-500
-                                px-6
-                                py-3
+                                px-5
+                                py-2.5
+                                text-sm
                                 font-bold
                                 text-white
                                 transition
                                 hover:bg-indigo-400
+                                sm:px-6
+                                sm:py-3
+                                sm:text-base
                             "
                         >
                             <FiZap />
@@ -145,127 +147,138 @@ export function WordMemoryGame({
                 {phase === "completed" && mode === "level" && (
                     <div
                         className="
-                        fixed
-                        inset-0
-                        z-50
-                        flex
-                        items-center
-                        justify-center
-                        bg-black/70
-                        px-4
-                        backdrop-blur-sm
-                    "
+                            fixed
+                            inset-0
+                            z-50
+                            flex
+                            items-center
+                            justify-center
+                            bg-black/70
+                            px-4
+                            backdrop-blur-sm
+                        "
                     >
                         <div
                             className="
-                            w-full
-                            max-w-md
-                            rounded-3xl
-                            border
-                            border-white/10
-                            bg-slate-900
-                            p-6
-                            text-center
-                            shadow-2xl
-                        "
+                                max-h-[90dvh]
+                                w-full
+                                max-w-md
+                                overflow-y-auto
+                                rounded-3xl
+                                border
+                                border-white/10
+                                bg-slate-900
+                                p-5
+                                text-center
+                                shadow-2xl
+                                sm:p-6
+                            "
                         >
                             <FiCheckCircle
                                 size={48}
                                 className="
-                                mx-auto
-                                mb-4
-                                text-emerald-400
-                            "
+                                    mx-auto
+                                    mb-4
+                                    text-emerald-400
+                                "
                             />
 
                             <div
                                 className="
-                                text-xs
-                                font-semibold
-                                uppercase
-                                tracking-[0.2em]
-                                text-emerald-400
-                            "
+                                    text-xs
+                                    font-semibold
+                                    uppercase
+                                    tracking-[0.2em]
+                                    text-emerald-400
+                                "
                             >
                                 Level {levelId} Complete
                             </div>
 
                             <h2
                                 className="
-                                mt-2
-                                text-3xl
-                                font-bold
-                                text-white
-                            "
+                                    mt-2
+                                    text-3xl
+                                    font-bold
+                                    text-white
+                                "
                             >
                                 Great job!
                             </h2>
 
-                            <p className="mt-2 text-sm text-slate-400">You matched all {totalPairs} pairs.</p>
+                            <p
+                                className="
+                                    mt-2
+                                    text-sm
+                                    text-slate-400
+                                "
+                            >
+                                You matched all {totalPairs} pairs.
+                            </p>
 
                             <div
                                 className="
-                                mt-6
-                                grid
-                                grid-cols-3
-                                gap-3
-                            "
+                                    mt-6
+                                    grid
+                                    grid-cols-3
+                                    gap-3
+                                "
                             >
                                 <ResultStat label="Score" value={score} />
 
                                 <ResultStat label="Moves" value={moves} />
 
-                                <ResultStat label="Best Combo" value={currentCombo} />
+                                <ResultStat label="Best Combo" value={bestCombo} />
                             </div>
 
                             <div
                                 className="
-                                mt-6
-                                flex
-                                flex-col
-                                gap-3
-                                sm:flex-row
-                                sm:justify-center
-                            "
+                                    mt-6
+                                    flex
+                                    flex-col
+                                    gap-3
+                                    sm:flex-row
+                                    sm:justify-center
+                                "
                             >
                                 <button
                                     type="button"
                                     onClick={restart}
                                     className="
-                                    inline-flex
-                                    items-center
-                                    justify-center
-                                    gap-2
-                                    rounded-xl
-                                    bg-white/10
-                                    px-5
-                                    py-3
-                                    text-sm
-                                    font-semibold
-                                    text-white
-                                    transition
-                                    hover:bg-white/15
-                                "
-                                >
-                                    <FiRotateCcw size={16} />
-                                    Play Again
-                                </button>
-
-                                {onNextLevel && (
-                                    <button
-                                        type="button"
-                                        onClick={onNextLevel}
-                                        className="
+                                        inline-flex
+                                        items-center
+                                        justify-center
+                                        gap-2
                                         rounded-xl
-                                        bg-indigo-500
+                                        bg-white/10
                                         px-5
                                         py-3
                                         text-sm
                                         font-semibold
                                         text-white
                                         transition
-                                        hover:bg-indigo-400
+                                        hover:bg-white/15
                                     "
+                                >
+                                    <FiRotateCcw size={16} />
+                                    Play Again
+                                </button>
+
+                                {hasNextLevel && onNextLevel && (
+                                    <button
+                                        type="button"
+                                        onClick={onNextLevel}
+                                        className="
+                                            rounded-xl
+                                            bg-indigo-500
+                                            px-5
+                                            py-3
+                                            text-sm
+                                            font-semibold
+                                            text-white
+                                            transition
+                                            hover:bg-indigo-400
+                                        "
                                     >
                                         Next Level
                                     </button>

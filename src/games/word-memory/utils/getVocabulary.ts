@@ -7,15 +7,23 @@ export function getVocabularyByTopic(topic: VocabularyTopic): VocabularyWord[] {
 }
 
 export function getRandomVocabulary(vocabulary: VocabularyWord[], pairCount: number): VocabularyWord[] {
-    const shuffled = [...vocabulary];
-
-    for (let i = shuffled.length - 1; i > 0; i--) {
-        const randomIndex = Math.floor(Math.random() * (i + 1));
-
-        [shuffled[i], shuffled[randomIndex]] = [shuffled[randomIndex], shuffled[i]];
+    if (pairCount <= 0) {
+        return [];
     }
 
-    return shuffled.slice(0, pairCount);
+    if (vocabulary.length < pairCount) {
+        console.warn(`Not enough vocabulary. Requested ${pairCount}, but only ${vocabulary.length} available.`);
+    }
+
+    const shuffled = [...vocabulary];
+
+    for (let index = shuffled.length - 1; index > 0; index--) {
+        const randomIndex = Math.floor(Math.random() * (index + 1));
+
+        [shuffled[index], shuffled[randomIndex]] = [shuffled[randomIndex], shuffled[index]];
+    }
+
+    return shuffled.slice(0, Math.min(pairCount, shuffled.length));
 }
 
 export function getRandomVocabularyByTopic(topic: VocabularyTopic, pairCount: number): VocabularyWord[] {
