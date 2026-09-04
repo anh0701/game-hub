@@ -23,53 +23,36 @@ interface WordMemoryGameProps {
 
     onScoreChange?: (scoreGained: number) => void;
 
+    hasNextLevel?: boolean;
+
     onNextLevel?: () => void;
 }
 
 export function WordMemoryGame({
     mode = "free",
-
     vocabulary,
-
     memorizeTime = 10,
-
     levelId,
-
     totalScore,
-
     onComplete,
-
     onScoreChange,
-
+    hasNextLevel = false,
     onNextLevel,
 }: WordMemoryGameProps) {
     const {
         cards,
-
         phase,
-
         memorizeTimeRemaining,
-
         matchedPairs,
-
         totalPairs,
-
         moves,
-
         wrongMatches,
-
         currentCombo,
-
         bestCombo,
-
         score,
-
         isChecking,
-
         handleCardClick,
-
         startPlaying,
-
         restart,
     } = useWordMemory({
         vocabulary,
@@ -281,7 +264,7 @@ export function WordMemoryGame({
                                     Play Again
                                 </button>
 
-                                {onNextLevel && (
+                                {hasNextLevel && onNextLevel && (
                                     <button
                                         type="button"
                                         onClick={onNextLevel}

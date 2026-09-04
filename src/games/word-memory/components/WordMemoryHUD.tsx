@@ -1,6 +1,5 @@
 import { FiAward, FiClock, FiTarget, FiX, FiZap } from "react-icons/fi";
-
-type WordMemoryGamePhase = "memorizing" | "playing" | "completed";
+import type { WordMemoryGamePhase } from "../models/WordMemoryGameState";
 
 interface WordMemoryHUDProps {
     phase: WordMemoryGamePhase;

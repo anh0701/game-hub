@@ -1,6 +1,6 @@
 import type { WordCard } from "./WordCard";
 
-export type WordMemoryGamePhase = "memorizing" | "playing" | "completed";
+export type WordMemoryGamePhase = "memorizing" | "playing" | "completed" | "game-completed";
 
 export interface WordMemoryGameState {
     cards: WordCard[];

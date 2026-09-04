@@ -21,6 +21,10 @@ export class WordMemoryGameController {
     private score = 0;
 
     constructor(vocabulary: VocabularyWord[]) {
+        if (vocabulary.length === 0) {
+            throw new Error("WordMemoryGameController requires at least one vocabulary word.");
+        }
+
         this.cards = this.createCards(vocabulary);
     }
 
