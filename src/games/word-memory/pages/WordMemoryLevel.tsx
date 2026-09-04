@@ -97,6 +97,7 @@ export default function WordMemoryLevelPage() {
             onComplete={() => {
                 console.log("Level completed:", level.id);
             }}
+            hasNextLevel={Boolean(nextLevel)}
             onNextLevel={nextLevel ? handleNextLevel : undefined}
         />
     );
