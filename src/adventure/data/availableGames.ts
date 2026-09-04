@@ -1,3 +1,3 @@
-export type AdventureGameId = "block" | "sudoku" | "shield" | "word-memory";
+import type { GameId } from "../../types/MissionType";
 
-export const ADVENTURE_GAME_IDS: readonly AdventureGameId[] = ["block", "sudoku", "shield"];
+export const ADVENTURE_GAME_IDS: readonly GameId[] = ["block", "sudoku", "shield"];
