@@ -18,12 +18,18 @@ import {
 import { gameMaps } from "../data/maps";
 import { generateMission } from "./MissionGenerator";
 import type { AdventureResult } from "../models/AdventureResult";
+import { ADVENTURE_GAME_MODES } from "../data/availableGames";
+import type { GameMode } from "../../types/MissionType";
 
 export function startMap(progress: PlayerProgress, mapId: string): PlayerProgress {
     const map = gameMaps.find((item) => item.id === mapId);
 
     if (!map) {
         throw new Error(`Map not found: ${mapId}`);
+    }
+
+    if (!ADVENTURE_GAME_MODES.includes(map.gameId as GameMode)) {
+        throw new Error(`Game is not ready: ${map.gameId}`);
     }
 
     if (!progress.unlockedMapIds.includes(mapId)) {
