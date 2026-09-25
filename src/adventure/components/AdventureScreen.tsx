@@ -67,9 +67,6 @@ export function AdventureScreen({ session, onExit }: AdventureScreenProps) {
     }
 
     function handleGameComplete(result: GameResult) {
-        console.log("🔥 HANDLE GAME COMPLETE CALLED");
-        console.log("RESULT:", result);
-
         const adventureResult = finishAdventureSession(result);
 
         console.log("🔥 ADVENTURE RESULT:", adventureResult);
@@ -81,10 +78,6 @@ export function AdventureScreen({ session, onExit }: AdventureScreenProps) {
 
         if (adventureResult.rescuedFriendId) {
             const friend = getCharacter(adventureResult.rescuedFriendId);
-
-            console.log("🔥 RESCUED FRIEND ID:", adventureResult.rescuedFriendId);
-
-            console.log("🔥 RESCUED FRIEND:", friend);
 
             setRescuedFriend(friend);
 
