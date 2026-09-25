@@ -1,8 +1,11 @@
 import { useState } from "react";
 
 import type { StoryNode } from "../models/StoryNode";
+
 import { getCharacter } from "../managers/CharacterManager";
+
 import { StoryBackground } from "./StoryBackground";
+import { TypewriterText } from "./TypewriterText";
 
 interface StoryDialogProps {
     story: StoryNode;
@@ -11,6 +14,7 @@ interface StoryDialogProps {
 
 export function StoryDialog({ story, onComplete }: StoryDialogProps) {
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [isTyping, setIsTyping] = useState(true);
 
     const line = story.lines[currentIndex];
 
@@ -19,18 +23,23 @@ export function StoryDialog({ story, onComplete }: StoryDialogProps) {
     }
 
     const isLastLine = currentIndex === story.lines.length - 1;
-
     const isNarration = line.type === "narration";
 
     const character = line.characterId ? getCharacter(line.characterId) : undefined;
 
     function handleNext() {
+        if (isTyping) {
+            setIsTyping(false);
+            return;
+        }
+
         if (isLastLine) {
             onComplete();
             return;
         }
 
         setCurrentIndex((index) => index + 1);
+        setIsTyping(true);
     }
 
     return (
@@ -38,7 +47,6 @@ export function StoryDialog({ story, onComplete }: StoryDialogProps) {
             <StoryBackground mapId={story.mapId} />
 
             {/* Dark overlay */}
-
             <div
                 className="
                     absolute
@@ -49,7 +57,6 @@ export function StoryDialog({ story, onComplete }: StoryDialogProps) {
             />
 
             {/* Story dialog */}
-
             <div
                 className="
                     relative
@@ -98,20 +105,23 @@ export function StoryDialog({ story, onComplete }: StoryDialogProps) {
                                 className="
                                     mt-5
                                     min-h-20
-                                    text-center
+                                    text-left
                                     text-lg
                                     leading-8
                                     text-white/70
                                 "
                             >
-                                {line.text}
+                                {isTyping ? (
+                                    <TypewriterText text={line.text} speed={35} onComplete={() => setIsTyping(false)} />
+                                ) : (
+                                    line.text
+                                )}
                             </p>
                         </div>
                     ) : (
                         <div className="px-6 pb-6 pt-6 sm:px-8">
                             <div className="flex items-center gap-3">
                                 {/* Character image */}
-
                                 <div
                                     className="
                                         h-14
@@ -152,7 +162,6 @@ export function StoryDialog({ story, onComplete }: StoryDialogProps) {
                                 </div>
 
                                 {/* Character info */}
-
                                 <div>
                                     <div className="font-bold text-white">{character?.name ?? "Unknown"}</div>
 
@@ -169,13 +178,16 @@ export function StoryDialog({ story, onComplete }: StoryDialogProps) {
                                     text-white/90
                                 "
                             >
-                                {line.text}
+                                {isTyping ? (
+                                    <TypewriterText text={line.text} speed={35} onComplete={() => setIsTyping(false)} />
+                                ) : (
+                                    line.text
+                                )}
                             </p>
                         </div>
                     )}
 
                     {/* Action */}
-
                     <div
                         className="
                             flex
@@ -204,7 +216,7 @@ export function StoryDialog({ story, onComplete }: StoryDialogProps) {
                                 active:scale-[0.98]
                             "
                         >
-                            {isLastLine ? "Continue" : "Next"}
+                            {isTyping ? "Skip" : isLastLine ? "Continue" : "Next"}
                         </button>
                     </div>
                 </div>
