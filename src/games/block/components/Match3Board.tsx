@@ -21,6 +21,8 @@ interface Props {
 
     spawningPositions: Match3Position[];
 
+    burstPositions: Match3Position[];
+
     onCellClick: (row: number, col: number) => void;
 }
 
@@ -32,6 +34,7 @@ export default function Match3Board({
     clearingPositions,
     fallingPositions,
     spawningPositions,
+    burstPositions,
     onCellClick,
 }: Props) {
     const isPosition = (positions: Match3Position[], row: number, col: number) =>
@@ -42,10 +45,12 @@ export default function Match3Board({
             ref={boardRef}
             data-board="true"
             className="
+                relative
                 grid
                 w-full
                 max-w-[520px]
                 gap-1
+                overflow-visible
                 rounded-2xl
                 bg-slate-800
                 p-2
@@ -62,6 +67,8 @@ export default function Match3Board({
 
                     const clearing = isPosition(clearingPositions, rowIndex, colIndex);
 
+                    const burst = isPosition(burstPositions, rowIndex, colIndex);
+
                     const falling = isPosition(fallingPositions, rowIndex, colIndex);
 
                     const spawning = isPosition(spawningPositions, rowIndex, colIndex);
@@ -73,44 +80,88 @@ export default function Match3Board({
                             disabled={animation !== "idle"}
                             onClick={() => onCellClick(rowIndex, colIndex)}
                             className={`
-                                        relative
-                                        aspect-square
-                                        w-full
-                                        min-w-0
-                                        rounded-md
-                                        p-0
-                                        outline-none
-                                        ${
-                                            selected
-                                                ? "z-10 scale-[0.92] ring-3 ring-white ring-offset-1 ring-offset-slate-800"
-                                                : ""
-                                        }
+                                relative
+                                aspect-square
+                                w-full
+                                min-w-0
+                                rounded-md
+                                p-0
+                                outline-none
 
-                                        ${clearing ? "animate-match-clear" : ""}
+                                ${
+                                    selected
+                                        ? "z-10 scale-[0.92] ring-3 ring-white ring-offset-1 ring-offset-slate-800"
+                                        : ""
+                                }
 
-                                        ${falling ? "animate-block-fall" : ""}
+                                ${clearing ? "animate-match-clear" : ""}
 
-                                        ${spawning ? "animate-block-spawn" : ""}
-                                    `}
+                                ${burst ? "animate-match-burst" : ""}
+
+                                ${falling ? "animate-block-fall" : ""}
+
+                                ${spawning ? "animate-block-spawn" : ""}
+                            `}
                         >
                             <Cell cell={cell} />
 
                             {selected && (
                                 <span
                                     className="
-                                                pointer-events-none
-                                                absolute
-                                                inset-0
-                                                rounded-md
-                                                border-2
-                                                border-white
-                                            "
+                                        pointer-events-none
+                                        absolute
+                                        inset-0
+                                        rounded-md
+                                        border-2
+                                        border-white
+                                    "
                                 />
                             )}
                         </button>
                     );
                 })
             )}
+
+            {/* Match explosion effects */}
+            {burstPositions.map((position) => (
+                <div
+                    key={`burst-${position.row}-${position.col}`}
+                    className="match3-burst-effect"
+                    style={{
+                        left: `calc(
+                ${position.col} * (100% / ${board.cols}) +
+                50% / ${board.cols}
+            )`,
+                        top: `calc(
+                ${position.row} * (100% / ${board.cells.length}) +
+                50% / ${board.cells.length}
+            )`,
+                    }}
+                >
+                    <span className="match3-explosion" />
+                    <span className="match3-shockwave" />
+
+                    <span className="match3-particle match3-particle-1" />
+                    <span className="match3-particle match3-particle-2" />
+                    <span className="match3-particle match3-particle-3" />
+                    <span className="match3-particle match3-particle-4" />
+                    <span className="match3-particle match3-particle-5" />
+                    <span className="match3-particle match3-particle-6" />
+                    <span className="match3-particle match3-particle-7" />
+                    <span className="match3-particle match3-particle-8" />
+                    <span className="match3-particle match3-particle-9" />
+                    <span className="match3-particle match3-particle-10" />
+                    <span className="match3-particle match3-particle-11" />
+                    <span className="match3-particle match3-particle-12" />
+                    <span className="match3-particle match3-particle-13" />
+                    <span className="match3-particle match3-particle-14" />
+                    <span className="match3-particle match3-particle-15" />
+                    <span className="match3-particle match3-particle-16" />
+                </div>
+            ))}
+
+            {/* Processing feedback */}
+            {animation === "burst" && <div className="match3-processing" />}
         </div>
     );
 }

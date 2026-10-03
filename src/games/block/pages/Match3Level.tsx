@@ -30,7 +30,7 @@ export default function Match3Level({ onComplete, targetLevel }: Match3LevelProp
         clearingPositions,
         fallingPositions,
         spawningPositions,
-
+        burstPositions,
         gameOver,
 
         levelPassed,
@@ -310,6 +310,7 @@ export default function Match3Level({ onComplete, targetLevel }: Match3LevelProp
                     clearingPositions={clearingPositions}
                     fallingPositions={fallingPositions}
                     spawningPositions={spawningPositions}
+                    burstPositions={burstPositions}
                     onCellClick={handleCellClick}
                 />
 

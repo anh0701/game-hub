@@ -43,6 +43,8 @@ export class Match3GameController {
 
     private spawningPositions: Match3Position[] = [];
 
+    private burstPositions: Match3Position[] = [];
+
     constructor(rows = 8, cols = 8, level?: Match3Level) {
         this.level = level;
 
@@ -53,6 +55,10 @@ export class Match3GameController {
         this.boardEngine = new BoardEngine(rows, cols, this.initialBlocks);
 
         this.gameOver = !this.hasAvailableMove();
+    }
+
+    getBurstPositions(): Match3Position[] {
+        return [...this.burstPositions];
     }
 
     getLevel(): Match3Level | undefined {
@@ -232,6 +238,8 @@ export class Match3GameController {
 
         this.clearingPositions = cleared;
 
+        this.burstPositions = cleared;
+
         return {
             success: true,
 
@@ -254,8 +262,6 @@ export class Match3GameController {
 
         const positions = this.clearingPositions;
 
-        // Phải lưu màu TRƯỚC khi clear cell.
-
         for (const position of positions) {
             const cell = this.boardEngine.getCell(position.row, position.col);
 
@@ -264,7 +270,18 @@ export class Match3GameController {
             }
         }
 
-        // Sau khi đã lưu màu mới xóa.
+        this.burstPositions = positions;
+        this.clearingPositions = [];
+
+        this.animation = "burst";
+    }
+
+    resolveBurstPhase(): void {
+        if (!this.animating || this.animation !== "burst") {
+            return;
+        }
+
+        const positions = this.burstPositions;
 
         for (const position of positions) {
             this.boardEngine.clearCell(position.row, position.col);
@@ -273,14 +290,10 @@ export class Match3GameController {
         const clearedCount = positions.length;
 
         this.score += clearedCount;
-
         this.clearedBlocks += clearedCount;
 
-        this.clearingPositions = [];
+        this.burstPositions = [];
 
-        /*
-         * Xác định block sẽ rơi.
-         */
         this.fallingPositions = this.getFallingPositions();
 
         this.animation = "falling";
@@ -340,7 +353,11 @@ export class Match3GameController {
         const matches = Match3Matcher.findMatches(this.boardEngine.board);
 
         if (matches.length > 0) {
-            this.clearingPositions = this.uniquePositions(matches.flatMap((group) => group.cells));
+            const cleared = this.uniquePositions(matches.flatMap((group) => group.cells));
+
+            this.clearingPositions = cleared;
+
+            this.burstPositions = cleared;
 
             this.animation = "clearing";
 
@@ -464,6 +481,8 @@ export class Match3GameController {
         this.fallingPositions = [];
 
         this.spawningPositions = [];
+
+        this.burstPositions = [];
     }
 
     private swap(first: Match3Position, second: Match3Position): void {

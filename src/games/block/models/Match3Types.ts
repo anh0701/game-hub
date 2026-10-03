@@ -8,7 +8,7 @@ export interface Match3Group {
     cells: Match3Position[];
 }
 
-export type Match3Animation = "idle" | "clearing" | "falling" | "spawning";
+export type Match3Animation = "idle" | "clearing" | "burst" | "falling" | "spawning";
 
 export interface Match3MoveResult {
     success: boolean;
