@@ -23,6 +23,7 @@ export default function Match3BlockBlast({ targetScore, onComplete }: Match3Bloc
         spawningPositions,
         gameOver,
         missionCompleted,
+        burstPositions,
         handleCellClick,
         restart,
     } = useMatch3({
@@ -69,6 +70,7 @@ export default function Match3BlockBlast({ targetScore, onComplete }: Match3Bloc
                     clearingPositions={clearingPositions}
                     fallingPositions={fallingPositions}
                     spawningPositions={spawningPositions}
+                    burstPositions={burstPositions}
                     onCellClick={handleCellClick}
                 />
 

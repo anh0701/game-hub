@@ -74,6 +74,10 @@ export function useMatch3({ level, levelKey, targetScore, onComplete }: UseMatch
                 timeout = 250;
                 break;
 
+            case "burst":
+                timeout = 350;
+                break;
+
             case "falling":
                 timeout = 350;
                 break;
@@ -89,6 +93,10 @@ export function useMatch3({ level, levelKey, targetScore, onComplete }: UseMatch
         const timer = window.setTimeout(() => {
             if (animation === "clearing") {
                 game.resolveClearPhase();
+            }
+
+            if (animation === "burst") {
+                game.resolveBurstPhase();
             }
 
             if (animation === "falling") {
@@ -210,6 +218,8 @@ export function useMatch3({ level, levelKey, targetScore, onComplete }: UseMatch
 
         objectives,
         timeUp,
+
+        burstPositions: game.getBurstPositions(),
 
         restart,
 
